@@ -1,0 +1,48 @@
+/* Estilos generales */
+QMainWindow {
+    background-color: #f0f2f5;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Título (QLabel) */
+QLabel#label_titulo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2c3e50;
+    qproperty-alignment: AlignCenter;
+    margin-bottom: 20px;
+}
+
+/* Campo de texto (QLineEdit) */
+QLineEdit#UsuarioAceptar {
+    border: 2px solid #bdc3c7;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 14px;
+    min-width: 250px;
+    background-color: white;
+}
+
+QLineEdit#UsuarioAceptar:focus {
+    border-color: #3498db;
+}
+
+/* Botón (QPushButton) */
+QPushButton#Boton {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+QPushButton#Boton:hover {
+    background-color: #2980b9;
+}
+
+QPushButton#Boton:pressed {
+    background-color: #1a6ca8;
+}
