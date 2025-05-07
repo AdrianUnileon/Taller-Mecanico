@@ -2,6 +2,7 @@ import os
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
 from PyQt5 import uic
 from src.vista.CrearOrdenRecepcionista import CrearOrdenRecepcionistaPanel
+from src.vista.RegistroCliente import RegistroCliente
 
 class RecepcionistaPanel(QMainWindow):
     def __init__(self, parent = None, usuario=None):
@@ -27,7 +28,9 @@ class RecepcionistaPanel(QMainWindow):
 
     def registrar_cliente(self):
         # Aquí iría la lógica real para registrar clientes
-        QMessageBox.information(self, "Registro de cliente", "Tu vehículo está en reparación.")
+        self.ordenes_window = RegistroCliente(parent=self, usuario=self.usuario)
+        self.ordenes_window.show()
+        self.hide()
     
     def crear_orden_servicio(self):
         # Aquí iría la lógica real para crear ordenes de servicio

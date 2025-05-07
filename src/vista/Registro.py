@@ -29,11 +29,6 @@ class RegistroWindow(QMainWindow):
         if not re.match(r'^\d{8}[A-Za-z]$', self.txtDNI.text().strip()):
             return False, "DNI inválido (8 dígitos + letra)"
 
-        # Validar nombre/apellidos
-        if not all(re.match(r'^[A-Za-zÁ-ú\s]+$', field.text().strip()) 
-                  for field in [self.txtNombre, self.txtApellido1]):
-            return False, "Nombre/Apellido solo puede contener letras"
-
         # Validar email
         if not re.match(r'^[\w\.-]+@[\w\.-]+\.\w+$', self.txtEmail.text().strip()):
             return False, "Email inválido"
