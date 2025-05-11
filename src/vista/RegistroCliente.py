@@ -74,11 +74,11 @@ class RegistrarCliente(QMainWindow):
         apellido1 = self.Apellido1.text().strip()
         apellido2 = self.Apellido2.text().strip()
         dni = self.DNI.text().strip()
-        telefono = self.Telefono.text().strip()
+        contacto = self.Telefono.text().strip()
         correo = self.Correo.text().strip()
         direccion = self.Direccion.text().strip()
 
-        if not all([nombre, apellido1, apellido2, dni, correo, direccion, telefono]):
+        if not all([nombre, apellido1, apellido2, dni, correo, direccion, contacto]):
             QMessageBox.warning(self, "Campos incompletos", "Por favor, completa todos los campos.")
             return
 
@@ -108,10 +108,9 @@ class RegistrarCliente(QMainWindow):
             QMessageBox.critical(self, "Error", "No se pudo registrar el usuario.")
             return
 
-        cliente = ClienteVO(IDUsuario=id_usuario, Direccion=direccion, Telefono=telefono)
+        cliente = ClienteVO(IDUsuario=id_usuario, Direccion=direccion, Contacto=contacto)
         if self.dao_cliente.insertar(cliente) > 0:
             QMessageBox.information(self, "Éxito", "Cliente registrado correctamente.")
-            self.parent.show()
         else:
             QMessageBox.critical(self, "Error", "No se pudo registrar el cliente.")
 

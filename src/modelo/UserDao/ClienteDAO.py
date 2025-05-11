@@ -20,9 +20,24 @@ class ClienteDao(Conexion):
         nuevo_id_cliente = self._obtener_siguiente_id_cliente()
 
         query = "INSERT INTO Clientes (IDCliente, IDUsuario, Direccion, Contacto) VALUES (%s, %s, %s, %s)"
-        cursor.execute(query, (nuevo_id_cliente, cliente.IDUsuario, cliente.Direccion, cliente.Telefono))
+        cursor.execute(query, (nuevo_id_cliente, cliente.IDUsuario, cliente.Direccion, cliente.Contacto))
         conn.commit()
 
         cursor.close()
         self.closeConnection()
         return nuevo_id_cliente  # ya que no hay AUTO_INCREMENT, devolvemos el que generamos
+
+    def select(self):
+        conn = self.createConnection()
+        cursor = conn.cursor(dictionary=True)
+        query = """
+            SELECT c.IDCliente, c.IDUsuario, c.Direccion, c.Contacto,
+                   u.Nombre, u.Apellidos
+            FROM Clientes c
+            JOIN Usuarios u ON c.IDUsuario = u.IDUsuario
+        """
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        cursor.close()
+        self.closeConnection()
+        return rows  # Retorna diccionarios enriquecidos

@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QMainWindow, QMessageBox
 from PyQt5 import uic
 from src.vista.CrearOrdenRecepcionista import CrearOrdenRecepcionistaPanel
 from src.vista.RegistroCliente import RegistrarCliente
+from src.vista.RegistroVehículo import RegistrarVehiculo
 
 class RecepcionistaPanel(QMainWindow):
     def __init__(self, parent = None, usuario=None):
@@ -40,7 +41,9 @@ class RecepcionistaPanel(QMainWindow):
     
     def registrar_vehiculo(self):
         # Aquí iría la lógica real para registrar vehículos
-        QMessageBox.information(self, "Registro del vehículo", "Tu vehículo está en reparación.")
+        self.ordenes_window = RegistrarVehiculo(parent=self, usuario = self.usuario)
+        self.ordenes_window.show()
+        self.hide()
     
     def emitir_facturas(self):
         # Aquí iría la lógica real para emitir facturas

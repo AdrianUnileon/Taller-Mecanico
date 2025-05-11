@@ -79,10 +79,13 @@
 '''
 
 class ClienteVO:
-    def __init__(self, IDUsuario=None, Direccion=None, Telefono=None):
-        self._IDUsuario = IDUsuario
-        self._Direccion = Direccion
-        self._Telefono = Telefono
+    def __init__(self, IDCliente=None, IDUsuario=None, Direccion=None, Contacto=None, Nombre = None, Apellidos = None):
+        self.IDCliente = IDCliente
+        self.IDUsuario = IDUsuario
+        self.Direccion = Direccion
+        self.Contacto = Contacto
+        self.Nombre = Nombre
+        self.Apellidos = Apellidos
 
     @property
     def IDUsuario(self):
@@ -101,9 +104,33 @@ class ClienteVO:
         self._Direccion = value
 
     @property
-    def Telefono(self):
-        return self._Telefono
+    def Contacto(self):
+        return self._Contacto
 
-    @Telefono.setter
-    def Telefono(self, value):
-        self._Telefono = value
+    @Contacto.setter
+    def Contacto(self, value):
+        self._Contacto = value
+
+    @property
+    def IDCliente(self):
+        return self._IDCliente
+    
+    @IDCliente.setter
+    def IDCliente(self, value):
+        self._IDCliente = value
+
+    @property
+    def Nombre(self):
+        return self._Nombre
+
+    @Nombre.setter
+    def Nombre(self, value):
+        self._Nombre = value
+
+    @property
+    def Apellidos(self):
+        return self._Apellidos
+
+    @Apellidos.setter
+    def Apellidos(self, value):
+        self._Apellidos = value
