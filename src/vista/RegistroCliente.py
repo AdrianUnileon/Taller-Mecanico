@@ -3,6 +3,7 @@ from PyQt5 import uic
 from src.modelo.UserDao.ClienteDAO import ClienteDao
 from src.modelo.UserDao.UserDAOJDBC import UserDaoJDBC
 from src.modelo.vo.ClienteVO import ClienteVO
+from src.modelo.vo.UserVO import UserVO
 import os
 
 class RegistrarCliente(QMainWindow):
@@ -13,7 +14,6 @@ class RegistrarCliente(QMainWindow):
         self.usuario = usuario
         self.setup_ui()
         self.setup_events()
-        self.cargar_usuarios()
 
     def setup_ui(self):
         ruta_ui = os.path.join(os.path.dirname(__file__), "Ui", "VistaRegistroCliente.ui")
@@ -27,29 +27,90 @@ class RegistrarCliente(QMainWindow):
         self.btnRegistrar.clicked.connect(self.registrar_cliente)
         self.btnVolver.clicked.connect(self.volver)
 
-    def cargar_usuarios(self):
-        usuarios = self.dao_usuario.obtener_usuarios_tipo("Cliente")
-        self.cmbUsuarios.clear()
-        for usuario in usuarios:
-            self.cmbUsuarios.addItem(f"{usuario.Nombre} ({usuario.IDUsuario})", usuario.IDUsuario)
+    '''def registrar_cliente(self):
+        nombre = self.Nombre.text().strip()
+        apellido1 = self.Apellido1.text().strip()
+        apellido2 = self.Apellido2.text().strip()
+        dni = self.DNI.text().strip()
+        telefono = self.Telefono.text().strip()
+        correo = self.Correo.text().strip()  # Asegúrate de que este campo se llame Email en el .ui
+        direccion = self.Direccion.text().strip()
 
-    def registrar_cliente(self):
-        id_usuario = self.cmbUsuarios.currentData()
-        direccion = self.txtDireccion.text().strip()
-        contacto = self.txtContacto.text().strip()
-
-        if self.dao_cliente.buscar_por_usuario(id_usuario):
-            QMessageBox.warning(self, "Duplicado", "Este usuario ya es un cliente.")
+        # Comprobar que todos los campos están completos
+        if not all([nombre, apellido1, apellido2, dni, correo, direccion, telefono]):
+            QMessageBox.warning(self, "Campos incompletos", "Por favor, completa todos los campos.")
             return
 
-        cliente = ClienteVO(IDUsuario=id_usuario, Direccion=direccion, Contacto=contacto)
+    # Comprobar si ya existe un usuario con ese correo
+        if self.dao_usuario.buscar_por_email(correo):
+            QMessageBox.warning(self, "Duplicado", "Ya existe un usuario con este correo.")
+            return
+
+
+
+    # Ahora crear el cliente asociado a ese usuario
+        cliente = ClienteVO(
+            IDUsuario=None,  # El IDCliente se genera automáticamente en la base de datos
+            DNI=dni,
+            Nombre=nombre,
+            Apellido1=apellido1,
+            Apellido2=apellido2,
+            Telefono=telefono,
+            Email=correo,
+            Direccion=direccion
+        )
+
+    # Insertar el cliente en la base de datos
         if self.dao_cliente.insertar(cliente) > 0:
             QMessageBox.information(self, "Éxito", "Cliente registrado correctamente.")
-            self.close()
+            self.close()  # Cerrar la ventana de registro
         else:
             QMessageBox.critical(self, "Error", "No se pudo registrar el cliente.")
-  
+        
+'''
     
+    def registrar_cliente(self):
+        nombre = self.Nombre.text().strip()
+        apellido1 = self.Apellido1.text().strip()
+        apellido2 = self.Apellido2.text().strip()
+        dni = self.DNI.text().strip()
+        telefono = self.Telefono.text().strip()
+        correo = self.Correo.text().strip()
+        direccion = self.Direccion.text().strip()
+
+        if not all([nombre, apellido1, apellido2, dni, correo, direccion, telefono]):
+            QMessageBox.warning(self, "Campos incompletos", "Por favor, completa todos los campos.")
+            return
+
+        if self.dao_usuario.buscar_por_email(correo):
+            QMessageBox.warning(self, "Duplicado", "Ya existe un usuario con este correo.")
+            return
+
+        # Contraseña temporal o fija
+        contraseña_temporal = "1234"
+
+        nuevo_usuario = UserVO(
+            DNI=dni,
+            Nombre=nombre,
+            Apellidos=f"{apellido1} {apellido2}",
+            Correo=correo,
+            Contraseña=contraseña_temporal,
+            TipoUsuario="Cliente"
+        )
+
+        id_usuario = self.dao_usuario.insert(nuevo_usuario)
+
+        if not id_usuario or id_usuario == 0:
+            QMessageBox.critical(self, "Error", "No se pudo registrar el usuario.")
+            return
+
+        cliente = ClienteVO(IDUsuario=id_usuario, Direccion=direccion, Telefono=telefono)
+        if self.dao_cliente.insertar(cliente) > 0:
+            QMessageBox.information(self, "Éxito", "Cliente registrado correctamente.")
+            self.parent.show()
+        else:
+            QMessageBox.critical(self, "Error", "No se pudo registrar el cliente.")
+
     def volver(self):
         self.parent().show()
         self.close()

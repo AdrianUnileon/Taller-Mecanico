@@ -2,22 +2,27 @@ from src.modelo.conexion.Conexion import Conexion
 from src.modelo.vo.ClienteVO import ClienteVO
 
 class ClienteDao(Conexion):
-    def buscar_por_usuario(self, id_usuario):
+
+    def _obtener_siguiente_id_cliente(self):
         conn = self.createConnection()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM Clientes WHERE IDUsuario = %s", (id_usuario,))
-        row = cursor.fetchone()
+        cursor = conn.cursor()
+        cursor.execute("SELECT MAX(IDCliente) FROM Clientes")
+        resultado = cursor.fetchone()
         cursor.close()
         self.closeConnection()
-        return row
+        return (resultado[0] or 0) + 1  # Si es None (tabla vacía), empieza en 1
 
     def insertar(self, cliente: ClienteVO) -> int:
         conn = self.createConnection()
         cursor = conn.cursor()
-        query = "INSERT INTO Clientes (IDUsuario, Direccion, Contacto) VALUES (%s, %s, %s)"
-        cursor.execute(query, (cliente.IDUsuario, cliente.Direccion, cliente.Contacto))
+
+        # Generar IDCliente manualmente
+        nuevo_id_cliente = self._obtener_siguiente_id_cliente()
+
+        query = "INSERT INTO Clientes (IDCliente, IDUsuario, Direccion, Contacto) VALUES (%s, %s, %s, %s)"
+        cursor.execute(query, (nuevo_id_cliente, cliente.IDUsuario, cliente.Direccion, cliente.Telefono))
         conn.commit()
-        inserted = cursor.lastrowid
+
         cursor.close()
         self.closeConnection()
-        return inserted
+        return nuevo_id_cliente  # ya que no hay AUTO_INCREMENT, devolvemos el que generamos
