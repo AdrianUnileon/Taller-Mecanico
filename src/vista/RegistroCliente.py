@@ -97,6 +97,10 @@ class RegistrarCliente(QMainWindow):
             Contraseña=contraseña_temporal,
             TipoUsuario="Cliente"
         )
+        
+        if self.dao_usuario.buscar_por_email(correo):
+            QMessageBox.warning(self, "Duplicado", "Ya existe un usuario con este correo.")
+            return
 
         id_usuario = self.dao_usuario.insert(nuevo_usuario)
 
