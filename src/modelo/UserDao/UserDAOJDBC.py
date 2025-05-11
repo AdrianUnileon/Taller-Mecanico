@@ -119,4 +119,41 @@ class UserDaoJDBC(Conexion):
             if cursor: cursor.close()
             if conn: self.closeConnection()
     
+    def obtener_usuarios_tipo(self, tipo: str) -> list[UserVO]:
+        conn = None
+        cursor = None
+        try:
+            conn = self.createConnection()
+            if not conn or not conn.is_connected():
+                raise Exception("Error de conexión a MySQL")
+
+            cursor = conn.cursor(dictionary=True)
+            cursor.execute(
+                "SELECT IDUsuario, DNI, Nombre, Apellidos, Correo, Contraseña, TipoUsuario FROM Usuarios WHERE TipoUsuario = %s",
+                (tipo,)
+                )
+            usuarios = []
+            for row in cursor.fetchall():
+                usuarios.append(
+                    UserVO(
+                        IDUsuario=row['IDUsuario'],
+                        DNI=row['DNI'],
+                        Nombre=row['Nombre'],
+                        Apellidos=row['Apellidos'],
+                        Correo=row['Correo'],
+                        Contraseña=row['Contraseña'],
+                        TipoUsuario=row['TipoUsuario']
+                    )
+                )
+            return usuarios
+
+        except Exception as e:
+            print(f"Error en obtener_usuarios_tipo: {str(e)}")
+            return []
+        finally:
+            if cursor: cursor.close()
+            if conn: self.closeConnection()
+
+
+    
     
