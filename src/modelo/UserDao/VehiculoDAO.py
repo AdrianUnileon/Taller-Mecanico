@@ -49,6 +49,27 @@ class VehiculoDAO(Conexion):
             if cursor: cursor.close()
             if conn: self.closeConnection()
 
+    def select(self) -> list[dict]:
+        conn = None
+        cursor = None
+        try:
+            conn = self.createConnection()
+            if not conn or not conn.is_connected():
+                raise Exception("Error de conexión a MySQL")
+
+            cursor = conn.cursor(dictionary=True)
+            query = "SELECT * FROM Vehiculos"
+            cursor.execute(query)
+            return cursor.fetchall()
+
+        except Exception as e:
+            print(f"Error en select de VehiculoDAO: {e}")
+            return []
+        finally:
+            if cursor: cursor.close()
+            if conn: self.closeConnection()
+
+
     def buscar_por_matricula(self, matricula: str) -> VehiculoVO | None:
         conn = None
         cursor = None
