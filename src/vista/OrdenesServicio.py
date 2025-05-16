@@ -5,6 +5,7 @@ from src.modelo.UserDao.OrdenServicioDAO import OrdenServicioDAO
 from src.modelo.vo.OrdenServicioVO import OrdenServicioVO
 from src.modelo.vo.VehiculoVO import VehiculoVO
 from src.modelo.UserDao.VehiculoDAO import VehiculoDAO
+from src.vista.AsignarOrden import AsignarOrden
 
 class RegistrarOrdenServicio(QMainWindow):
     def __init__(self, parent=None, usuario=None):
@@ -28,10 +29,11 @@ class RegistrarOrdenServicio(QMainWindow):
     def setup_events(self):
         self.btnRegistrar.clicked.connect(self.registrar_orden_servicio)
         self.btnVolver.clicked.connect(self.volver)
+        self.btnAsignar.clicked.connect(self.asignar_orden)
 
     def cargar_vehiculos(self):
         self.combo_vehiculos.clear()
-        vehiculos = self.dao_vehiculo.select()  # Método `select` en VehiculoDAO
+        vehiculos = self.dao_vehiculo.select()  
 
         for vehiculo in vehiculos:
             matricula = vehiculo['Matricula']
@@ -63,6 +65,11 @@ class RegistrarOrdenServicio(QMainWindow):
             
         else:
             QMessageBox.critical(self, "Error", "No se pudo registrar la orden de servicio.")
+    
+    def asignar_orden(self):
+        self.asignar_orden_window = AsignarOrden(parent=self)
+        self.asignar_orden_window.show()
+        self.hide()
 
     def volver(self):
         self.parent().show()

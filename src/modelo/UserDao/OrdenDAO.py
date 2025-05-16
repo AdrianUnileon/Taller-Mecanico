@@ -2,17 +2,15 @@ from src.modelo.conexion.Conexion import Conexion
 
 class OrdenDao(Conexion):
     def __init__(self):
-        super().__init__()
+        self.conn = Conexion().createConnection()
 
     def obtener_ordenes_pendientes(self) -> list[dict]:
         """
         Devuelve las órdenes de servicio que están en estado 'Pendiente'
         """
-        conn = None
         cursor = None
         try:
-            conn = self.createConnection()
-            cursor = conn.cursor(dictionary=True)
+            cursor = self.conn.cursor(dictionary=True)
 
             query = """
                 SELECT os.IDOrden, os.FechaIngreso, os.Descripcion, u.Nombre AS NombreCliente, v.Matricula
@@ -29,4 +27,4 @@ class OrdenDao(Conexion):
             return []
         finally:
             if cursor: cursor.close()
-            if conn: self.closeConnection()
+            if self.conn: self.closeConnection()

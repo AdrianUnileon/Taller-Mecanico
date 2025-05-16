@@ -4,6 +4,10 @@ import bcrypt
 import mysql.connector
 
 class UserDaoJDBC(Conexion):
+
+    def __init__(self):
+        self.conn = Conexion().createConnection()
+
     SQL_SELECT = "SELECT IDUsuario, DNI, Nombre, Apellidos, Correo, Contraseña, TipoUsuario FROM Usuarios"
     SQL_INSERT = """
         INSERT INTO Usuarios (DNI, Nombre, Apellidos, Correo, Contraseña, TipoUsuario)
@@ -12,14 +16,11 @@ class UserDaoJDBC(Conexion):
     SQL_BUSCAR_POR_EMAIL = "SELECT IDUsuario, DNI, Nombre, Apellidos, Correo, Contraseña, TipoUsuario FROM Usuarios WHERE Correo = %s"
 
     def select(self) -> list[UserVO]:
-        conn = None
         cursor = None
         try:
-            conn = self.createConnection()
-            if not conn or not conn.is_connected():
-                raise Exception("Error de conexión a MySQL")
+           
             
-            cursor = conn.cursor(dictionary=True)  # Usar diccionarios para acceso por nombre
+            cursor = self.conn.cursor(dictionary=True)  # Usar diccionarios para acceso por nombre
             cursor.execute(self.SQL_SELECT)
             
             usuarios = []
@@ -42,17 +43,13 @@ class UserDaoJDBC(Conexion):
             return []
         finally:
             if cursor: cursor.close()
-            if conn: self.closeConnection()
+            if self.conn: self.closeConnection()
 
     def insert(self, usuario: UserVO) -> int:
-        conn = None
         cursor = None
         try:
-            conn = self.createConnection()
-            if not conn or not conn.is_connected():
-                raise Exception("Error de conexión a MySQL")
         
-            cursor = conn.cursor()
+            cursor = self.conn.cursor()
         
         # Hashear contraseña
             hashed_pw = bcrypt.hashpw(usuario.Contraseña.encode('utf-8'), bcrypt.gensalt())
@@ -73,30 +70,40 @@ class UserDaoJDBC(Conexion):
                 usuario.TipoUsuario
             ))
         
-            conn.commit()
-            return cursor.lastrowid  
+            self.conn.commit()
+            id_usuario = cursor.lastrowid
+
+        # Si el tipo de usuario es 'Mecanico', insertamos en la tabla 'mecanicos'
+        
+            if usuario.TipoUsuario.lower() == 'mecanico':
+                query_mecanico = """
+                INSERT INTO Mecanicos (IDUsuario, Especialidad, FechaContratacion)
+                VALUES (%s, %s, CURDATE())
+                """
+                cursor.execute(query_mecanico, (id_usuario, "General", "24/02/2025"))
+                self.conn.commit()
+
+        # Devolvemos el ID del nuevo usuario insertado
+            return id_usuario
+            
             
         except mysql.connector.Error as err:
             print(f"Error MySQL en insert: {err}")
-            if conn: conn.rollback()
+            if self.conn: self.conn.rollback()
             return 0
         except Exception as e:
             print(f"Error general en insert: {str(e)}")
-            if conn: conn.rollback()
+            if self.conn: self.conn.rollback()
             return 0
         finally:
             if cursor: cursor.close()
-            if conn: self.closeConnection()
+            if self.conn: self.closeConnection()
 
     def buscar_por_email(self, email: str) -> UserVO | None:
-        conn = None
         cursor = None
         try:
-            conn = self.createConnection()
-            if not conn or not conn.is_connected():
-                raise Exception("Error de conexión a MySQL")
             
-            cursor = conn.cursor(dictionary=True)
+            cursor = self.conn.cursor(dictionary=True)
             cursor.execute(self.SQL_BUSCAR_POR_EMAIL, (email,))
             row = cursor.fetchone()
             
@@ -117,17 +124,13 @@ class UserDaoJDBC(Conexion):
             return None
         finally:
             if cursor: cursor.close()
-            if conn: self.closeConnection()
+            if self.conn: self.closeConnection()
     
     def obtener_usuarios_tipo(self, tipo: str) -> list[UserVO]:
-        conn = None
         cursor = None
         try:
-            conn = self.createConnection()
-            if not conn or not conn.is_connected():
-                raise Exception("Error de conexión a MySQL")
 
-            cursor = conn.cursor(dictionary=True)
+            cursor = self.conn.cursor(dictionary=True)
             cursor.execute(
                 "SELECT IDUsuario, DNI, Nombre, Apellidos, Correo, Contraseña, TipoUsuario FROM Usuarios WHERE TipoUsuario = %s",
                 (tipo,)
@@ -152,7 +155,18 @@ class UserDaoJDBC(Conexion):
             return []
         finally:
             if cursor: cursor.close()
-            if conn: self.closeConnection()
+            if self.conn: self.closeConnection()
+    
+    def select_por_rol(self, rol: str):
+        cursor = self.conn.cursor(dictionary=True)
+        try:
+            query = "SELECT * FROM Usuarios WHERE TipoUsuario = %s"
+            cursor.execute(query, (rol,))
+            rows = cursor.fetchall()
+            return [UserVO(**row) for row in rows]
+        finally:
+            cursor.close()
+            self.closeConnection()
 
 
     

@@ -1,38 +1,26 @@
 import mysql.connector
 
 class Conexion:
-    def __init__(self, host='127.0.0.1', database='Adios', user='bduser', password='bdpass'):
-        self._host = host
-        self._database = database
-        self._user = user
-        self._password = password
-        self.conexion = self.createConnection()
+    _instancia = None
+
+    def __new__(cls):
+        if cls._instancia is None:
+            cls._instancia = super(Conexion, cls).__new__(cls)
+            cls._instancia._conexion = None
+        return cls._instancia
 
     def createConnection(self):
-        try:
-            conexion = mysql.connector.connect(
-                host=self._host,
-                user=self._user,
-                password=self._password,
-                database=self._database
+        if not self._conexion or not self._conexion.is_connected():
+            self._conexion = mysql.connector.connect(
+                host="localhost",
+                user="bduser",
+                password="bdpass",
+                database="Adios"
             )
-            print("✅ Conexión exitosa a la base de datos.")
-            return conexion
-        except mysql.connector.Error as e:
-            print("❌ Error creando conexión:", e)
-            return None
-
-    def getCursor(self):
-        if self.conexion:
-            return self.conexion.cursor()
-        else:
-            print("⚠️ Conexión no disponible.")
-            return None
+        return self._conexion
 
     def closeConnection(self):
-        try:
-            if self.conexion and self.conexion.is_connected():
-                self.conexion.close()
-                print("🔌 Conexión cerrada.")
-        except Exception as e:
-            print("❌ Error cerrando conexión:", e)
+        if self._conexion and self._conexion.is_connected():
+            self._conexion.close()
+            self._conexion = None
+

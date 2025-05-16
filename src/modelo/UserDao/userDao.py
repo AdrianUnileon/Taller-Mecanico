@@ -5,7 +5,7 @@ from typing import List
 class UserDao(Conexion):
     
     def __init__(self):
-        super().__init__()
+        self.conn = Conexion().createConnection()
 
     def select(self) -> List[UserVO]:
         cursor = self.getCursor()

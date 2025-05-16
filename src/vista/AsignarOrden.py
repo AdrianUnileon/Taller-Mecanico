@@ -1,62 +1,58 @@
-import os
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
 from PyQt5 import uic
+import os
 
-class AsignarOrdenes(QMainWindow):
-    def __init__(self, parent = None, usuario=None):
+from src.modelo.UserDao.OrdenServicioDAO import OrdenServicioDAO
+from src.modelo.UserDao.MecanicoDAO import MecanicoDao
+
+class AsignarOrden(QMainWindow):
+    def __init__(self, parent=None):
         super().__init__(parent)
-        self.usuario = usuario
+        self.dao_orden = OrdenServicioDAO()
+        self.dao_mecanicos = MecanicoDao()
         self.setup_ui()
         self.setup_events()
 
     def setup_ui(self):
         ruta_ui = os.path.join(os.path.dirname(__file__), "Ui", "VistaAsignarOrden.ui")
         uic.loadUi(ruta_ui, self)
-        self.setWindowTitle("Panel del Recepcionista")
-
-        if self.usuario:
-            self.lblTitulo.setText(f"Bienvenido/a {self.usuario.Nombre}")
+        self.setWindowTitle("Asignar Orden a Mecánico")
+        self.cargar_ordenes_pendientes()
+        self.cargar_mecanicos()
 
     def setup_events(self):
-        self.btnVolver.clicked.connect(self.volver)
         self.btnAsignar.clicked.connect(self.asignar)
-    
-    def cargar_datos(self):
-        # Cargar órdenes pendientes
-        self.cmbOrdenes.clear()
-        self.ordenes = self.dao_ordenes.obtener_ordenes_pendientes()
-        for orden in self.ordenes:
-            texto = f"{orden['IDOrden']} - {orden['NombreCliente']} ({orden['Matricula']})"
-            self.cmbOrdenes.addItem(texto, orden['IDOrden'])
-        # Cargar mecánicos disponibles
-        self.cmbMecanicos.clear()
-        self.mecanicos = self.dao_mecanicos.obtener_mecanicos_disponibles()
-        for mecanico in self.mecanicos:
-            self.cmbMecanicos.addItem(mecanico['Nombre'], mecanico['IDMecanico'])
-    
+        self.btnVolver.clicked.connect(self.volver)
+
+    def cargar_ordenes_pendientes(self):
+        self.comboOrdenes.clear()
+        ordenes = self.dao_orden.select_pendientes()
+        for orden in ordenes:
+            texto = f"{orden.IDOrden} - {orden.Descripcion[:30]}"
+            self.comboOrdenes.addItem(texto, orden.IDOrden)
+
+    def cargar_mecanicos(self):
+        self.comboMecanicos.clear()
+        print("Llamando a obtener_mecanicos_disponibles")
+        mecanicos = self.dao_mecanicos.obtener_mecanicos_disponibles()
+        print(f"mecanicos: {mecanicos}")
+        for m in mecanicos:
+            self.comboMecanicos.addItem(f"{m['Nombre']} {m['Apellidos']}", m['IDMecanico'])
+
     def asignar(self):
-        id_orden = self.cmbOrdenes.currentData()
-        id_mecanico = self.cmbMecanicos.currentData()
+        id_orden = self.comboOrdenes.currentData()
+        id_mecanico = self.comboMecanicos.currentData()
+
         if not id_orden or not id_mecanico:
-            QMessageBox.warning(self, "Error", "Debe seleccionar una orden y un mecánico.")
+            QMessageBox.warning(self, "Error", "Debes seleccionar una orden y un mecánico.")
             return
 
-        try:
-            conn = self.dao_ordenes.createConnection()
-            cursor = conn.cursor()
-            cursor.execute(
-                "UPDATE OrdenesServicio SET IDMecanico = ?, Estado = 'Asignada' WHERE IDOrden = ?",
-                (id_mecanico, id_orden)
-            )
-            conn.commit()
+        if self.dao_orden.asignar_orden(id_orden, id_mecanico):
             QMessageBox.information(self, "Éxito", "Orden asignada correctamente.")
-            self.cargar_datos()
-        except Exception as e:
-            QMessageBox.critical(self, "Error", f"No se pudo asignar la orden: {e}")
-        finally:
-            if cursor: cursor.close()
-            self.dao_ordenes.closeConnection()
-    
+            self.cargar_ordenes_pendientes()
+        else:
+            QMessageBox.critical(self, "Error", "No se pudo asignar la orden.")
+
     def volver(self):
         self.parent().show()
         self.close()
