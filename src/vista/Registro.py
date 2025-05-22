@@ -5,9 +5,10 @@ from PyQt5.QtWidgets import QMainWindow, QMessageBox, QApplication
 from PyQt5 import uic
 from src.modelo.vo.UserVO import UserVO
 from src.modelo.UserDao.UserDAOJDBC import UserDaoJDBC
-from src.modelo.UserDao.MecanicoDAO import MecanicoDao
 import bcrypt
 from src.vista.VentanaCliente import VentanaCliente
+from src.vista.VentanaRecepcionista import VentanaRecepcionista
+from src.vista.VentanaMecanico import VentanaMecanico
 
 class RegistroWindow(QMainWindow):
     def __init__(self, parent=None):
@@ -68,14 +69,14 @@ class RegistroWindow(QMainWindow):
             self.ventana_cliente = VentanaCliente(usuario, parent=self)
             self.ventana_cliente.show()
             self.hide()
-        # elif tipo == "Mecánico":
-        #     self.ventana_mecanico = VentanaMecanico(usuario, parent=self)
-        #     self.ventana_mecanico.show()
-        #     self.hide()
-        # elif tipo == "Recepcionista":
-        #     self.ventana_recepcionista = VentanaRecepcionista(usuario, parent=self)
-        #     self.ventana_recepcionista.show()
-        #     self.hide()
+        elif tipo == "Mecánico":
+            self.ventana_mecanico = VentanaMecanico(usuario, parent=self)
+            self.ventana_mecanico.show()
+            self.hide()
+        elif tipo == "Recepcionista":
+            self.ventana_recepcionista = VentanaRecepcionista(usuario, parent=self)
+            self.ventana_recepcionista.show()
+            self.hide()
 
     def closeEvent(self, event):
         if self.parent:

@@ -1,12 +1,12 @@
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
 from PyQt5 import uic
 import os
-from src.modelo.UserDao.ClienteDAO import ClienteDao
-from src.modelo.vo.ClienteVO import ClienteVO
 from src.modelo.UserDao.UserDAOJDBC import UserDaoJDBC
 from src.modelo.vo.UserVO import UserVO
+from src.modelo.vo.RecepcionistaVO import RecepcionistaVO
+from src.modelo.UserDao.RecepcionistaDAO import RecepcionistaDAO
 
-class VentanaCliente(QMainWindow):
+class VentanaRecepcionista(QMainWindow):
     def __init__(self, usuario: UserVO, parent=None):
         super().__init__(parent)
         self.usuario = usuario
@@ -15,39 +15,36 @@ class VentanaCliente(QMainWindow):
         self.setup_events()
 
     def setup_ui(self):
-        ruta_ui = os.path.join(os.path.dirname(__file__), "Ui", "VistaVentanaCliente.ui")
+        ruta_ui = os.path.join(os.path.dirname(__file__), "Ui", "VistaVentanaRecepcionista.ui")
         uic.loadUi(ruta_ui, self)
-        self.setWindowTitle("Registro Cliente")
+        self.setWindowTitle("Registro Recepcionista")
 
     def setup_events(self):
         self.btnRegistrar.clicked.connect(self.registrar_cliente)
         self.btnVolver.clicked.connect(self.volver)
 
     def registrar_cliente(self):
-        direccion = self.Direccion.text().strip()
-        contacto = self.Contacto.text().strip()
-
-        if not direccion or not contacto:
+        turno = self.Turno.text().strip()
+        if not turno:
             QMessageBox.warning(self, "Campos vacíos", "Por favor completa todos los campos.")
             return
-
         try:
             # Insertar el usuario en Usuarios
             user_dao = UserDaoJDBC()
             id_usuario = user_dao.insert(self.usuario)
 
-            # Crear Cliente y registrar
-            cliente = ClienteVO(IDUsuario=id_usuario, Direccion=direccion, Contacto=contacto)
-            dao = ClienteDao()
-            id_cliente = dao.insertar(cliente)
+            # Crear Recepcionista y registrar
+            recepcionista = RecepcionistaVO(IDUsuario=id_usuario, Turno=turno)
+            dao = RecepcionistaDAO()
+            id_recepcionista = dao.insertar(recepcionista)
 
-            if id_cliente:
-                QMessageBox.information(self, "Registro exitoso", "Cliente registrado correctamente")
+            if id_recepcionista:
+                QMessageBox.information(self, "Registro exitoso", "Recepcionista registrado correctamente.")
                 self.close()
                 if self.parent:
                     self.parent.show()
             else:
-                QMessageBox.critical(self, "Error", "No se pudo registrar el cliente.")
+                QMessageBox.critical(self, "Error", "No se pudo registrar el recepcionista.")
 
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Ocurrió un error: {str(e)}")

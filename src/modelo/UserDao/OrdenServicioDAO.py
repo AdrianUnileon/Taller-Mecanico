@@ -50,7 +50,7 @@ class OrdenServicioDAO:
         cursor = None
         try:
             cursor = self.conn.cursor(dictionary=True)
-            query = "SELECT * FROM OrdenesServicio WHERE IDOrden = %s"
+            query = "SELECT * FROM ordenesservicio WHERE IDOrden = %s"
             cursor.execute(query, (id_orden,))
             row = cursor.fetchone()
             if row:
@@ -88,7 +88,7 @@ class OrdenServicioDAO:
                 print(f"Mecánico con ID {id_mecanico} no existe.")
                 return 0  
             query = """
-                UPDATE OrdenesServicio
+                UPDATE ordenesservicio
                 SET IDMecanico = %s, Estado = 'Asignada'
                 WHERE IDOrden = %s
             """
@@ -104,6 +104,20 @@ class OrdenServicioDAO:
         finally:
             if cursor:
                 cursor.close()
+    def obtener_ordenes_por_mecanico(self, id_mecanico):
+        cursor = self.conn.cursor(dictionary=True)
+        query = '''
+            SELECT o.IDOrden, o.FechaIngreso, o.Descripcion, o.Estado,
+                   v.Marca, v.Modelo, v.Matricula
+            FROM OrdenesServicio o
+            JOIN Vehiculos v ON o.IDVehiculo = v.IDVehiculo
+            WHERE o.IDMecanico = %s AND o.Estado = 'Asignada'
+        '''
+        cursor.execute(query, (id_mecanico,))
+        resultados = cursor.fetchall()
+        cursor.close()
+        return resultados
+
 
     def __del__(self):
         """Cierra la conexión cuando se destruye la instancia"""

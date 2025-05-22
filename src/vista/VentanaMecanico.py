@@ -1,53 +1,55 @@
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
 from PyQt5 import uic
 import os
-from src.modelo.UserDao.ClienteDAO import ClienteDao
-from src.modelo.vo.ClienteVO import ClienteVO
+from src.modelo.UserDao.MecanicoDAO import MecanicoDAO
+from src.modelo.vo.MecanicoVO import MecanicoVO
 from src.modelo.UserDao.UserDAOJDBC import UserDaoJDBC
 from src.modelo.vo.UserVO import UserVO
+from datetime import datetime
 
-class VentanaCliente(QMainWindow):
+class VentanaMecanico(QMainWindow):
     def __init__(self, usuario: UserVO, parent=None):
         super().__init__(parent)
         self.usuario = usuario
         self.parent = parent
         self.setup_ui()
         self.setup_events()
-
+    
     def setup_ui(self):
-        ruta_ui = os.path.join(os.path.dirname(__file__), "Ui", "VistaVentanaCliente.ui")
+        ruta_ui = os.path.join(os.path.dirname(__file__), "Ui", "VistaVentanaMecanico.ui")
         uic.loadUi(ruta_ui, self)
-        self.setWindowTitle("Registro Cliente")
+        self.setWindowTitle("Registro Mecanico")
 
     def setup_events(self):
         self.btnRegistrar.clicked.connect(self.registrar_cliente)
         self.btnVolver.clicked.connect(self.volver)
 
     def registrar_cliente(self):
-        direccion = self.Direccion.text().strip()
-        contacto = self.Contacto.text().strip()
+        especialidad = self.Especialidad.text().strip()
+        fechacontratacion = self.FechaContratacion.text().strip()
 
-        if not direccion or not contacto:
+        if not especialidad or not fechacontratacion:
             QMessageBox.warning(self, "Campos vacíos", "Por favor completa todos los campos.")
             return
 
         try:
+            Fecha = datetime.strptime(fechacontratacion, "%d/%m/%Y").date()
             # Insertar el usuario en Usuarios
             user_dao = UserDaoJDBC()
             id_usuario = user_dao.insert(self.usuario)
 
             # Crear Cliente y registrar
-            cliente = ClienteVO(IDUsuario=id_usuario, Direccion=direccion, Contacto=contacto)
-            dao = ClienteDao()
-            id_cliente = dao.insertar(cliente)
+            mecanico = MecanicoVO(IDUsuario=id_usuario, Especialidad=especialidad, FechaContratacion=Fecha)
+            dao = MecanicoDAO()
+            id_mecanico = dao.insertar(mecanico)
 
-            if id_cliente:
-                QMessageBox.information(self, "Registro exitoso", "Cliente registrado correctamente")
+            if id_mecanico:
+                QMessageBox.information(self, "Registro exitoso", "Mecanico registrado correctamente")
                 self.close()
                 if self.parent:
                     self.parent.show()
             else:
-                QMessageBox.critical(self, "Error", "No se pudo registrar el cliente.")
+                QMessageBox.critical(self, "Error", "No se pudo registrar el mecanico.")
 
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Ocurrió un error: {str(e)}")
@@ -56,3 +58,4 @@ class VentanaCliente(QMainWindow):
         if self.parent:
             self.parent.show()
         self.close()
+

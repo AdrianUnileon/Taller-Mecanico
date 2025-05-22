@@ -9,6 +9,7 @@ from src.vista.ClientePanel import ClientePanel
 from src.vista.Registro import RegistroWindow
 from src.vista.MecanicoPanel import PanelMecanico
 from src.vista.RecepcionistaPanel import RecepcionistaPanel
+from src.modelo.UserDao.MecanicoDAO import MecanicoDAO
 
 class LoginWindow(QMainWindow):
     def __init__(self, parent=None):
@@ -63,7 +64,9 @@ class LoginWindow(QMainWindow):
         if usuario.TipoUsuario == "Cliente":
             self.panel_usuario = ClientePanel(self)
         elif usuario.TipoUsuario == "Mecánico":
-            self.panel_usuario = PanelMecanico(self)
+            mecanico_dao = MecanicoDAO()
+            id_mecanico = mecanico_dao.obtener_mecanico_por_usuario(usuario.IDUsuario) 
+            self.panel_usuario = PanelMecanico(self, id_mecanico=id_mecanico)
         elif usuario.TipoUsuario == "Recepcionista":
             self.panel_usuario = RecepcionistaPanel(self)
 

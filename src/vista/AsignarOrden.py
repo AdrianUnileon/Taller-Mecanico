@@ -3,13 +3,13 @@ from PyQt5 import uic
 import os
 
 from src.modelo.UserDao.OrdenServicioDAO import OrdenServicioDAO
-from src.modelo.UserDao.MecanicoDAO import MecanicoDao
+from src.modelo.UserDao.MecanicoDAO import MecanicoDAO
 
 class AsignarOrden(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.dao_orden = OrdenServicioDAO()
-        self.dao_mecanicos = MecanicoDao()
+        self.dao_mecanicos = MecanicoDAO()
         self.setup_ui()
         self.setup_events()
 
@@ -33,9 +33,7 @@ class AsignarOrden(QMainWindow):
 
     def cargar_mecanicos(self):
         self.comboMecanicos.clear()
-        print("Llamando a obtener_mecanicos_disponibles")
         mecanicos = self.dao_mecanicos.obtener_mecanicos_disponibles()
-        print(f"mecanicos: {mecanicos}")
         for m in mecanicos:
             self.comboMecanicos.addItem(f"{m['Nombre']} {m['Apellidos']}", m['IDMecanico'])
 

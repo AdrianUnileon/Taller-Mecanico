@@ -1,12 +1,13 @@
 import os
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
 from PyQt5 import uic
-from src.vista.OrdenesMecánicoPanel import OrdenesAsignadasWindow
+from src.vista.ConsultarEstado import VentanaConsultarEstado
+from src.modelo.UserDao.MecanicoDAO import MecanicoDAO
 
 class PanelMecanico(QMainWindow):
-    def __init__(self, parent=None, usuario=None):
+    def __init__(self, parent=None, id_mecanico=None):
         super().__init__(parent)
-        self.usuario = usuario
+        self.id_mecanico = id_mecanico
         self.setup_ui()
         self.setup_events()
 
@@ -15,15 +16,14 @@ class PanelMecanico(QMainWindow):
         uic.loadUi(ruta_ui, self)
         self.setWindowTitle("Panel del Mecánico")
 
-        if self.usuario:
-            self.lblTitulo.setText(f"Bienvenido/a {self.usuario.Nombre}")
+       
 
     def setup_events(self):
         self.btnConsultarOrdenesAsignadas.clicked.connect(self.abrir_ordenes)
         self.btnCerrarSesion.clicked.connect(self.cerrar_sesion)
 
     def abrir_ordenes(self):
-        self.ordenes_window = OrdenesAsignadasWindow(parent=self, usuario=self.usuario)
+        self.ordenes_window = VentanaConsultarEstado(parent=self, id_mecanico=self.id_mecanico)
         self.ordenes_window.show()
         self.hide()
 
