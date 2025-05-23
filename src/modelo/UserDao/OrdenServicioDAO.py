@@ -4,15 +4,14 @@ import mysql.connector
 
 class OrdenServicioDAO:
     def __init__(self):
-        self.conexion_singleton = Conexion()  # Instancia del Singleton
+        self.conexion_singleton = Conexion()  
         self.conn = self.conexion_singleton.createConnection()
 
     def insertar(self, orden: OrdenServicioVO) -> int:
         cursor = None
         try:
             cursor = self.conn.cursor()
-            
-            # Obtener el siguiente IDOrden
+    
             cursor.execute("SELECT MAX(IDOrden) FROM ordenesservicio")
             result = cursor.fetchone()
             next_id = (result[0] or 0) + 1
@@ -117,10 +116,36 @@ class OrdenServicioDAO:
         resultados = cursor.fetchall()
         cursor.close()
         return resultados
+    
+    def obtener_ordenes_por_cliente(self, id_cliente):
+        cursor = self.conn.cursor(dictionary=True)
+        query = '''
+            SELECT o.IDOrden, o.FechaIngreso, o.Descripcion, o.Estado,
+                    v.Marca, v.Modelo, v.Matricula
+            FROM OrdenesServicio o
+            JOIN Vehiculos v ON o.IDVehiculo = v.IDVehiculo
+            WHERE v.IDCliente = %s
+        '''
+        cursor.execute(query, (id_cliente,))
+        resultados = cursor.fetchall()
+        cursor.close()
+        return resultados
+    
+    def obtener_ordenesActuales_por_cliente(self, id_cliente):
+        cursor = self.conn.cursor(dictionary=True)
+        query = '''
+            SELECT o.IDOrden, o.FechaIngreso, o.Descripcion, o.Estado,
+                    v.Marca, v.Modelo, v.Matricula
+            FROM OrdenesServicio o
+            JOIN Vehiculos v ON o.IDVehiculo = v.IDVehiculo
+            WHERE v.IDCliente = %s AND o.Estado = 'Asignada'
+
+        '''
+        cursor.execute(query, (id_cliente,))
+        resultados = cursor.fetchall()
+        cursor.close()
+        return resultados
 
 
-    def __del__(self):
-        """Cierra la conexión cuando se destruye la instancia"""
-        if hasattr(self, 'conn') and self.conn:
-            self.conexion_singleton.closeConnection()
+
 

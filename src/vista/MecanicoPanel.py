@@ -1,5 +1,5 @@
 import os
-from PyQt5.QtWidgets import QMainWindow, QMessageBox
+from PyQt5.QtWidgets import QMainWindow
 from PyQt5 import uic
 from src.vista.ConsultarEstado import VentanaConsultarEstado
 from src.modelo.UserDao.MecanicoDAO import MecanicoDAO

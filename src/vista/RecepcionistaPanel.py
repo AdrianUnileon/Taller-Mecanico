@@ -28,25 +28,21 @@ class RecepcionistaPanel(QMainWindow):
         self.btnCerrarSesion.clicked.connect(self.cerrar_sesion)
 
     def registrar_cliente(self):
-        # Aquí iría la lógica real para registrar clientes
         self.ordenes_window = RegistrarCliente(parent=self, usuario = self.usuario)
         self.ordenes_window.show()
         self.hide()
     
     def crear_orden_servicio(self):
-        # Aquí iría la lógica real para crear ordenes de servicio
         self.ordenes_window = RegistrarOrdenServicio(parent=self, usuario=self.usuario)
         self.ordenes_window.show()
         self.hide()
     
     def registrar_vehiculo(self):
-        # Aquí iría la lógica real para registrar vehículos
         self.ordenes_window = RegistrarVehiculo(parent=self, usuario = self.usuario)
         self.ordenes_window.show()
         self.hide()
     
     def emitir_facturas(self):
-        # Aquí iría la lógica real para emitir facturas
         QMessageBox.information(self, "Facturas", "Tu vehículo está en reparación.")
     
     def cerrar_sesion(self):

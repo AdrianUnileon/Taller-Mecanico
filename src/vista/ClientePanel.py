@@ -1,11 +1,13 @@
 import os
-from PyQt5.QtWidgets import QMainWindow, QMessageBox
+from PyQt5.QtWidgets import QMainWindow
 from PyQt5 import uic
+from src.vista.HistorialServicios import HistorialCliente
+from src.vista.EstadoActual import EstadoActual
 
 class ClientePanel(QMainWindow):
-    def __init__(self, parent = None, usuario=None):
+    def __init__(self, parent = None, id_cliente = None):
         super().__init__(parent)
-        self.usuario = usuario
+        self.id_cliente = id_cliente
         self.setup_ui()
         self.setup_events()
 
@@ -14,8 +16,6 @@ class ClientePanel(QMainWindow):
         uic.loadUi(ruta_ui, self)
         self.setWindowTitle("Panel del Cliente")
 
-        if self.usuario:
-            self.lblTitulo.setText(f"Bienvenido/a {self.usuario.Nombre}")
 
     def setup_events(self):
         self.btnEstadoVehiculo.clicked.connect(self.consultar_estado_vehiculo)
@@ -23,12 +23,14 @@ class ClientePanel(QMainWindow):
         self.btnCerrarSesion.clicked.connect(self.cerrar_sesion)
 
     def consultar_estado_vehiculo(self):
-        # Aquí iría la lógica real para consultar el estado del vehículo
-        QMessageBox.information(self, "Estado del Vehículo", "Tu vehículo está en reparación.")
+        self.historial_window = EstadoActual(parent=self, id_cliente=self.id_cliente)
+        self.historial_window.show()
+        self.hide()
 
     def consultar_historial_servicios(self):
-        # Aquí iría la lógica real para mostrar el historial de servicios
-        QMessageBox.information(self, "Historial de Servicios", "Mostrando historial de servicios...")
+        self.historial_window = HistorialCliente(parent=self, id_cliente=self.id_cliente)
+        self.historial_window.show()
+        self.hide()
 
     def cerrar_sesion(self):
         self.close()

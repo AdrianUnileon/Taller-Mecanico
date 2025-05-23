@@ -68,3 +68,13 @@ class ClienteDao:
         finally:
             if cursor: cursor.close()
 
+    def obtener_id_cliente_por_usuario(self, id_usuario):
+        cursor = self.conn.cursor(dictionary=True)
+        query = "SELECT * FROM Clientes WHERE IDUsuario = %s"
+        cursor.execute(query, (id_usuario,))
+        row = cursor.fetchone()
+        cursor.close()
+        if row:
+            return row['IDCliente']
+        return None
+
