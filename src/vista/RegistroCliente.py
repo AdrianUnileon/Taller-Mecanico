@@ -26,48 +26,6 @@ class RegistrarCliente(QMainWindow):
     def setup_events(self):
         self.btnRegistrar.clicked.connect(self.registrar_cliente)
         self.btnVolver.clicked.connect(self.volver)
-
-    '''def registrar_cliente(self):
-        nombre = self.Nombre.text().strip()
-        apellido1 = self.Apellido1.text().strip()
-        apellido2 = self.Apellido2.text().strip()
-        dni = self.DNI.text().strip()
-        telefono = self.Telefono.text().strip()
-        correo = self.Correo.text().strip()  # Asegúrate de que este campo se llame Email en el .ui
-        direccion = self.Direccion.text().strip()
-
-        # Comprobar que todos los campos están completos
-        if not all([nombre, apellido1, apellido2, dni, correo, direccion, telefono]):
-            QMessageBox.warning(self, "Campos incompletos", "Por favor, completa todos los campos.")
-            return
-
-    # Comprobar si ya existe un usuario con ese correo
-        if self.dao_usuario.buscar_por_email(correo):
-            QMessageBox.warning(self, "Duplicado", "Ya existe un usuario con este correo.")
-            return
-
-
-
-    # Ahora crear el cliente asociado a ese usuario
-        cliente = ClienteVO(
-            IDUsuario=None,  # El IDCliente se genera automáticamente en la base de datos
-            DNI=dni,
-            Nombre=nombre,
-            Apellido1=apellido1,
-            Apellido2=apellido2,
-            Telefono=telefono,
-            Email=correo,
-            Direccion=direccion
-        )
-
-    # Insertar el cliente en la base de datos
-        if self.dao_cliente.insertar(cliente) > 0:
-            QMessageBox.information(self, "Éxito", "Cliente registrado correctamente.")
-            self.close()  # Cerrar la ventana de registro
-        else:
-            QMessageBox.critical(self, "Error", "No se pudo registrar el cliente.")
-        
-'''
     
     def registrar_cliente(self):
         nombre = self.Nombre.text().strip()
@@ -85,8 +43,7 @@ class RegistrarCliente(QMainWindow):
         if self.dao_usuario.buscar_por_email(correo):
             QMessageBox.warning(self, "Duplicado", "Ya existe un usuario con este correo.")
             return
-
-        # Contraseña temporal o fija
+        
         contraseña_temporal = "1234"
 
         nuevo_usuario = UserVO(

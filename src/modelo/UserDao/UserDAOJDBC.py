@@ -20,7 +20,7 @@ class UserDaoJDBC(Conexion):
         try:
            
             
-            cursor = self.conn.cursor(dictionary=True)  # Usar diccionarios para acceso por nombre
+            cursor = self.conn.cursor(dictionary=True)  
             cursor.execute(self.SQL_SELECT)
             
             usuarios = []
@@ -51,10 +51,8 @@ class UserDaoJDBC(Conexion):
         
             cursor = self.conn.cursor()
         
-        # Hashear contraseña
             hashed_pw = bcrypt.hashpw(usuario.Contraseña.encode('utf-8'), bcrypt.gensalt())
         
-        # Consulta modificada explícitamente omitiendo IDUsuario
             query = """
             INSERT INTO Usuarios 
             (DNI, Nombre, Apellidos, Correo, Contraseña, TipoUsuario)
@@ -73,7 +71,6 @@ class UserDaoJDBC(Conexion):
             self.conn.commit()
             id_usuario = cursor.lastrowid
 
-        # Si el tipo de usuario es 'Mecanico', insertamos en la tabla 'mecanicos'
         
             if usuario.TipoUsuario.lower() == 'mecanico':
                 query_mecanico = """
@@ -83,7 +80,6 @@ class UserDaoJDBC(Conexion):
                 cursor.execute(query_mecanico, (id_usuario, "General", "24/02/2025"))
                 self.conn.commit()
 
-        # Devolvemos el ID del nuevo usuario insertado
             return id_usuario
             
             

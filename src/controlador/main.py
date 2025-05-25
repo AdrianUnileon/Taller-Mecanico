@@ -1,15 +1,13 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMessageBox, QInputDialog, QLineEdit
-from src.vista.Principal import PrincipalWindow
-from src.vista.AdministradorPanel import AdministradorPanel
+from src.controlador.ControladorPrincipal import ControladorPrincipal
 
-# Contraseña
+# Contraseña admin
 ADMIN_PASSWORD = "admin1234"
 
 def main():
     app = QApplication(sys.argv)
 
-    # Pregunta inicial
     respuesta = QMessageBox.question(
         None,
         "Acceso",
@@ -26,18 +24,17 @@ def main():
         )
 
         if ok and password == ADMIN_PASSWORD:
-            ventana = AdministradorPanel()
-            ventana.show()
+            controlador = ControladorPrincipal(admin=True)
+            controlador.mostrar_administrador()
         else:
             QMessageBox.critical(None, "Error", "Contraseña incorrecta. Acceso denegado.")
-            sys.exit()            
+            sys.exit()
 
     else:
-        ventana = PrincipalWindow()
-        ventana.show()
+        controlador = ControladorPrincipal(admin=False)
+        controlador.mostrar_principal()
 
     sys.exit(app.exec_())
 
 if __name__ == "__main__":
     main()
-

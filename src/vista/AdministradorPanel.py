@@ -1,11 +1,12 @@
 import os
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
 from PyQt5 import uic
+from src.vista.GestionPanel import GestionPanel
 
 class AdministradorPanel(QMainWindow):
-    def __init__(self, parent = None, usuario=None):
+    def __init__(self, parent = None, administrador=None):
         super().__init__(parent)
-        self.usuario = usuario
+        self.administrador = administrador
         self.setup_ui()
         self.setup_events()
     
@@ -13,9 +14,6 @@ class AdministradorPanel(QMainWindow):
         ruta_ui = os.path.join(os.path.dirname(__file__), "Ui", "VistaAdministrador.ui")
         uic.loadUi(ruta_ui, self)
         self.setWindowTitle("Panel del Administrador")
-
-        if self.usuario:
-            self.lblTitulo.setText(f"Bienvenido/a {self.usuario.Nombre}")
         
     def setup_events(self):
         self.btnGestionarRepuestosyProveedores.clicked.connect(self.gestionar_repuestos_proveedores)
@@ -24,8 +22,9 @@ class AdministradorPanel(QMainWindow):
         self.btnSalirAplicacion.clicked.connect(self.salir_aplicacion)
 
     def gestionar_repuestos_proveedores(self):
-        # Aquí iría la lógica real para gestionar los repuestos y los proveedores
-        QMessageBox.information(self, "Estado del Vehículo", "Tu vehículo está en reparación.")
+        self.administrador_orden = GestionPanel(self, administrador = self.administrador)
+        self.administrador_orden.show()
+        self.hide()
 
     def gestionar_pedidos_proveedores(self):
         # Aquí iría la lógica real para gestionar los pedidos a los proveedores

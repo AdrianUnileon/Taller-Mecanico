@@ -5,33 +5,32 @@ import mysql.connector
 class VehiculoDAO:
 
     def __init__(self):
-        self.conn = Conexion().createConnection()  # Usar la conexión Singleton
+        self.conn = Conexion().createConnection()  
 
     def insertar(self, vehiculo: VehiculoVO) -> int:
         cursor = None
         try:
             cursor = self.conn.cursor()
         
-            # Obtener el máximo IDVehiculo
             cursor.execute("SELECT MAX(IDVehiculo) FROM Vehiculos")
             result = cursor.fetchone()
-            next_id = (result[0] or 0) + 1  # Si no hay registros, empieza en 1
+            next_id = (result[0] or 0) + 1  
 
             query = """
                 INSERT INTO Vehiculos (IDVehiculo, Matricula, Marca, Modelo, Año, IDCliente)
                 VALUES (%s, %s, %s, %s, %s, %s)
             """
             cursor.execute(query, (
-                next_id,               # IDVehiculo (generado manualmente)
-                vehiculo.Matricula,    # Matricula (str)
-                vehiculo.Marca,        # Marca (str)
-                vehiculo.Modelo,       # Modelo (str)
-                vehiculo.Anio,         # Año (int)
-                vehiculo.IDCliente     # IDCliente (int)
+                next_id,               
+                vehiculo.Matricula,    
+                vehiculo.Marca,        
+                vehiculo.Modelo,       
+                vehiculo.Anio,         
+                vehiculo.IDCliente     
             ))
 
             self.conn.commit()
-            return next_id  # Retorna el ID generado
+            return next_id  
 
         except mysql.connector.Error as err:
             print(f"Error MySQL en insertar vehículo: {err}")
@@ -45,7 +44,6 @@ class VehiculoDAO:
             return 0
         finally:
             if cursor: cursor.close()
-            # No hace falta cerrar la conexión manualmente aquí, la clase Conexion lo maneja
 
     def select(self) -> list[dict]:
         cursor = None
