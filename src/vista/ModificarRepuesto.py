@@ -40,6 +40,7 @@ class ModificarRepuesto(QMainWindow):
         fila = self.tablaRepuestos.currentRow()
         if fila != -1:
             self.Cantidad.setText(self.tablaRepuestos.item(fila, 2).text())
+
             self.Ubicacion.setText(self.tablaRepuestos.item(fila, 3).text())
             self.PrecioUnitario.setText(self.tablaRepuestos.item(fila, 4).text())
 

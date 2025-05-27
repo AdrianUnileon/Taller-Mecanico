@@ -2,7 +2,6 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMessageBox, QInputDialog, QLineEdit
 from src.controlador.ControladorPrincipal import ControladorPrincipal
 
-# Contraseña admin
 ADMIN_PASSWORD = "admin1234"
 
 def main():

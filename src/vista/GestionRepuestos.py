@@ -41,6 +41,7 @@ class GestionRepuestos(QMainWindow):
             self.tablaRepuestos.setItem(fila, 1, QTableWidgetItem(str(repuesto.Cantidad)))
             self.tablaRepuestos.setItem(fila, 2, QTableWidgetItem(repuesto.Ubicacion))
             self.tablaRepuestos.setItem(fila, 3, QTableWidgetItem(f"{repuesto.PrecioUnitario:.2f} €"))
+        
 
     def AnadirRepuestos(self):
         self.ventana_anadir = AnadirRepuesto(parent=self, administrador=self.administrador)
