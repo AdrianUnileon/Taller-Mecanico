@@ -1,20 +1,16 @@
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
 from PyQt5 import uic
 import os
-from src.modelo.UserDao.OrdenServicioDAO import OrdenServicioDAO
-from src.modelo.vo.OrdenServicioVO import OrdenServicioVO
-from src.modelo.vo.VehiculoVO import VehiculoVO
-from src.modelo.UserDao.VehiculoDAO import VehiculoDAO
-from src.vista.AsignarOrden import AsignarOrden
+from src.controlador.ControladorRegistrarOrdenServicio import ControladorRegistrarOrdenServicio
 
 class RegistrarOrdenServicio(QMainWindow):
     def __init__(self, parent=None, usuario=None):
         super().__init__(parent)
         self.usuario = usuario
-        self.dao_orden_servicio = OrdenServicioDAO()
-        self.dao_vehiculo = VehiculoDAO()
+        self.controller = ControladorRegistrarOrdenServicio(usuario)
         self.setup_ui()
         self.setup_events()
+        self.cargar_vehiculos()
 
     def setup_ui(self):
         ruta_ui = os.path.join(os.path.dirname(__file__), "Ui", "VistaOrdenesServicio.ui")
@@ -24,52 +20,29 @@ class RegistrarOrdenServicio(QMainWindow):
         if self.usuario:
             self.lblTitulo.setText(f"Bienvenido/a {self.usuario.Nombre}")
 
-        self.cargar_vehiculos()
-
     def setup_events(self):
         self.btnRegistrar.clicked.connect(self.registrar_orden_servicio)
         self.btnVolver.clicked.connect(self.volver)
-        self.btnAsignar.clicked.connect(self.asignar_orden)
 
     def cargar_vehiculos(self):
         self.combo_vehiculos.clear()
-        vehiculos = self.dao_vehiculo.select()  
-
-        for vehiculo in vehiculos:
-            matricula = vehiculo['Matricula']
-            marca = vehiculo['Marca']
-            id_vehiculo = vehiculo['IDVehiculo']
-            vehiculo_info = f"{matricula} - {marca}"
-            self.combo_vehiculos.addItem(vehiculo_info, id_vehiculo)
+        vehiculos = self.controller.obtener_vehiculos()
+        for v in vehiculos:
+            desc = f"{v['Matricula']} - {v['Marca']}"
+            self.combo_vehiculos.addItem(desc, v['IDVehiculo'])
 
     def registrar_orden_servicio(self):
         id_vehiculo = self.combo_vehiculos.currentData()
         descripcion = self.Descripcion.text().strip()
-        fecha_ingreso = self.FechaIngreso.date().toString("yyyy-MM-dd")  # Formato de fecha
+        fecha_ingreso = self.FechaIngreso.date().toString("yyyy-MM-dd")
         observaciones = self.Observaciones.text().strip()
 
-        if not all([descripcion, fecha_ingreso, observaciones]) or id_vehiculo is None:
-            QMessageBox.warning(self, "Campos incompletos", "Por favor, rellena todos los campos.")
-            return
+        resultado = self.controller.registrar_orden(id_vehiculo, descripcion, fecha_ingreso, observaciones)
 
-        orden_servicio = OrdenServicioVO(
-            FechaIngreso=fecha_ingreso,
-            Descripcion=descripcion,
-            Estado="Pendiente de asignación",
-            IDVehiculo=id_vehiculo,
-            IDMecanico=None  # Se asignará más adelante
-        )
-
-        if self.dao_orden_servicio.insertar(orden_servicio) > 0:
-            QMessageBox.information(self, "Éxito", "Orden de servicio registrada correctamente.")
-            
+        if resultado:
+            QMessageBox.information(self, "Éxito", "Orden registrada con exito")
         else:
-            QMessageBox.critical(self, "Error", "No se pudo registrar la orden de servicio.")
-    
-    def asignar_orden(self):
-        self.asignar_orden_window = AsignarOrden(parent=self)
-        self.asignar_orden_window.show()
-        self.hide()
+            QMessageBox.warning(self, "Error", "Se ha producido un error al registrar la orden")
 
     def volver(self):
         self.parent().show()

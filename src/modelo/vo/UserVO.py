@@ -62,5 +62,3 @@ class UserVO:
     def TipoUsuario(self, value):
         self._TipoUsuario = value
 
-    def __str__(self):
-        return f"UserVO(DNI={self._DNI}, Nombre='{self._Nombre}', Correo='{self._Correo}')"

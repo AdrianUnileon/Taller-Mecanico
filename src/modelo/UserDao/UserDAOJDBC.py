@@ -70,8 +70,7 @@ class UserDaoJDBC(Conexion):
         
             self.conn.commit()
             id_usuario = cursor.lastrowid
-
-        
+            
             if usuario.TipoUsuario.lower() == 'mecanico':
                 query_mecanico = """
                 INSERT INTO Mecanicos (IDUsuario, Especialidad, FechaContratacion)

@@ -29,17 +29,16 @@ class GestionProveedores(QMainWindow):
     def cargar_proveedores(self):
         dao = ProveedorDAO()
         proveedores = dao.obtener_todos()
-        self.tablaProveedores.setColumnCount(4)
-        self.tablaProveedores.setHorizontalHeaderLabels(["IDProveedor","Nombre", "Contacto", "Direccion"])
+        self.tablaProveedores.setColumnCount(3)
+        self.tablaProveedores.setHorizontalHeaderLabels(["Nombre", "Contacto", "Direccion"])
         self.tablaProveedores.setRowCount(0)
 
         for proveedor in proveedores:
             fila = self.tablaProveedores.rowCount()
             self.tablaProveedores.insertRow(fila)
-            self.tablaProveedores.setItem(fila, 0, QTableWidgetItem(proveedor.IDProveedor))
-            self.tablaProveedores.setItem(fila, 1, QTableWidgetItem(proveedor.Nombre))
-            self.tablaProveedores.setItem(fila, 2, QTableWidgetItem(proveedor.Contacto))
-            self.tablaProveedores.setItem(fila, 3, QTableWidgetItem(proveedor.Direccion))
+            self.tablaProveedores.setItem(fila, 0, QTableWidgetItem(proveedor.Nombre))
+            self.tablaProveedores.setItem(fila, 1, QTableWidgetItem(proveedor.Contacto))
+            self.tablaProveedores.setItem(fila, 2, QTableWidgetItem(proveedor.Direccion))
 
 
 

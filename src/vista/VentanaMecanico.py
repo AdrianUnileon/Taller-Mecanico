@@ -34,11 +34,9 @@ class VentanaMecanico(QMainWindow):
 
         try:
             Fecha = datetime.strptime(fechacontratacion, "%d/%m/%Y").date()
-            # Insertar el usuario en Usuarios
-            user_dao = UserDaoJDBC()
-            id_usuario = user_dao.insert(self.usuario)
+            
+            id_usuario = self.usuario.IDUsuario
 
-            # Crear Cliente y registrar
             mecanico = MecanicoVO(IDUsuario=id_usuario, Especialidad=especialidad, FechaContratacion=Fecha)
             dao = MecanicoDAO()
             id_mecanico = dao.insertar(mecanico)

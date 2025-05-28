@@ -61,3 +61,40 @@ class RepuestoDAO:
         cursor.execute("DELETE FROM Repuestos WHERE IDRepuesto = %s", (id_repuesto,))
         self.conn.commit()
         cursor.close()
+
+    def obtener_id_por_nombre(self, nombre_repuesto: str):
+        cursor = None
+        try:
+            cursor = self.conn.cursor()
+            query = "SELECT IDRepuesto FROM Repuestos WHERE Nombre = %s"
+            cursor.execute(query, (nombre_repuesto,))
+            resultado = cursor.fetchone()
+            return resultado[0] if resultado else None
+        except mysql.connector.Error as err:
+            print(f"Error al obtener ID del repuesto: {err}")
+            return None
+        finally:
+            if cursor:
+                cursor.close()
+                
+
+    def insertar_repuesto(self, nombre):
+        cursor = None
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute("SELECT MAX(IDRepuesto) FROM Repuestos")
+            result = cursor.fetchone()
+            next_id = (result[0] or 0) + 1
+
+            query = "INSERT INTO Repuestos (IDRepuesto, Nombre) VALUES (%s, %s, %s)"
+            cursor.execute(query, (next_id, nombre))
+            self.conn.commit()
+            return next_id
+        except mysql.connector.Error as err:
+            print(f"Error al insertar repuesto: {err}")
+            self.conn.rollback()
+            return None
+        finally:
+            if cursor:
+                cursor.close()
+

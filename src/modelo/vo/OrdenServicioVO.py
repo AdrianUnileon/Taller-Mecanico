@@ -7,3 +7,50 @@ class OrdenServicioVO:
         self.IDVehiculo = IDVehiculo
         self.IDMecanico = IDMecanico
 
+    @property
+    def IDOrden(self):
+        return self._IDOrden
+
+    @IDOrden.setter
+    def IDOrden(self, value):
+        self._IDOrden = value
+
+    @property
+    def FechaIngreso(self):
+        return self._FechaIngreso
+
+    @FechaIngreso.setter
+    def FechaIngreso(self, value):
+        self._FechaIngreso = value
+
+    @property
+    def Descripcion(self):
+        return self._Descripcion
+
+    @Descripcion.setter
+    def Descripcion(self, value):
+        self._Descripcion = value
+
+    @property
+    def Estado(self):
+        return self._Estado
+
+    @Estado.setter
+    def Estado(self, value):
+        self._Estado = value
+
+    @property
+    def IDVehiculo(self):
+        return self._IDVehiculo
+    
+    @IDVehiculo.setter
+    def IDVehiculo(self, value):
+        self._IDVehiculo = value
+
+    @property
+    def IDMecanico(self):
+        return self._IDMecanico
+    
+    @IDMecanico.setter
+    def IDMecanico(self, value):
+        self._IDMecanico = value

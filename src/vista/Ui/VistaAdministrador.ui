@@ -76,7 +76,7 @@
    <widget class="QPushButton" name="btnVerReportes">
     <property name="geometry">
      <rect>
-      <x>230</x>
+      <x>30</x>
       <y>320</y>
       <width>281</width>
       <height>51</height>
@@ -109,6 +109,25 @@
     </property>
     <property name="text">
      <string>Salir de la aplicacion</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnPedidos">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>320</y>
+      <width>281</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Ver pedidos</string>
     </property>
    </widget>
   </widget>

@@ -29,11 +29,9 @@ class VentanaRecepcionista(QMainWindow):
             QMessageBox.warning(self, "Campos vacíos", "Por favor completa todos los campos.")
             return
         try:
-            # Insertar el usuario en Usuarios
-            user_dao = UserDaoJDBC()
-            id_usuario = user_dao.insert(self.usuario)
+            
+            id_usuario = self.usuario.IDUsuario
 
-            # Crear Recepcionista y registrar
             recepcionista = RecepcionistaVO(IDUsuario=id_usuario, Turno=turno)
             dao = RecepcionistaDAO()
             id_recepcionista = dao.insertar(recepcionista)

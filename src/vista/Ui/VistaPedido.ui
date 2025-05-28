@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1072</width>
+    <height>787</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,10 +17,10 @@
    <widget class="QLabel" name="lblTitulo">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>-10</y>
-      <width>261</width>
-      <height>101</height>
+      <x>280</x>
+      <y>0</y>
+      <width>241</width>
+      <height>141</height>
      </rect>
     </property>
     <property name="font">
@@ -32,15 +32,25 @@
      </font>
     </property>
     <property name="text">
-     <string>Proveedores</string>
+     <string>Gestion Pedidos</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btnAnadirProveedor">
+   <widget class="QComboBox" name="combo_proveedores">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>350</y>
-      <width>151</width>
+      <x>290</x>
+      <y>150</y>
+      <width>181</width>
+      <height>61</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="Nombre">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>270</y>
+      <width>291</width>
       <height>51</height>
      </rect>
     </property>
@@ -50,16 +60,16 @@
       <pointsize>10</pointsize>
      </font>
     </property>
-    <property name="text">
-     <string>Añadir</string>
+    <property name="placeholderText">
+     <string>Introduce el nombre del repuesto</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btnModificarProveedor">
+   <widget class="QLineEdit" name="Cantidad">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>350</y>
-      <width>151</width>
+      <x>240</x>
+      <y>340</y>
+      <width>291</width>
       <height>51</height>
      </rect>
     </property>
@@ -69,17 +79,17 @@
       <pointsize>10</pointsize>
      </font>
     </property>
-    <property name="text">
-     <string>Modificar</string>
+    <property name="placeholderText">
+     <string>Introduce la cantidad</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btnEliminarProveedor">
+   <widget class="QPushButton" name="btnRealizarPedido">
     <property name="geometry">
      <rect>
-      <x>580</x>
-      <y>350</y>
-      <width>151</width>
-      <height>51</height>
+      <x>180</x>
+      <y>590</y>
+      <width>171</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
@@ -89,16 +99,16 @@
      </font>
     </property>
     <property name="text">
-     <string>Eliminar</string>
+     <string>Realizar pedido</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btnVolver">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>450</y>
-      <width>151</width>
-      <height>51</height>
+      <x>430</x>
+      <y>590</y>
+      <width>171</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
@@ -111,21 +121,58 @@
      <string>Volver</string>
     </property>
    </widget>
-   <widget class="QTableWidget" name="tablaProveedores">
+   <widget class="QPushButton" name="btnAnadirAlPedido">
     <property name="geometry">
      <rect>
-      <x>230</x>
-      <y>100</y>
-      <width>381</width>
+      <x>180</x>
+      <y>480</y>
+      <width>171</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Añadir al pedido</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="tablaRepuestosPedidos">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>230</y>
+      <width>261</width>
       <height>192</height>
      </rect>
     </property>
     <property name="columnCount">
-     <number>3</number>
+     <number>2</number>
     </property>
     <column/>
     <column/>
-    <column/>
+   </widget>
+   <widget class="QPushButton" name="btnEliminarDelPedido">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>480</y>
+      <width>171</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Eliminar del pedido</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -133,7 +180,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1072</width>
      <height>26</height>
     </rect>
    </property>

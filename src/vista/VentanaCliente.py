@@ -32,11 +32,9 @@ class VentanaCliente(QMainWindow):
             return
 
         try:
-            # Insertar el usuario en Usuarios
-            user_dao = UserDaoJDBC()
-            id_usuario = user_dao.insert(self.usuario)
+            
+            id_usuario = self.usuario.IDUsuario
 
-            # Crear Cliente y registrar
             cliente = ClienteVO(IDUsuario=id_usuario, Direccion=direccion, Contacto=contacto)
             dao = ClienteDao()
             id_cliente = dao.insertar(cliente)

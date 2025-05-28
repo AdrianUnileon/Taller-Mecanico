@@ -1,20 +1,16 @@
 import os
-import re
-import sys
-from PyQt5.QtWidgets import QMainWindow, QMessageBox, QApplication
+from PyQt5.QtWidgets import QMainWindow, QMessageBox
 from PyQt5 import uic
-from src.modelo.vo.UserVO import UserVO
-from src.modelo.UserDao.UserDAOJDBC import UserDaoJDBC
-import bcrypt
+from src.controlador.ControladorRegistro import ControladorRegistro
 from src.vista.VentanaCliente import VentanaCliente
-from src.vista.VentanaRecepcionista import VentanaRecepcionista
 from src.vista.VentanaMecanico import VentanaMecanico
+from src.vista.VentanaRecepcionista import VentanaRecepcionista
 
 class RegistroWindow(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.parent = parent
-        self.user_dao = UserDaoJDBC()
+        self.controlador = ControladorRegistro()
         self.setup_ui()
         self.setup_events()
 
@@ -24,59 +20,45 @@ class RegistroWindow(QMainWindow):
         self.setWindowTitle("Registro de Usuario")
 
     def setup_events(self):
-        self.btnRegistrar.clicked.connect(self.abrir_ventana_rol)
+        self.btnRegistrar.clicked.connect(self.registrar_usuario)
         self.btnCancelar.clicked.connect(self.close)
 
-    def validar_campos(self) -> tuple[bool, str]:
-        if not re.match(r'^\d{8}[A-Za-z]$', self.txtDNI.text().strip()):
-            return False, "DNI inválido (8 dígitos + letra)"
-        if not re.match(r'^[\w\.-]+@[\w\.-]+\.\w+$', self.txtEmail.text().strip()):
-            return False, "Email inválido"
-        if len(self.txtPassword.text()) < 6:
-            return False, "La contraseña debe tener al menos 6 caracteres"
-        if not re.search(r'[A-Za-z]', self.txtPassword.text()):
-            return False, "La contraseña debe contener al menos una letra"
-        if self.txtPassword.text() != self.txtConfirmPassword.text():
-            return False, "Las contraseñas no coinciden"
-        return True, ""
+    def registrar_usuario(self):
+        datos = {
+            "dni": self.txtDNI.text().strip(),
+            "nombre": self.txtNombre.text().strip(),
+            "apellidos": f"{self.txtApellido1.text().strip()} {self.txtApellido2.text().strip()}",
+            "correo": self.txtEmail.text().strip(),
+            "password": self.txtPassword.text(),
+            "confirm_password": self.txtConfirmPassword.text(),
+            "tipo": self.cmbRol.currentText()
+        }
 
-    def abrir_ventana_rol(self):
-        valid, mensaje = self.validar_campos()
-        if not valid:
+        valido, mensaje = self.controlador.validar_campos(datos)
+        if not valido:
             QMessageBox.warning(self, "Error", mensaje)
             return
 
-        dni = self.txtDNI.text().strip()
-        correo = self.txtEmail.text().strip()
-
-        if self.user_dao.buscar_por_email(correo):
-            QMessageBox.warning(self, "Error", "El correo ya está registrado.")
+        exito, resultado = self.controlador.registrar_usuario(datos)
+        if not exito:
+            QMessageBox.warning(self, "Error", resultado)
             return
 
-        apellidos = f"{self.txtApellido1.text().strip()} {self.txtApellido2.text().strip()}"
-        tipo = self.cmbRol.currentText().strip()
+        usuario = resultado
+        QMessageBox.information(self, "Registro Exitoso", f"{usuario.Nombre}, tu cuenta fue creada.")
 
-        usuario = UserVO(
-            DNI=dni,
-            Nombre=self.txtNombre.text().strip(),
-            Apellidos=apellidos,
-            Correo=correo,
-            Contraseña=self.txtPassword.text().strip(),
-            TipoUsuario=tipo
-        )
+        if usuario.TipoUsuario.lower() == "cliente":
+            self.ventana = VentanaCliente(usuario, parent=self)
+        elif usuario.TipoUsuario.lower() == "mecánico":
+            self.ventana = VentanaMecanico(usuario, parent=self)
+        elif usuario.TipoUsuario.lower() == "recepcionista":
+            self.ventana = VentanaRecepcionista(usuario, parent=self)
+        else:
+            QMessageBox.warning(self, "Error", "Tipo de usuario desconocido.")
+            return
 
-        if tipo == "Cliente":
-            self.ventana_cliente = VentanaCliente(usuario, parent=self)
-            self.ventana_cliente.show()
-            self.hide()
-        elif tipo == "Mecánico":
-            self.ventana_mecanico = VentanaMecanico(usuario, parent=self)
-            self.ventana_mecanico.show()
-            self.hide()
-        elif tipo == "Recepcionista":
-            self.ventana_recepcionista = VentanaRecepcionista(usuario, parent=self)
-            self.ventana_recepcionista.show()
-            self.hide()
+        self.ventana.show()
+        self.hide()
 
     def closeEvent(self, event):
         if self.parent:

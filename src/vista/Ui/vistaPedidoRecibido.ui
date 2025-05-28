@@ -17,10 +17,10 @@
    <widget class="QLabel" name="lblTitulo">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>-10</y>
-      <width>261</width>
-      <height>101</height>
+      <x>250</x>
+      <y>0</y>
+      <width>301</width>
+      <height>91</height>
      </rect>
     </property>
     <property name="font">
@@ -32,14 +32,31 @@
      </font>
     </property>
     <property name="text">
-     <string>Proveedores</string>
+     <string>Pedidos recibidos</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btnAnadirProveedor">
+   <widget class="QTableWidget" name="tablPedidoTransito">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>350</y>
+      <x>110</x>
+      <y>160</y>
+      <width>631</width>
+      <height>192</height>
+     </rect>
+    </property>
+    <property name="columnCount">
+     <number>4</number>
+    </property>
+    <column/>
+    <column/>
+    <column/>
+    <column/>
+   </widget>
+   <widget class="QPushButton" name="btnRecibido">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>380</y>
       <width>151</width>
       <height>51</height>
      </rect>
@@ -51,52 +68,14 @@
      </font>
     </property>
     <property name="text">
-     <string>Añadir</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnModificarProveedor">
-    <property name="geometry">
-     <rect>
-      <x>340</x>
-      <y>350</y>
-      <width>151</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Segoe UI</family>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Modificar</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnEliminarProveedor">
-    <property name="geometry">
-     <rect>
-      <x>580</x>
-      <y>350</y>
-      <width>151</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Segoe UI</family>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Eliminar</string>
+     <string>Recibido</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btnVolver">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>450</y>
+      <x>440</x>
+      <y>380</y>
       <width>151</width>
       <height>51</height>
      </rect>
@@ -110,22 +89,6 @@
     <property name="text">
      <string>Volver</string>
     </property>
-   </widget>
-   <widget class="QTableWidget" name="tablaProveedores">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>100</y>
-      <width>381</width>
-      <height>192</height>
-     </rect>
-    </property>
-    <property name="columnCount">
-     <number>3</number>
-    </property>
-    <column/>
-    <column/>
-    <column/>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
