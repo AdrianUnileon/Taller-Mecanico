@@ -59,3 +59,27 @@ class ProveedorDAO:
         cursor.execute("DELETE FROM Proveedores WHERE IDProveedor = %s", (id_proveedor,))
         self.conn.commit()
         cursor.close()
+
+    def obtener_nombres_proveedores(self):
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute("SELECT Nombre FROM Proveedores")
+            resultados = cursor.fetchall()
+            return [nombre[0] for nombre in resultados]
+        except mysql.connector.Error as err:
+            print(f"Error al obtener nombres de proveedores: {err}")
+            return []
+        finally:
+            cursor.close()
+
+    def obtener_id_por_nombre(self, nombre):
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute("SELECT IDProveedor FROM Proveedores WHERE Nombre = %s", (nombre,))
+            resultado = cursor.fetchone()
+            return resultado[0] if resultado else None
+        except mysql.connector.Error as err:
+            print(f"Error al obtener ID del proveedor: {err}")
+            return None
+        finally:
+            cursor.close()

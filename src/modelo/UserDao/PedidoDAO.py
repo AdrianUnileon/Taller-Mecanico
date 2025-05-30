@@ -89,7 +89,7 @@ class PedidoDAO:
             if cursor:
                 cursor.close()
 
-    def insertar_detalle(self, id_pedido, id_repuesto, cantidad, precio = 0):
+    def insertar_detalle_pedido(self, id_pedido, id_repuesto, cantidad, precio_unitario):
         cursor = None
         try:
             cursor = self.conn.cursor()
@@ -97,7 +97,7 @@ class PedidoDAO:
             INSERT INTO detallepedidos (IDPedido, IDRepuesto, Cantidad, PrecioUnitario)
             VALUES (%s, %s, %s, %s)
             """
-            cursor.execute(query, (id_pedido, id_repuesto, cantidad, precio))
+            cursor.execute(query, (id_pedido, id_repuesto, cantidad, precio_unitario))
             self.conn.commit()
         except mysql.connector.Error as err:
             print(f"Error al insertar detalle de pedido: {err}")
@@ -105,6 +105,7 @@ class PedidoDAO:
         finally:
             if cursor:
                 cursor.close()
+
 
     def obtener_pedidos_por_estado(self, estado: str):
         cursor = None
@@ -126,6 +127,23 @@ class PedidoDAO:
         except mysql.connector.Error as err:
             print(f"Error al obtener pedidos por estado: {err}")
             return []
+        finally:
+            if cursor:
+                cursor.close()
+
+    def insertar_orden_repuesto(self, id_pedido, id_repuesto, cantidad):
+        cursor = None
+        try:
+            cursor = self.conn.cursor()
+            query = """
+            INSERT INTO ordenesrepuestos (IDOrden, IDRepuesto, Cantidad)
+            VALUES (%s, %s, %s)
+            """
+            cursor.execute(query, (id_pedido, id_repuesto, cantidad))
+            self.conn.commit()
+        except mysql.connector.Error as err:
+            print(f"Error al insertar orden de repuesto: {err}")
+            self.conn.rollback()
         finally:
             if cursor:
                 cursor.close()

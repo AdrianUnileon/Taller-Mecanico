@@ -1,15 +1,13 @@
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
 from PyQt5 import uic
 import os
-from src.modelo.UserDao.OrdenServicioDAO import OrdenServicioDAO
-from PyQt5 import uic
-from src.modelo.UserDao.OrdenServicioDAO import OrdenServicioDAO
+from src.controlador.ControladorActualizarEstado import ControladorActualizarEstado
 
 class VentanaActualizarEstado(QMainWindow):
     def __init__(self, id_orden, parent=None):
         super().__init__(parent)
         self.id_orden = id_orden
-        self.orden_dao = OrdenServicioDAO()
+        self.controlador = ControladorActualizarEstado()
         self.setup_ui()
         self.setup_events()
         self.cargar_estados()
@@ -24,27 +22,36 @@ class VentanaActualizarEstado(QMainWindow):
         self.btnVolver.clicked.connect(self.volver)
 
     def cargar_estados(self):
-        estados = ["En reparación", "Reparada"]
+        estados = ["Asignada", "Reparada"]
         self.combo_estado.clear()
         self.combo_estado.addItems(estados)
 
     def actualizar_estado(self):
         nuevo_estado = self.combo_estado.currentText()
+        costo_reparacion = self.CosteReparacion.text()
+
         if not nuevo_estado:
             QMessageBox.warning(self, "Estado vacío", "Por favor selecciona un estado.")
             return
 
-        try:
-            cursor = self.orden_dao.conn.cursor()
-            query = "UPDATE OrdenesServicio SET Estado = %s WHERE IDOrden = %s"
-            cursor.execute(query, (nuevo_estado, self.id_orden))
-            self.orden_dao.conn.commit()
-            cursor.close()
+        if nuevo_estado == "Reparada":
+            if not costo_reparacion.strip():
+                QMessageBox.warning(self, "Costo vacío", "Debes ingresar el coste de la reparación.")
+                return
+            try:
+                costo_reparacion = float(costo_reparacion)
+            except ValueError:
+                QMessageBox.warning(self, "Formato inválido", "El coste debe ser un número válido.")
+                return
+        else:
+            costo_reparacion = None
 
+        exito = self.controlador.actualizar_estado_orden(self.id_orden, nuevo_estado, costo_reparacion)
+        if exito:
             QMessageBox.information(self, "Éxito", "Estado actualizado correctamente.")
             self.volver()
-        except Exception as e:
-            QMessageBox.critical(self, "Error", f"No se pudo actualizar el estado: {e}")
+        else:
+            QMessageBox.critical(self, "Error", "No se pudo actualizar el estado.")
 
     def volver(self):
         self.close()

@@ -2,14 +2,13 @@ from PyQt5.QtWidgets import QMainWindow, QMessageBox
 from PyQt5 import uic
 import os
 
-from src.modelo.UserDao.OrdenServicioDAO import OrdenServicioDAO
-from src.modelo.UserDao.MecanicoDAO import MecanicoDAO
+from src.controlador.ControladorAsignarOrden import ControladorAsignarOrden
 
 class AsignarOrden(QMainWindow):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, usuario = None):
         super().__init__(parent)
-        self.dao_orden = OrdenServicioDAO()
-        self.dao_mecanicos = MecanicoDAO()
+        self.usuario = usuario
+        self.controller = ControladorAsignarOrden()
         self.setup_ui()
         self.setup_events()
 
@@ -26,14 +25,14 @@ class AsignarOrden(QMainWindow):
 
     def cargar_ordenes_pendientes(self):
         self.comboOrdenes.clear()
-        ordenes = self.dao_orden.select_pendientes()
+        ordenes = self.controller.obtener_ordenes_pendientes()
         for orden in ordenes:
             texto = f"{orden.IDOrden} - {orden.Descripcion[:30]}"
             self.comboOrdenes.addItem(texto, orden.IDOrden)
 
     def cargar_mecanicos(self):
         self.comboMecanicos.clear()
-        mecanicos = self.dao_mecanicos.obtener_mecanicos_disponibles()
+        mecanicos = self.controller.obtener_mecanicos_disponibles()
         for m in mecanicos:
             self.comboMecanicos.addItem(f"{m['Nombre']} {m['Apellidos']}", m['IDMecanico'])
 
@@ -45,7 +44,8 @@ class AsignarOrden(QMainWindow):
             QMessageBox.warning(self, "Error", "Debes seleccionar una orden y un mecánico.")
             return
 
-        if self.dao_orden.asignar_orden(id_orden, id_mecanico):
+        resultado = self.controller.asignar_orden(id_orden, id_mecanico)
+        if resultado:
             QMessageBox.information(self, "Éxito", "Orden asignada correctamente.")
             self.cargar_ordenes_pendientes()
         else:

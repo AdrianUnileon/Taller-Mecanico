@@ -1,16 +1,14 @@
+import os
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, QTableWidgetItem
 from PyQt5 import uic
-import os
 
-from src.modelo.UserDao.PedidoDAO import PedidoDAO
-from src.modelo.UserDao.ProveedorDAO import ProveedorDAO
+from src.controlador.ControladorPedidosRecibidos import ControladorActualizarPedido
 
 class ActualizarEstadoPedido(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.parent = parent
-        self.dao_pedido = PedidoDAO()
-        self.dao_proveedor = ProveedorDAO()
+        self.controlador = ControladorActualizarPedido()
 
         self.setup_ui()
         self.setup_events()
@@ -26,7 +24,7 @@ class ActualizarEstadoPedido(QMainWindow):
         self.btnVolver.clicked.connect(self.volver)
 
     def cargar_pedidos(self):
-        pedidos = self.dao_pedido.obtener_pedidos_por_estado("en transito")
+        pedidos = self.controlador.obtener_pedidos_en_transito()
         self.tablPedidoTransito.setRowCount(0)
         self.tablPedidoTransito.setColumnCount(4)
         self.tablPedidoTransito.setHorizontalHeaderLabels(["Pedido", "FechaPedido", "Estado", "Proveedor"])
@@ -56,11 +54,9 @@ class ActualizarEstadoPedido(QMainWindow):
             QMessageBox.warning(self, "Error", "ID del pedido inválido")
             return
 
-        nuevo_estado = "recibido"
-        self.dao_pedido.actualizar_estado_pedido(id_pedido, nuevo_estado)
-        QMessageBox.information(self, "Éxito", f"Pedido {id_pedido} marcado como {nuevo_estado}")
-        self.cargar_pedidos()  
-
+        self.controlador.marcar_pedido_como_recibido(id_pedido)
+        QMessageBox.information(self, "Éxito", f"Pedido {id_pedido} marcado como recibido")
+        self.cargar_pedidos()
 
     def volver(self):
         if self.parent:

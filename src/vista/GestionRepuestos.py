@@ -1,16 +1,16 @@
 import os
-from PyQt5.QtWidgets import QMainWindow, QMessageBox,  QTableWidgetItem
+from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem
 from PyQt5 import uic
-from src.modelo.UserDao.RepuestoDAO import RepuestoDAO
+from src.controlador.ControladorGestionRepuestos import ControladorGestionRepuestos
 from src.vista.AnadirRepuestos import AnadirRepuesto
 from src.vista.EliminarRepuesto import EliminarRepuesto
 from src.vista.ModificarRepuesto import ModificarRepuesto
 
 class GestionRepuestos(QMainWindow):
-    def __init__(self, parent=None, administrador = None):
+    def __init__(self, parent=None):
         super().__init__(parent)
         self.parent = parent
-        self.administrador = administrador
+        self.controlador = ControladorGestionRepuestos()
         self.setup_ui()
         self.setup_events()
         self.cargar_repuestos()
@@ -27,8 +27,7 @@ class GestionRepuestos(QMainWindow):
         self.btnVolver.clicked.connect(self.volver)
     
     def cargar_repuestos(self):
-        dao = RepuestoDAO()
-        repuestos = dao.obtener_todos()
+        repuestos = self.controlador.obtener_repuestos()
 
         self.tablaRepuestos.setRowCount(0)
         self.tablaRepuestos.setColumnCount(4)
@@ -44,7 +43,7 @@ class GestionRepuestos(QMainWindow):
         
 
     def AnadirRepuestos(self):
-        self.ventana_anadir = AnadirRepuesto(parent=self, administrador=self.administrador)
+        self.ventana_anadir = AnadirRepuesto(parent=self)
         self.ventana_anadir.show()
         self.hide()
 

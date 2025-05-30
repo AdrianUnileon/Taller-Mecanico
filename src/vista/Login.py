@@ -7,6 +7,7 @@ from src.vista.MecanicoPanel import PanelMecanico
 from src.vista.RecepcionistaPanel import RecepcionistaPanel
 from src.modelo.UserDao.MecanicoDAO import MecanicoDAO
 from src.modelo.UserDao.ClienteDAO import ClienteDao
+from src.modelo.UserDao.RecepcionistaDAO import RecepcionistaDAO
 
 class LoginWindow(QMainWindow):
     def __init__(self, parent=None):
@@ -51,7 +52,10 @@ class LoginWindow(QMainWindow):
             id_mecanico = mecanico_dao.obtener_id_por_usuario(usuario.IDUsuario)
             self.panel_usuario = PanelMecanico(self, id_mecanico)
         elif usuario.TipoUsuario.lower() == "recepcionista":
-            self.panel_usuario = RecepcionistaPanel(self)
+            recepcionista_dao = RecepcionistaDAO()
+            id_recepcionista = recepcionista_dao.obtener_id_por_usuario(usuario.IDUsuario)
+            self.panel_usuario = RecepcionistaPanel(self, id_recepcionista)
+
 
         else:
             QMessageBox.warning(self, "Error", "Tipo de usuario no reconocido.")

@@ -1,11 +1,12 @@
 class OrdenServicioVO:
-    def __init__(self, IDOrden=None, FechaIngreso=None, Descripcion=None, Estado=None, IDVehiculo=None, IDMecanico=None):
+    def __init__(self, IDOrden=None, FechaIngreso=None, Descripcion=None, Estado=None, IDVehiculo=None, IDMecanico=None, CostoManoObra=None):
         self.IDOrden = IDOrden
         self.FechaIngreso = FechaIngreso
         self.Descripcion = Descripcion
         self.Estado = Estado
         self.IDVehiculo = IDVehiculo
         self.IDMecanico = IDMecanico
+        self.CostoManoObra = CostoManoObra
 
     @property
     def IDOrden(self):
@@ -54,3 +55,11 @@ class OrdenServicioVO:
     @IDMecanico.setter
     def IDMecanico(self, value):
         self._IDMecanico = value
+
+    @property
+    def CostoManoObra(self):
+        return self._CostoManoObra
+    
+    @CostoManoObra.setter
+    def CostoManoObra(self, value):
+        self._CostoManoObra = value

@@ -1,80 +1,69 @@
 import os
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
 from PyQt5 import uic
-from src.modelo.UserDao.ProveedorDAO import ProveedorDAO
-from src.modelo.UserDao.RepuestoDAO import RepuestoDAO
-from src.modelo.vo.RepuestoVO import RepuestoVO
+from src.controlador.ControladorOperacionesProveedores import ControladorOperacionesProveedores
+from src.controlador.ControladorOperacionesRepuestos import ControladorOperacionesRepuestos
 
 class AnadirRepuesto(QMainWindow):
-    def __init__(self, parent=None, administrador=None):
+    def __init__(self, parent=None):
         super().__init__(parent)
         self.parent = parent
-        self.administrador = administrador
-        self.dao_repuesto = RepuestoDAO()
-        self.dao_proveedor = ProveedorDAO()
-
+        self.controlador_proveedores = ControladorOperacionesProveedores()
+        self.controlador_repuestos = ControladorOperacionesRepuestos()
         self.setup_ui()
         self.setup_events()
-        self.cargar_proveedores()
+        self.cargar_proveedores_en_combo()
 
     def setup_ui(self):
         ruta_ui = os.path.join(os.path.dirname(__file__), "Ui", "VistaAnadirRepuestos.ui")
         uic.loadUi(ruta_ui, self)
-        self.setWindowTitle("Añadir Repuestos")
+        self.setWindowTitle("Añadir Repuesto")
 
     def setup_events(self):
-        self.btnConfirmar.clicked.connect(self.guardar_repuesto)
+        self.btnConfirmar.clicked.connect(self.anadir_repuesto)
         self.btnVolver.clicked.connect(self.volver)
 
-    def cargar_proveedores(self):
-        proveedores = self.dao_proveedor.obtener_todos()
+    def cargar_proveedores_en_combo(self):
         self.combo_proveedor.clear()
-        self.lista_proveedores = proveedores
+        proveedores = self.controlador_proveedores.obtener_proveedores()
         for proveedor in proveedores:
             self.combo_proveedor.addItem(proveedor.Nombre, proveedor.IDProveedor)
 
-    def validar_campos(self):
-        if not self.Nombre.text().strip():
-            QMessageBox.warning(self, "Validación", "El nombre del repuesto es obligatorio.")
-            return False
-        if not self.Cantidad.text().strip().isdigit():
-            QMessageBox.warning(self, "Validación", "La cantidad debe ser un número entero.")
-            return False
-        if not self.PrecioUnitario.text().strip().replace('.', '', 1).isdigit():
-            QMessageBox.warning(self, "Validación", "El precio debe ser un número válido.")
-            return False
-        if not self.Ubicacion.text().strip():
-            QMessageBox.warning(self, "Validación", "La ubicación es obligatoria.")
-            return False
-        if self.combo_proveedor.currentIndex() == -1:
-            QMessageBox.warning(self, "Validación", "Debe seleccionar un proveedor.")
-            return False
-        return True
+    def anadir_repuesto(self):
+        nombre = self.Nombre.text().strip()
+        cantidad_text = self.Cantidad.text().strip()
+        ubicacion = self.Ubicacion.text().strip()
+        precio_text = self.PrecioUnitario.text().strip()
+        proveedor_index = self.combo_proveedor.currentIndex()
 
-    def guardar_repuesto(self):
-        if not self.validar_campos():
+        if not nombre or not cantidad_text or not ubicacion or not precio_text or proveedor_index == -1:
+            QMessageBox.warning(self, "Error", "Completa todos los campos.")
             return
 
-        repuesto = RepuestoVO(
-            Nombre=self.Nombre.text().strip(),
-            Cantidad=int(self.Cantidad.text().strip()),
-            PrecioUnitario=float(self.PrecioUnitario.text().strip()),
-            Ubicacion=self.Ubicacion.text().strip(),
-            IDProveedor=self.combo_proveedor.currentData()
+        try:
+            cantidad = int(cantidad_text)
+            precio = float(precio_text)
+        except ValueError:
+            QMessageBox.warning(self, "Error", "Cantidad debe ser entero y Precio numérico.")
+            return
+
+        id_proveedor = self.combo_proveedor.itemData(proveedor_index)
+
+        exito = self.controlador_repuestos.insertar_repuesto(
+            nombre, cantidad, ubicacion, precio, id_proveedor
         )
 
-        id_repuesto = self.dao_repuesto.insertar(repuesto)
-        if id_repuesto:
+        if exito:
             QMessageBox.information(self, "Éxito", "Repuesto añadido correctamente.")
             self.limpiar_campos()
         else:
-            QMessageBox.critical(self, "Error", "Hubo un problema al añadir el repuesto.")
+            QMessageBox.critical(self, "Error", "No se pudo añadir el repuesto.")
 
     def limpiar_campos(self):
         self.Nombre.clear()
         self.Cantidad.clear()
-        self.PrecioUnitario.clear()
         self.Ubicacion.clear()
+        self.PrecioUnitario.clear()
         self.combo_proveedor.setCurrentIndex(0)
 
     def volver(self):

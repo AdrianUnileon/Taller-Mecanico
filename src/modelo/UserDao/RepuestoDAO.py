@@ -77,8 +77,7 @@ class RepuestoDAO:
             if cursor:
                 cursor.close()
                 
-
-    def insertar_repuesto(self, nombre):
+    def insertar_repuesto(self, nombre, cantidad=0, ubicacion='Pendiente', precio_unitario=0.0, id_proveedor=None):
         cursor = None
         try:
             cursor = self.conn.cursor()
@@ -86,8 +85,18 @@ class RepuestoDAO:
             result = cursor.fetchone()
             next_id = (result[0] or 0) + 1
 
-            query = "INSERT INTO Repuestos (IDRepuesto, Nombre) VALUES (%s, %s, %s)"
-            cursor.execute(query, (next_id, nombre))
+            query = """
+                INSERT INTO Repuestos (IDRepuesto, Nombre, Cantidad, Ubicacion, PrecioUnitario, IDProveedor)
+                VALUES (%s, %s, %s, %s, %s, %s)
+            """
+            cursor.execute(query, (
+                next_id,
+                nombre,
+                cantidad,
+                ubicacion,
+                precio_unitario,
+                id_proveedor
+            ))
             self.conn.commit()
             return next_id
         except mysql.connector.Error as err:
@@ -97,4 +106,5 @@ class RepuestoDAO:
         finally:
             if cursor:
                 cursor.close()
+
 

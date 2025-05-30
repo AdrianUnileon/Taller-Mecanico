@@ -1,6 +1,7 @@
 from src.modelo.vo.UserVO import UserVO
 from src.modelo.conexion.Conexion import Conexion
 import bcrypt
+import secrets
 import mysql.connector
 
 class UserDaoJDBC(Conexion):
@@ -50,9 +51,10 @@ class UserDaoJDBC(Conexion):
         try:
         
             cursor = self.conn.cursor()
-        
-            hashed_pw = bcrypt.hashpw(usuario.Contraseña.encode('utf-8'), bcrypt.gensalt())
-        
+            password_plana = secrets.token_urlsafe(10)
+            print(f"Contraseña generada: {password_plana}")
+
+            hashed_pw = bcrypt.hashpw(password_plana.encode('utf-8'), bcrypt.gensalt())
             query = """
             INSERT INTO Usuarios 
             (DNI, Nombre, Apellidos, Correo, Contraseña, TipoUsuario)

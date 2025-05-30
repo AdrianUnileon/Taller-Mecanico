@@ -1,7 +1,8 @@
 import os
-from PyQt5.QtWidgets import QMainWindow, QMessageBox
+from PyQt5.QtWidgets import QMainWindow
 from PyQt5 import uic
-from src.vista.GestionPanel import GestionPanel
+from src.vista.GestionProveedores import GestionProveedores
+from src.vista.GestionRepuestos import GestionRepuestos
 from src.vista.GestionarPedidos import GestionPedidos
 from src.vista.PedidoRecibido import ActualizarEstadoPedido
 
@@ -18,14 +19,19 @@ class AdministradorPanel(QMainWindow):
         self.setWindowTitle("Panel del Administrador")
         
     def setup_events(self):
-        self.btnGestionarRepuestosyProveedores.clicked.connect(self.gestionar_repuestos_proveedores)
+        self.btnGestionarProveedores.clicked.connect(self.gestionar_proveedores)
+        self.btnGestionarRepuestos.clicked.connect(self.gestionar_repuestos)
         self.btnGestionarPedidosProveedores.clicked.connect(self.gestionar_pedidos_proveedores)
-        self.btnVerReportes.clicked.connect(self.ver_reportes)
         self.btnPedidos.clicked.connect(self.pedidos)
         self.btnSalirAplicacion.clicked.connect(self.salir_aplicacion)
 
-    def gestionar_repuestos_proveedores(self):
-        self.administrador_orden = GestionPanel(self, administrador = self.administrador)
+    def gestionar_proveedores(self):
+        self.administrador_orden = GestionProveedores(parent = self)
+        self.administrador_orden.show()
+        self.hide()
+
+    def gestionar_repuestos(self):
+        self.administrador_orden = GestionRepuestos(parent = self)
         self.administrador_orden.show()
         self.hide()
 
@@ -38,10 +44,6 @@ class AdministradorPanel(QMainWindow):
         self.administrador_orden = ActualizarEstadoPedido(self)
         self.administrador_orden.show()
         self.hide()
-
-    def ver_reportes(self):
-        # Aquí iría la lógica real para ver los reportes
-        QMessageBox.information(self, "Ver reportes", "Mostrando los reportes...")
     
     def salir_aplicacion(self):
         self.close()

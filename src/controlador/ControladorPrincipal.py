@@ -1,7 +1,6 @@
 from src.modelo.UserDao.UserDAOJDBC import UserDaoJDBC
 from src.vista.Principal import PrincipalWindow
 from src.vista.AdministradorPanel import AdministradorPanel
-from src.vista.Login import LoginWindow
 import bcrypt
 
 class ControladorPrincipal:
@@ -21,6 +20,7 @@ class ControladorPrincipal:
         self.ventana_principal.show()
 
     def mostrar_login(self):
+        from src.vista.Login import LoginWindow
         self.ventana_login = LoginWindow()
         self.ventana_login.show()
 
@@ -35,4 +35,3 @@ class ControladorPrincipal:
 
     def verificar_contraseña(self, pw_ingresada, pw_hash):
         return bcrypt.checkpw(pw_ingresada.encode('utf-8'), pw_hash.encode('utf-8'))
-

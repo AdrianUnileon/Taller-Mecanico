@@ -1,9 +1,7 @@
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, QTableWidgetItem
 from PyQt5 import uic
 import os
-from datetime import date
-from src.modelo.UserDao.PedidoDAO import PedidoDAO
-from src.modelo.UserDao.RepuestoDAO import RepuestoDAO
+from src.controlador.ControladorGestionPedidos import ControladorPedido
 
 class GestionPedidos(QMainWindow):
     def __init__(self, parent=None, administrador=None):
@@ -11,12 +9,11 @@ class GestionPedidos(QMainWindow):
         self.parent = parent
         self.administrador = administrador
 
-        self.dao_pedido = PedidoDAO()
-        self.dao_repuesto = RepuestoDAO()
+        self.controlador = ControladorPedido()
 
         self.setup_ui()
         self.setup_events()
-        self.cargar_repuestos()
+        self.cargar_proveedores()
 
     def setup_ui(self):
         ruta_ui = os.path.join(os.path.dirname(__file__), "Ui", "VistaPedido.ui")
@@ -29,26 +26,23 @@ class GestionPedidos(QMainWindow):
         self.btnEliminarDelPedido.clicked.connect(self.eliminar)
         self.btnVolver.clicked.connect(self.volver)
 
-    def cargar_repuestos(self):
-        conn = self.dao_pedido.conexion_singleton.createConnection()
-        cursor = conn.cursor()
-        cursor.execute("SELECT Nombre FROM Proveedores")
-        proveedores = cursor.fetchall()
+    def cargar_proveedores(self):
+        proveedores = self.controlador.obtener_proveedores()
         self.combo_proveedores.clear()
-        for prov in proveedores:
-            self.combo_proveedores.addItem(prov[0])
-        cursor.close()
+        self.combo_proveedores.addItems(proveedores)
 
     def anadir_al_pedido(self):
         nombre = self.Nombre.text().strip()
         cantidad_text = self.Cantidad.text().strip()
+        precioUnitario_text = self.PrecioUnitario.text().strip()
 
-        if not nombre or not cantidad_text:
+        if not nombre or not cantidad_text or not precioUnitario_text:
             QMessageBox.warning(self, "Error", "Por favor, rellena todos los campos")
             return
 
         try:
             cantidad = int(cantidad_text)
+            precioUnitario = int(precioUnitario_text)
         except ValueError:
             QMessageBox.warning(self, "Error", "Cantidad debe ser un número entero")
             return
@@ -57,14 +51,15 @@ class GestionPedidos(QMainWindow):
         self.tablaRepuestosPedidos.insertRow(row)
         self.tablaRepuestosPedidos.setItem(row, 0, QTableWidgetItem(nombre))
         self.tablaRepuestosPedidos.setItem(row, 1, QTableWidgetItem(str(cantidad)))
+        self.tablaRepuestosPedidos.setItem(row, 2, QTableWidgetItem(str(precioUnitario)))
 
         self.Nombre.clear()
         self.Cantidad.clear()
-    
-    def realizar_pedido(self):
-        proveedor_nombre = self.combo_proveedores.currentText()
+        self.PrecioUnitario.clear()
 
-        if not proveedor_nombre:
+    def realizar_pedido(self):
+        proveedor = self.combo_proveedores.currentText()
+        if not proveedor:
             QMessageBox.warning(self, "Error", "Selecciona un proveedor")
             return
 
@@ -72,36 +67,20 @@ class GestionPedidos(QMainWindow):
             QMessageBox.warning(self, "Error", "Añade al menos un repuesto al pedido")
             return
 
-        proveedor_id = self.dao_pedido.obtener_id_proveedor(proveedor_nombre)
-        if not proveedor_id:
-            QMessageBox.warning(self, "Error", "Proveedor no encontrado en base de datos")
-            return
-
-        from datetime import date
-        fecha = date.today()
-        estado = "en tránsito"
-
-        pedido_id = self.dao_pedido.insertar_pedido(proveedor_id, fecha, estado)
-        if pedido_id == 0:
-            QMessageBox.warning(self, "Error", "No se pudo registrar el pedido")
-            return
-
+        repuestos = []
         for row in range(self.tablaRepuestosPedidos.rowCount()):
             nombre = self.tablaRepuestosPedidos.item(row, 0).text()
             cantidad = int(self.tablaRepuestosPedidos.item(row, 1).text())
+            PrecioUnitario = int(self.tablaRepuestosPedidos.item(row, 2).text())
+            repuestos.append((nombre, cantidad, PrecioUnitario))
 
-            repuesto_id = self.dao_repuesto.obtener_id_por_nombre(nombre)
-            if repuesto_id is None:
-            # Insertar nuevo repuesto porque no existe
-                repuesto_id = self.dao_repuesto.insertar_repuesto(nombre)
-                if repuesto_id is None:
-                    continue
+        exito = self.controlador.crear_pedido(proveedor, repuestos)
 
-        # Insertar detalle con precio_unitario 0 (o lo que desees)
-            self.dao_pedido.insertar_detalle(pedido_id, repuesto_id, cantidad, precio_unitario=0)
-
-        QMessageBox.information(self, "Éxito", "Pedido registrado correctamente")
-        self.tablaRepuestosPedidos.setRowCount(0)
+        if exito:
+            QMessageBox.information(self, "Éxito", "Pedido realizado con exito")
+            self.tablaRepuestosPedidos.setRowCount(0)
+        else:
+            QMessageBox.warning(self, "Error","Se ha producido un error al realizar el pedido")
 
     def eliminar(self):
         fila_seleccionada = self.tablaRepuestosPedidos.currentRow()

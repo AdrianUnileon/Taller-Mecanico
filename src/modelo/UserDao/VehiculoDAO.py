@@ -75,3 +75,38 @@ class VehiculoDAO:
             return None
         finally:
             if cursor: cursor.close()
+
+    def obtener_vehiculos_con_clientes(self) -> list[dict]:
+        cursor = None
+        try:
+            cursor = self.conn.cursor(dictionary=True)
+            query = """
+                SELECT v.IDVehiculo, v.Matricula, v.Marca, v.Modelo, u.Nombre AS NombreCliente
+                FROM Vehiculos v
+                JOIN Clientes c ON v.IDCliente = c.IDCliente
+                JOIN Usuarios u ON c.IDUsuario = u.IDUsuario
+                ORDER BY v.IDVehiculo
+            """
+            cursor.execute(query)
+            return cursor.fetchall()
+        except Exception as e:
+            print(f"Error en obtener_vehiculos_con_clientes: {e}")
+            return []
+        finally:
+            if cursor: cursor.close()
+
+    def eliminar_vehiculo(self, id_vehiculo: int) -> bool:
+        cursor = None
+        try:
+            cursor = self.conn.cursor()
+            query = "DELETE FROM Vehiculos WHERE IDVehiculo = %s"
+            cursor.execute(query, (id_vehiculo,))
+            self.conn.commit()
+            return cursor.rowcount > 0
+        except Exception as e:
+            print(f"Error al eliminar vehículo: {e}")
+            if self.conn:
+                self.conn.rollback()
+            return False
+        finally:
+            if cursor: cursor.close()

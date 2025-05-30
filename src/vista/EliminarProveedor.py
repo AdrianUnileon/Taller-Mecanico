@@ -1,15 +1,15 @@
 import os
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, QTableWidgetItem
 from PyQt5 import uic
-from src.modelo.UserDao.ProveedorDAO import ProveedorDAO
+from src.controlador.ControladorOperacionesProveedores import ControladorOperacionesProveedores
 
 class EliminarProveedor(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.parent = parent
+        self.controlador = ControladorOperacionesProveedores()
         self.setup_ui()
         self.setup_events()
-        self.dao = ProveedorDAO()
         self.cargar_proveedores()
 
     def setup_ui(self):
@@ -25,7 +25,7 @@ class EliminarProveedor(QMainWindow):
         self.tablaProveedores.setColumnCount(4)
         self.tablaProveedores.setHorizontalHeaderLabels(["IDProveedor", "Nombre", "Contacto", "Dirección"])
         self.tablaProveedores.setRowCount(0)
-        proveedores = self.dao.obtener_todos()
+        proveedores = self.controlador.obtener_proveedores()
         for proveedor in proveedores:
             fila = self.tablaProveedores.rowCount()
             self.tablaProveedores.insertRow(fila)
@@ -50,7 +50,7 @@ class EliminarProveedor(QMainWindow):
         )
 
         if confirmacion == QMessageBox.Yes:
-            self.dao.eliminar(id_proveedor)
+            self.controlador.eliminar_proveedor(id_proveedor)
             QMessageBox.information(self, "Éxito", "Proveedor eliminado correctamente.")
             self.cargar_proveedores()
 

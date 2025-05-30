@@ -48,3 +48,10 @@ class RecepcionistaDAO:
             return 0
         finally:
             if cursor: cursor.close()
+
+    def obtener_id_por_usuario(self, id_usuario):
+        cursor = self.conn.cursor()
+        query = "SELECT IDRecepcionista FROM recepcionistas WHERE IDUsuario = %s"
+        cursor.execute(query, (id_usuario,))
+        resultado = cursor.fetchone()
+        return resultado[0] if resultado else None

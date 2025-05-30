@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Inventario</class>
- <widget class="QMainWindow" name="Inventario">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,15 +11,15 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Inventario</string>
+   <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="lblTitulo">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>10</y>
-      <width>231</width>
+      <x>240</x>
+      <y>0</y>
+      <width>361</width>
       <height>91</height>
      </rect>
     </property>
@@ -28,20 +28,56 @@
       <family>Segoe UI</family>
       <pointsize>18</pointsize>
       <weight>75</weight>
+      <italic>true</italic>
       <bold>true</bold>
      </font>
     </property>
     <property name="text">
-     <string>Inventario</string>
+     <string>Dar de baja vehiculos</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="tablVehiculos">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>130</y>
+      <width>391</width>
+      <height>192</height>
+     </rect>
+    </property>
+    <property name="columnCount">
+     <number>3</number>
+    </property>
+    <column/>
+    <column/>
+    <column/>
+   </widget>
+   <widget class="QPushButton" name="btnDardeBaja">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>410</y>
+      <width>171</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Dar de baja</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btnVolver">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>400</y>
-      <width>131</width>
-      <height>51</height>
+      <x>430</x>
+      <y>410</y>
+      <width>171</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
@@ -52,44 +88,6 @@
     </property>
     <property name="text">
      <string>Volver</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnGestionarRepuestos">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>210</y>
-      <width>191</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Segoe UI</family>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Gestionar Repuestos</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnGestionarProveedores">
-    <property name="geometry">
-     <rect>
-      <x>460</x>
-      <y>210</y>
-      <width>201</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Segoe UI</family>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Gestionar Proveedores</string>
     </property>
    </widget>
   </widget>

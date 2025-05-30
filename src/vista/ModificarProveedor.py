@@ -1,13 +1,13 @@
+import os
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, QTableWidgetItem
 from PyQt5 import uic
-from src.modelo.UserDao.ProveedorDAO import ProveedorDAO
-import os
+from src.controlador.ControladorOperacionesProveedores import ControladorOperacionesProveedores
 
 class ModificarProveedor(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.parent = parent
-        self.dao = ProveedorDAO()
+        self.controlador = ControladorOperacionesProveedores()
         self.setup_ui()
         self.setup_events()
         self.cargar_proveedores()
@@ -23,7 +23,7 @@ class ModificarProveedor(QMainWindow):
         self.btnVolver.clicked.connect(self.volver)
 
     def cargar_proveedores(self):
-        proveedores = self.dao.obtener_todos()
+        proveedores = self.controlador.obtener_proveedores()
         self.tablaProveedores.setRowCount(0)
         self.tablaProveedores.setColumnCount(4)
         self.tablaProveedores.setHorizontalHeaderLabels(["IDProveedor", "Nombre", "Contacto", "Direccion"])
@@ -44,21 +44,16 @@ class ModificarProveedor(QMainWindow):
 
     def modificar_proveedor(self):
         fila = self.tablaProveedores.currentRow()
-
         if fila == -1:
             QMessageBox.warning(self, "Advertencia", "Selecciona un proveedor.")
             return
-        
+
         id_proveedor = int(self.tablaProveedores.item(fila, 0).text())
         nombre = self.tablaProveedores.item(fila, 1).text()
-        direccion_actual = self.tablaProveedores.item(fila, 2).text()
-        contacto_actual = self.tablaProveedores.item(fila, 3).text()
+        nuevo_contacto = self.Contacto.text()
+        nueva_direccion = self.Direccion.text()
 
-        nuevo_contacto = self.Contacto.text() or contacto_actual
-        nueva_direccion = self.Direccion.text() or direccion_actual
-
-        dao = ProveedorDAO()
-        dao.modificar_proveedor(id_proveedor, nombre, nuevo_contacto, nueva_direccion)
+        self.controlador.modificar_proveedor(id_proveedor, nombre, nuevo_contacto, nueva_direccion)
 
         self.Contacto.clear()
         self.Direccion.clear()
@@ -71,3 +66,4 @@ class ModificarProveedor(QMainWindow):
         if self.parent:
             self.parent.show()
         self.close()
+

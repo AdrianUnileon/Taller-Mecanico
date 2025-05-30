@@ -38,8 +38,8 @@
    <widget class="QPushButton" name="btnActualizar">
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>310</y>
+      <x>120</x>
+      <y>360</y>
       <width>161</width>
       <height>61</height>
      </rect>
@@ -57,8 +57,8 @@
    <widget class="QPushButton" name="btnVolver">
     <property name="geometry">
      <rect>
-      <x>490</x>
-      <y>310</y>
+      <x>480</x>
+      <y>360</y>
       <width>161</width>
       <height>61</height>
      </rect>
@@ -87,6 +87,25 @@
       <family>Segoe UI</family>
       <pointsize>10</pointsize>
      </font>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="CosteReparacion">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>260</y>
+      <width>351</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="placeholderText">
+     <string>Introduce el coste de la reparación</string>
     </property>
    </widget>
   </widget>

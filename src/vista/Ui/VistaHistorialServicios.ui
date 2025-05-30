@@ -56,8 +56,8 @@
    <widget class="QPushButton" name="btnVolver">
     <property name="geometry">
      <rect>
-      <x>470</x>
-      <y>410</y>
+      <x>320</x>
+      <y>390</y>
       <width>161</width>
       <height>51</height>
      </rect>
@@ -70,25 +70,6 @@
     </property>
     <property name="text">
      <string>Volver</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnDescargar">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>410</y>
-      <width>161</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Segoe UI</family>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Descargar</string>
     </property>
    </widget>
   </widget>

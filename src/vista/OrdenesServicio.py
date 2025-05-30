@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QMainWindow, QMessageBox
 from PyQt5 import uic
 import os
 from src.controlador.ControladorRegistrarOrdenServicio import ControladorRegistrarOrdenServicio
+from src.vista.AsignarOrden import AsignarOrden
 
 class RegistrarOrdenServicio(QMainWindow):
     def __init__(self, parent=None, usuario=None):
@@ -22,6 +23,7 @@ class RegistrarOrdenServicio(QMainWindow):
 
     def setup_events(self):
         self.btnRegistrar.clicked.connect(self.registrar_orden_servicio)
+        self.btnAsignar.clicked.connect(self.asignar_orden)
         self.btnVolver.clicked.connect(self.volver)
 
     def cargar_vehiculos(self):
@@ -43,6 +45,11 @@ class RegistrarOrdenServicio(QMainWindow):
             QMessageBox.information(self, "Éxito", "Orden registrada con exito")
         else:
             QMessageBox.warning(self, "Error", "Se ha producido un error al registrar la orden")
+        
+    def asignar_orden(self):
+        self.ordenes_window = AsignarOrden(parent=self, usuario=self.usuario)
+        self.ordenes_window.show()
+        self.hide()
 
     def volver(self):
         self.parent().show()

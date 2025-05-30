@@ -145,13 +145,14 @@
      <rect>
       <x>660</x>
       <y>230</y>
-      <width>261</width>
+      <width>391</width>
       <height>192</height>
      </rect>
     </property>
     <property name="columnCount">
-     <number>2</number>
+     <number>3</number>
     </property>
+    <column/>
     <column/>
     <column/>
    </widget>
@@ -172,6 +173,25 @@
     </property>
     <property name="text">
      <string>Eliminar del pedido</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="PrecioUnitario">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>410</y>
+      <width>291</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="placeholderText">
+     <string>Introduce el precio por unidad</string>
     </property>
    </widget>
   </widget>

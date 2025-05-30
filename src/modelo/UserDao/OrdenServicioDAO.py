@@ -146,6 +146,29 @@ class OrdenServicioDAO:
         cursor.close()
         return resultados
 
+    def actualizar_estado(self, id_orden: int, nuevo_estado: str, costo_mano_obra: float | None = None) -> bool:
+        cursor = None
+        try:
+            cursor = self.conn.cursor()
+
+            if nuevo_estado == "Reparada" and costo_mano_obra is not None:
+                query = "UPDATE ordenesservicio SET Estado = %s, CostoManoObra = %s WHERE IDOrden = %s"
+                cursor.execute(query, (nuevo_estado, costo_mano_obra, id_orden))
+            else:
+                query = "UPDATE ordenesservicio SET Estado = %s WHERE IDOrden = %s"
+                cursor.execute(query, (nuevo_estado, id_orden))
+
+            self.conn.commit()
+            return cursor.rowcount > 0
+        except Exception as e:
+            print(f"Error al actualizar estado: {e}")
+            if self.conn:
+                self.conn.rollback()
+            return False
+        finally:
+            if cursor:
+                cursor.close()
+
 
 
 

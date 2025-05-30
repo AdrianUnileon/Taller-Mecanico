@@ -1,17 +1,15 @@
 import os
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
 from PyQt5 import uic
-from src.modelo.UserDao.ProveedorDAO import ProveedorDAO
-from src.modelo.vo.ProveedorVO import ProveedorVO
+from src.controlador.ControladorOperacionesProveedores import ControladorOperacionesProveedores
 
 class AnadirProveedor(QMainWindow):
-    def __init__(self, parent=None, administrador=None):
+    def __init__(self, parent=None):
         super().__init__(parent)
         self.parent = parent
-        self.administrador = administrador
+        self.controlador = ControladorOperacionesProveedores()
         self.setup_ui()
         self.setup_events()
-        self.dao = ProveedorDAO()
 
     def setup_ui(self):
         ruta_ui = os.path.join(os.path.dirname(__file__), "Ui", "VistaAnadirProveedores.ui") 
@@ -38,14 +36,13 @@ class AnadirProveedor(QMainWindow):
         if not self.validar_campos():
             return
 
-        nuevo_proveedor = ProveedorVO(
-            Nombre=self.Nombre.text().strip(),
-            Direccion=self.Direccion.text().strip(),
-            Contacto=self.Contacto.text().strip()
+        exito = self.controlador.anadir_proveedor(
+            self.Nombre.text(),
+            self.Contacto.text(),
+            self.Direccion.text()
         )
 
-        nuevo_id = self.dao.insertar(nuevo_proveedor)
-        if nuevo_id:
+        if exito:
             QMessageBox.information(self, "Éxito", "Proveedor añadido correctamente")
             self.limpiar_campos()
         else:

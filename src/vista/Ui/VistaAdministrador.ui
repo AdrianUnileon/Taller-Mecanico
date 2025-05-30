@@ -35,10 +35,10 @@
      <string>Panel del administrador</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btnGestionarRepuestosyProveedores">
+   <widget class="QPushButton" name="btnGestionarProveedores">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>50</x>
       <y>220</y>
       <width>281</width>
       <height>51</height>
@@ -51,32 +51,13 @@
      </font>
     </property>
     <property name="text">
-     <string>Gestionar repuestos y proveedores</string>
+     <string>Gestionar proveedores</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btnGestionarPedidosProveedores">
     <property name="geometry">
      <rect>
-      <x>460</x>
-      <y>220</y>
-      <width>281</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Segoe UI</family>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Gestionar pedidos a proveedores</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnVerReportes">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
+      <x>50</x>
       <y>320</y>
       <width>281</width>
       <height>51</height>
@@ -89,7 +70,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Ver Reportes</string>
+     <string>Gestionar pedidos a proveedores</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btnSalirAplicacion">
@@ -128,6 +109,25 @@
     </property>
     <property name="text">
      <string>Ver pedidos</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnGestionarRepuestos">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>220</y>
+      <width>281</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Gestionar repuestos</string>
     </property>
    </widget>
   </widget>
