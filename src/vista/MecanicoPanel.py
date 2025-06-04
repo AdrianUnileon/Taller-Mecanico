@@ -2,7 +2,6 @@ import os
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5 import uic
 from src.vista.ConsultarEstado import VentanaConsultarEstado
-from src.modelo.UserDao.MecanicoDAO import MecanicoDAO
 
 class PanelMecanico(QMainWindow):
     def __init__(self, parent=None, id_mecanico=None):

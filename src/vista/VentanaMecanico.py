@@ -1,17 +1,15 @@
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
 from PyQt5 import uic
 import os
-from src.modelo.UserDao.MecanicoDAO import MecanicoDAO
-from src.modelo.vo.MecanicoVO import MecanicoVO
-from src.modelo.UserDao.UserDAOJDBC import UserDaoJDBC
-from src.modelo.vo.UserVO import UserVO
+from src.controlador.ControladorRegistro import ControladorRegistro
 from datetime import datetime
 
 class VentanaMecanico(QMainWindow):
-    def __init__(self, usuario: UserVO, parent=None):
+    def __init__(self, usuario: None, parent=None):
         super().__init__(parent)
         self.usuario = usuario
         self.parent = parent
+        self.controlador = ControladorRegistro()
         self.setup_ui()
         self.setup_events()
     
@@ -35,22 +33,17 @@ class VentanaMecanico(QMainWindow):
         try:
             Fecha = datetime.strptime(fechacontratacion, "%d/%m/%Y").date()
             
-            id_usuario = self.usuario.IDUsuario
+            exito = self.controlador.registrar_mecanico(
+                self.usuario.IDUsuario, 
+                especialidad, 
+                Fecha
+            )
 
-            mecanico = MecanicoVO(IDUsuario=id_usuario, Especialidad=especialidad, FechaContratacion=Fecha)
-            dao = MecanicoDAO()
-            id_mecanico = dao.insertar(mecanico)
-
-            if id_mecanico:
-                QMessageBox.information(self, "Registro exitoso", "Mecanico registrado correctamente")
+            if exito:
+                QMessageBox.information(self, "Éxito", "Registro completado")
                 self.close()
-                if self.parent:
-                    self.parent.show()
-            else:
-                QMessageBox.critical(self, "Error", "No se pudo registrar el mecanico.")
-
         except Exception as e:
-            QMessageBox.critical(self, "Error", f"Ocurrió un error: {str(e)}")
+            QMessageBox.critical(self, "Error", str(e))
 
     def volver(self):
         if self.parent:

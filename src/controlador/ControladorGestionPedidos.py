@@ -14,15 +14,9 @@ class ControladorPedido:
 
     def crear_pedido(self, nombre_proveedor, repuestos):
         proveedor_id = self.dao_proveedor.obtener_id_por_nombre(nombre_proveedor)
-        if not proveedor_id:
-            print("Proveedor no encontrado.")
-            return False
 
         fecha = datetime.now().date()
         pedido_id = self.dao_pedido.insertar_pedido(proveedor_id, fecha, "en transito")
-        if not pedido_id:
-            print("No se pudo crear el pedido.")
-            return False
 
         for nombre, cantidad, precio_unitario in repuestos:
             repuesto_id = self.dao_repuesto.obtener_id_por_nombre(nombre)
@@ -35,10 +29,6 @@ class ControladorPedido:
                     precio_unitario=precio_unitario,
                     id_proveedor=proveedor_id
                 )
-
-            if not repuesto_id:
-                print(f"No se pudo obtener/crear el repuesto: {nombre}")
-                return False
             
             self.dao_pedido.insertar_detalle_pedido(pedido_id, repuesto_id, cantidad, precio_unitario)
 

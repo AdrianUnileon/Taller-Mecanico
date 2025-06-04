@@ -34,8 +34,8 @@ class ControladorRegistrarVehiculo:
             IDCliente=id_cliente
         )
 
-        resultado = self.dao_vehiculo.insertar(vehiculo)
-        if resultado > 0:
+        id_vehiculo = self.dao_vehiculo.insertar(vehiculo)
+        if id_vehiculo > 0:
             return {"Exito", "Vehículo registrado correctamente."}
         else:
             return {"Exito", "No se pudo registrar el vehículo."}

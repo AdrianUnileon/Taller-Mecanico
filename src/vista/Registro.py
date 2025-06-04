@@ -7,7 +7,7 @@ from src.vista.VentanaMecanico import VentanaMecanico
 from src.vista.VentanaRecepcionista import VentanaRecepcionista
 
 class RegistroWindow(QMainWindow):
-    def __init__(self, parent=None):
+    def __init__(self, parent = None):
         super().__init__(parent)
         self.parent = parent
         self.controlador = ControladorRegistro()

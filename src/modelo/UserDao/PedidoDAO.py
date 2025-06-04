@@ -1,4 +1,5 @@
 from src.modelo.conexion.Conexion import Conexion
+from src.modelo.vo.PedidoVO import PedidoVO 
 import mysql.connector
 from datetime import datetime
 
@@ -26,7 +27,6 @@ class PedidoDAO:
         cursor = None
         try:
             cursor = self.conn.cursor()
-            # Obtener próximo ID (si no es auto_increment)
             cursor.execute("SELECT MAX(IDPedido) FROM Pedidos")
             result = cursor.fetchone()
             next_id = (result[0] or 0) + 1
@@ -60,14 +60,21 @@ class PedidoDAO:
             if cursor:
                 cursor.close()
 
-    def obtener_pedido_por_id(self, id_pedido: int):
+    def obtener_pedido_por_id(self, id_pedido: int) -> PedidoVO:
         cursor = None
         try:
             cursor = self.conn.cursor(dictionary=True)
             query = "SELECT * FROM Pedidos WHERE IDPedido = %s"
             cursor.execute(query, (id_pedido,))
             pedido = cursor.fetchone()
-            return pedido
+            if pedido:
+                return PedidoVO(
+                    id_pedido=pedido['IDPedido'],
+                    fecha_pedido=pedido['FechaPedido'],
+                    estado=pedido['Estado'],
+                    id_proveedor=pedido['IDProveedor']
+                )
+            return None
         except mysql.connector.Error as err:
             print(f"Error al obtener pedido: {err}")
             return None
@@ -105,7 +112,6 @@ class PedidoDAO:
         finally:
             if cursor:
                 cursor.close()
-
 
     def obtener_pedidos_por_estado(self, estado: str):
         cursor = None

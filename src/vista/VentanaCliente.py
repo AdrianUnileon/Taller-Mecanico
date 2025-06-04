@@ -1,16 +1,14 @@
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
 from PyQt5 import uic
 import os
-from src.modelo.UserDao.ClienteDAO import ClienteDao
-from src.modelo.vo.ClienteVO import ClienteVO
-from src.modelo.UserDao.UserDAOJDBC import UserDaoJDBC
-from src.modelo.vo.UserVO import UserVO
+from src.controlador.ControladorRegistro import ControladorRegistro
 
 class VentanaCliente(QMainWindow):
-    def __init__(self, usuario: UserVO, parent=None):
+    def __init__(self, usuario = None, parent=None):
         super().__init__(parent)
         self.usuario = usuario
         self.parent = parent
+        self.controlador = ControladorRegistro()
         self.setup_ui()
         self.setup_events()
 
@@ -23,32 +21,27 @@ class VentanaCliente(QMainWindow):
         self.btnRegistrar.clicked.connect(self.registrar_cliente)
         self.btnVolver.clicked.connect(self.volver)
 
+
     def registrar_cliente(self):
         direccion = self.Direccion.text().strip()
         contacto = self.Contacto.text().strip()
 
         if not direccion or not contacto:
-            QMessageBox.warning(self, "Campos vacíos", "Por favor completa todos los campos.")
+            QMessageBox.warning(self, "Error", "Campos obligatorios")
             return
-
+    
         try:
-            
-            id_usuario = self.usuario.IDUsuario
+            exito = self.controlador.registrar_cliente(
+                self.usuario.IDUsuario, 
+                direccion, 
+                contacto
+            )
 
-            cliente = ClienteVO(IDUsuario=id_usuario, Direccion=direccion, Contacto=contacto)
-            dao = ClienteDao()
-            id_cliente = dao.insertar(cliente)
-
-            if id_cliente:
-                QMessageBox.information(self, "Registro exitoso", "Cliente registrado correctamente")
+            if exito:
+                QMessageBox.information(self, "Éxito", "Registro completado")
                 self.close()
-                if self.parent:
-                    self.parent.show()
-            else:
-                QMessageBox.critical(self, "Error", "No se pudo registrar el cliente.")
-
         except Exception as e:
-            QMessageBox.critical(self, "Error", f"Ocurrió un error: {str(e)}")
+            QMessageBox.critical(self, "Error", str(e))
 
     def volver(self):
         if self.parent:

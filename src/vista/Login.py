@@ -5,9 +5,6 @@ from src.controlador.ControladorLogin import ControladorLogin
 from src.vista.ClientePanel import ClientePanel
 from src.vista.MecanicoPanel import PanelMecanico
 from src.vista.RecepcionistaPanel import RecepcionistaPanel
-from src.modelo.UserDao.MecanicoDAO import MecanicoDAO
-from src.modelo.UserDao.ClienteDAO import ClienteDao
-from src.modelo.UserDao.RecepcionistaDAO import RecepcionistaDAO
 
 class LoginWindow(QMainWindow):
     def __init__(self, parent=None):
@@ -43,18 +40,13 @@ class LoginWindow(QMainWindow):
 
     def abrir_panel_principal(self, usuario):
 
+        id_rol = self.controlador.obtener_id_rol(usuario) 
         if usuario.TipoUsuario.lower() == "cliente":
-            cliente_dao = ClienteDao()
-            id_cliente = cliente_dao.obtener_id_cliente_por_usuario(usuario.IDUsuario)
-            self.panel_usuario = ClientePanel(self, id_cliente)
+            self.panel_usuario = ClientePanel(self, id_rol)
         elif usuario.TipoUsuario.lower() == "mecánico":
-            mecanico_dao = MecanicoDAO()
-            id_mecanico = mecanico_dao.obtener_id_por_usuario(usuario.IDUsuario)
-            self.panel_usuario = PanelMecanico(self, id_mecanico)
+            self.panel_usuario = PanelMecanico(self, id_rol)
         elif usuario.TipoUsuario.lower() == "recepcionista":
-            recepcionista_dao = RecepcionistaDAO()
-            id_recepcionista = recepcionista_dao.obtener_id_por_usuario(usuario.IDUsuario)
-            self.panel_usuario = RecepcionistaPanel(self, id_recepcionista)
+            self.panel_usuario = RecepcionistaPanel(self, id_rol)
 
 
         else:

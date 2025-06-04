@@ -1,0 +1,58 @@
+@startuml packages_MiProyecto_modelo
+set namespaceSeparator none
+package "src.modelo" as src.modelo {
+}
+package "src.modelo.UserDao" as src.modelo.UserDao {
+}
+package "src.modelo.UserDao.ClienteDAO" as src.modelo.UserDao.ClienteDAO {
+}
+package "src.modelo.UserDao.FacturaDAO" as src.modelo.UserDao.FacturaDAO {
+}
+package "src.modelo.UserDao.MecanicoDAO" as src.modelo.UserDao.MecanicoDAO {
+}
+package "src.modelo.UserDao.OrdenServicioDAO" as src.modelo.UserDao.OrdenServicioDAO {
+}
+package "src.modelo.UserDao.PedidoDAO" as src.modelo.UserDao.PedidoDAO {
+}
+package "src.modelo.UserDao.ProveedorDAO" as src.modelo.UserDao.ProveedorDAO {
+}
+package "src.modelo.UserDao.RecepcionistaDAO" as src.modelo.UserDao.RecepcionistaDAO {
+}
+package "src.modelo.UserDao.RepuestoDAO" as src.modelo.UserDao.RepuestoDAO {
+}
+package "src.modelo.UserDao.UserDAOJDBC" as src.modelo.UserDao.UserDAOJDBC {
+}
+package "src.modelo.UserDao.VehiculoDAO" as src.modelo.UserDao.VehiculoDAO {
+}
+package "src.modelo.vo" as src.modelo.vo {
+}
+package "src.modelo.vo.ClienteVO" as src.modelo.vo.ClienteVO {
+}
+package "src.modelo.vo.FacturaVO" as src.modelo.vo.FacturaVO {
+}
+package "src.modelo.vo.MecanicoVO" as src.modelo.vo.MecanicoVO {
+}
+package "src.modelo.vo.OrdenServicioVO" as src.modelo.vo.OrdenServicioVO {
+}
+package "src.modelo.vo.PedidoVO" as src.modelo.vo.PedidoVO {
+}
+package "src.modelo.vo.ProveedorVO" as src.modelo.vo.ProveedorVO {
+}
+package "src.modelo.vo.RecepcionistaVO" as src.modelo.vo.RecepcionistaVO {
+}
+package "src.modelo.vo.RepuestoVO" as src.modelo.vo.RepuestoVO {
+}
+package "src.modelo.vo.UserVO" as src.modelo.vo.UserVO {
+}
+package "src.modelo.vo.VehiculoVO" as src.modelo.vo.VehiculoVO {
+}
+src.modelo.UserDao.ClienteDAO --> src.modelo.vo.ClienteVO
+src.modelo.UserDao.FacturaDAO --> src.modelo.vo.FacturaVO
+src.modelo.UserDao.MecanicoDAO --> src.modelo.vo.MecanicoVO
+src.modelo.UserDao.OrdenServicioDAO --> src.modelo.vo.OrdenServicioVO
+src.modelo.UserDao.ProveedorDAO --> src.modelo.vo.ProveedorVO
+src.modelo.UserDao.RecepcionistaDAO --> src.modelo.vo.RecepcionistaVO
+src.modelo.UserDao.RepuestoDAO --> src.modelo.vo.RepuestoVO
+src.modelo.UserDao.UserDAOJDBC --> src.modelo.vo.UserVO
+src.modelo.UserDao.VehiculoDAO --> src.modelo.vo.VehiculoVO
+@enduml

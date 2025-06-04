@@ -1,16 +1,14 @@
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
 from PyQt5 import uic
 import os
-from src.modelo.UserDao.UserDAOJDBC import UserDaoJDBC
-from src.modelo.vo.UserVO import UserVO
-from src.modelo.vo.RecepcionistaVO import RecepcionistaVO
-from src.modelo.UserDao.RecepcionistaDAO import RecepcionistaDAO
+from src.controlador.ControladorRegistro import ControladorRegistro
 
 class VentanaRecepcionista(QMainWindow):
-    def __init__(self, usuario: UserVO, parent=None):
+    def __init__(self, usuario: None, parent=None):
         super().__init__(parent)
         self.usuario = usuario
         self.parent = parent
+        self.controlador = ControladorRegistro()
         self.setup_ui()
         self.setup_events()
 
@@ -29,23 +27,16 @@ class VentanaRecepcionista(QMainWindow):
             QMessageBox.warning(self, "Campos vacíos", "Por favor completa todos los campos.")
             return
         try:
-            
-            id_usuario = self.usuario.IDUsuario
+            exito = self.controlador.registrar_recepcionista(
+                self.usuario.IDUsuario, 
+                turno
+            )
 
-            recepcionista = RecepcionistaVO(IDUsuario=id_usuario, Turno=turno)
-            dao = RecepcionistaDAO()
-            id_recepcionista = dao.insertar(recepcionista)
-
-            if id_recepcionista:
-                QMessageBox.information(self, "Registro exitoso", "Recepcionista registrado correctamente.")
+            if exito:
+                QMessageBox.information(self, "Éxito", "Registro completado")
                 self.close()
-                if self.parent:
-                    self.parent.show()
-            else:
-                QMessageBox.critical(self, "Error", "No se pudo registrar el recepcionista.")
-
         except Exception as e:
-            QMessageBox.critical(self, "Error", f"Ocurrió un error: {str(e)}")
+            QMessageBox.critical(self, "Error", str(e))
 
     def volver(self):
         if self.parent:

@@ -7,9 +7,8 @@ from src.vista.GestionarPedidos import GestionPedidos
 from src.vista.PedidoRecibido import ActualizarEstadoPedido
 
 class AdministradorPanel(QMainWindow):
-    def __init__(self, parent = None, administrador=None):
+    def __init__(self, parent=None):
         super().__init__(parent)
-        self.administrador = administrador
         self.setup_ui()
         self.setup_events()
     
@@ -26,26 +25,25 @@ class AdministradorPanel(QMainWindow):
         self.btnSalirAplicacion.clicked.connect(self.salir_aplicacion)
 
     def gestionar_proveedores(self):
-        self.administrador_orden = GestionProveedores(parent = self)
+        self.administrador_orden = GestionProveedores(parent=self)
         self.administrador_orden.show()
         self.hide()
 
     def gestionar_repuestos(self):
-        self.administrador_orden = GestionRepuestos(parent = self)
+        self.administrador_orden = GestionRepuestos(parent=self)
         self.administrador_orden.show()
         self.hide()
 
     def gestionar_pedidos_proveedores(self):
-        self.administrador_orden = GestionPedidos(self, administrador = self.administrador)
+        self.administrador_orden = GestionPedidos(parent=self)
         self.administrador_orden.show()
         self.hide()
 
     def pedidos(self):
-        self.administrador_orden = ActualizarEstadoPedido(self)
+        self.administrador_orden = ActualizarEstadoPedido(parent=self)
         self.administrador_orden.show()
         self.hide()
     
     def salir_aplicacion(self):
         self.close()
-
     

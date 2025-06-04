@@ -1,0 +1,260 @@
+@startuml packages_Taller-Mecanico
+set namespaceSeparator none
+package "src.controlador" as src.controlador {
+}
+package "src.controlador.ControladorActualizarEstado" as src.controlador.ControladorActualizarEstado {
+}
+package "src.controlador.ControladorAsignarOrden" as src.controlador.ControladorAsignarOrden {
+}
+package "src.controlador.ControladorConsultarEstado" as src.controlador.ControladorConsultarEstado {
+}
+package "src.controlador.ControladorDarDeBajaVehiculos" as src.controlador.ControladorDarDeBajaVehiculos {
+}
+package "src.controlador.ControladorEstadoActual" as src.controlador.ControladorEstadoActual {
+}
+package "src.controlador.ControladorFactura" as src.controlador.ControladorFactura {
+}
+package "src.controlador.ControladorGestionPedidos" as src.controlador.ControladorGestionPedidos {
+}
+package "src.controlador.ControladorGestionProveedores" as src.controlador.ControladorGestionProveedores {
+}
+package "src.controlador.ControladorGestionRepuestos" as src.controlador.ControladorGestionRepuestos {
+}
+package "src.controlador.ControladorHistorialServicios" as src.controlador.ControladorHistorialServicios {
+}
+package "src.controlador.ControladorLogin" as src.controlador.ControladorLogin {
+}
+package "src.controlador.ControladorOperacionesProveedores" as src.controlador.ControladorOperacionesProveedores {
+}
+package "src.controlador.ControladorOperacionesRepuestos" as src.controlador.ControladorOperacionesRepuestos {
+}
+package "src.controlador.ControladorPedidosRecibidos" as src.controlador.ControladorPedidosRecibidos {
+}
+package "src.controlador.ControladorPrincipal" as src.controlador.ControladorPrincipal {
+}
+package "src.controlador.ControladorRegistrarOrdenServicio" as src.controlador.ControladorRegistrarOrdenServicio {
+}
+package "src.controlador.ControladorRegistrarVehiculo" as src.controlador.ControladorRegistrarVehiculo {
+}
+package "src.controlador.ControladorRegistro" as src.controlador.ControladorRegistro {
+}
+package "src.controlador.ControladorRegistroCliente" as src.controlador.ControladorRegistroCliente {
+}
+package "src.controlador.main" as src.controlador.main {
+}
+package "src.modelo.UserDao" as src.modelo.UserDao {
+}
+package "src.modelo.UserDao.ClienteDAO" as src.modelo.UserDao.ClienteDAO {
+}
+package "src.modelo.UserDao.FacturaDAO" as src.modelo.UserDao.FacturaDAO {
+}
+package "src.modelo.UserDao.MecanicoDAO" as src.modelo.UserDao.MecanicoDAO {
+}
+package "src.modelo.UserDao.OrdenServicioDAO" as src.modelo.UserDao.OrdenServicioDAO {
+}
+package "src.modelo.UserDao.PedidoDAO" as src.modelo.UserDao.PedidoDAO {
+}
+package "src.modelo.UserDao.ProveedorDAO" as src.modelo.UserDao.ProveedorDAO {
+}
+package "src.modelo.UserDao.RecepcionistaDAO" as src.modelo.UserDao.RecepcionistaDAO {
+}
+package "src.modelo.UserDao.RepuestoDAO" as src.modelo.UserDao.RepuestoDAO {
+}
+package "src.modelo.UserDao.UserDAOJDBC" as src.modelo.UserDao.UserDAOJDBC {
+}
+package "src.modelo.UserDao.VehiculoDAO" as src.modelo.UserDao.VehiculoDAO {
+}
+package "src.modelo.vo" as src.modelo.vo {
+}
+package "src.modelo.vo.ClienteVO" as src.modelo.vo.ClienteVO {
+}
+package "src.modelo.vo.FacturaVO" as src.modelo.vo.FacturaVO {
+}
+package "src.modelo.vo.MecanicoVO" as src.modelo.vo.MecanicoVO {
+}
+package "src.modelo.vo.OrdenServicioVO" as src.modelo.vo.OrdenServicioVO {
+}
+package "src.modelo.vo.PedidoVO" as src.modelo.vo.PedidoVO {
+}
+package "src.modelo.vo.ProveedorVO" as src.modelo.vo.ProveedorVO {
+}
+package "src.modelo.vo.RecepcionistaVO" as src.modelo.vo.RecepcionistaVO {
+}
+package "src.modelo.vo.RepuestoVO" as src.modelo.vo.RepuestoVO {
+}
+package "src.modelo.vo.UserVO" as src.modelo.vo.UserVO {
+}
+package "src.modelo.vo.VehiculoVO" as src.modelo.vo.VehiculoVO {
+}
+package "src.vista" as src.vista {
+}
+package "src.vista.ActualizarEstado" as src.vista.ActualizarEstado {
+}
+package "src.vista.AdministradorPanel" as src.vista.AdministradorPanel {
+}
+package "src.vista.AnadirProveedor" as src.vista.AnadirProveedor {
+}
+package "src.vista.AnadirRepuestos" as src.vista.AnadirRepuestos {
+}
+package "src.vista.AsignarOrden" as src.vista.AsignarOrden {
+}
+package "src.vista.ClientePanel" as src.vista.ClientePanel {
+}
+package "src.vista.ConsultarEstado" as src.vista.ConsultarEstado {
+}
+package "src.vista.DarDeBajaVehiculos" as src.vista.DarDeBajaVehiculos {
+}
+package "src.vista.EliminarProveedor" as src.vista.EliminarProveedor {
+}
+package "src.vista.EliminarRepuesto" as src.vista.EliminarRepuesto {
+}
+package "src.vista.EstadoActual" as src.vista.EstadoActual {
+}
+package "src.vista.Factura" as src.vista.Factura {
+}
+package "src.vista.GestionProveedores" as src.vista.GestionProveedores {
+}
+package "src.vista.GestionRepuestos" as src.vista.GestionRepuestos {
+}
+package "src.vista.GestionarPedidos" as src.vista.GestionarPedidos {
+}
+package "src.vista.HistorialServicios" as src.vista.HistorialServicios {
+}
+package "src.vista.Login" as src.vista.Login {
+}
+package "src.vista.MecanicoPanel" as src.vista.MecanicoPanel {
+}
+package "src.vista.ModificarProveedor" as src.vista.ModificarProveedor {
+}
+package "src.vista.ModificarRepuesto" as src.vista.ModificarRepuesto {
+}
+package "src.vista.OrdenesServicio" as src.vista.OrdenesServicio {
+}
+package "src.vista.PedidoRecibido" as src.vista.PedidoRecibido {
+}
+package "src.vista.Principal" as src.vista.Principal {
+}
+package "src.vista.RecepcionistaPanel" as src.vista.RecepcionistaPanel {
+}
+package "src.vista.Registro" as src.vista.Registro {
+}
+package "src.vista.RegistroCliente" as src.vista.RegistroCliente {
+}
+package "src.vista.RegistroVehículo" as src.vista.RegistroVehículo {
+}
+package "src.vista.VentanaCliente" as src.vista.VentanaCliente {
+}
+package "src.vista.VentanaMecanico" as src.vista.VentanaMecanico {
+}
+package "src.vista.VentanaRecepcionista" as src.vista.VentanaRecepcionista {
+}
+src.controlador.ControladorActualizarEstado --> src.modelo.UserDao.OrdenServicioDAO
+src.controlador.ControladorAsignarOrden --> src.modelo.UserDao.MecanicoDAO
+src.controlador.ControladorAsignarOrden --> src.modelo.UserDao.OrdenServicioDAO
+src.controlador.ControladorConsultarEstado --> src.modelo.UserDao.OrdenServicioDAO
+src.controlador.ControladorDarDeBajaVehiculos --> src.modelo.UserDao.VehiculoDAO
+src.controlador.ControladorEstadoActual --> src.modelo.UserDao.OrdenServicioDAO
+src.controlador.ControladorFactura --> src.modelo.UserDao.FacturaDAO
+src.controlador.ControladorFactura --> src.modelo.vo.FacturaVO
+src.controlador.ControladorGestionPedidos --> src.modelo.UserDao.PedidoDAO
+src.controlador.ControladorGestionPedidos --> src.modelo.UserDao.ProveedorDAO
+src.controlador.ControladorGestionPedidos --> src.modelo.UserDao.RepuestoDAO
+src.controlador.ControladorGestionProveedores --> src.modelo.UserDao.ProveedorDAO
+src.controlador.ControladorGestionRepuestos --> src.modelo.UserDao.RepuestoDAO
+src.controlador.ControladorHistorialServicios --> src.modelo.UserDao.OrdenServicioDAO
+src.controlador.ControladorLogin --> src.modelo.UserDao.UserDAOJDBC
+src.controlador.ControladorOperacionesProveedores --> src.modelo.UserDao.ProveedorDAO
+src.controlador.ControladorOperacionesProveedores --> src.modelo.vo.ProveedorVO
+src.controlador.ControladorOperacionesRepuestos --> src.modelo.UserDao.RepuestoDAO
+src.controlador.ControladorOperacionesRepuestos --> src.modelo.vo.RepuestoVO
+src.controlador.ControladorPedidosRecibidos --> src.modelo.UserDao.PedidoDAO
+src.controlador.ControladorPrincipal --> src.modelo.UserDao.UserDAOJDBC
+src.controlador.ControladorPrincipal --> src.vista.AdministradorPanel
+src.controlador.ControladorPrincipal --> src.vista.Login
+src.controlador.ControladorPrincipal --> src.vista.Principal
+src.controlador.ControladorRegistrarOrdenServicio --> src.modelo.UserDao.OrdenServicioDAO
+src.controlador.ControladorRegistrarOrdenServicio --> src.modelo.UserDao.VehiculoDAO
+src.controlador.ControladorRegistrarOrdenServicio --> src.modelo.vo.OrdenServicioVO
+src.controlador.ControladorRegistrarVehiculo --> src.modelo.UserDao.ClienteDAO
+src.controlador.ControladorRegistrarVehiculo --> src.modelo.UserDao.VehiculoDAO
+src.controlador.ControladorRegistrarVehiculo --> src.modelo.vo.VehiculoVO
+src.controlador.ControladorRegistro --> src.modelo.UserDao.UserDAOJDBC
+src.controlador.ControladorRegistro --> src.modelo.vo.UserVO
+src.controlador.ControladorRegistroCliente --> src.modelo.UserDao.ClienteDAO
+src.controlador.ControladorRegistroCliente --> src.modelo.UserDao.UserDAOJDBC
+src.controlador.ControladorRegistroCliente --> src.modelo.vo.ClienteVO
+src.controlador.ControladorRegistroCliente --> src.modelo.vo.UserVO
+src.controlador.main --> src.controlador.ControladorPrincipal
+src.modelo.UserDao.ClienteDAO --> src.modelo.vo.ClienteVO
+src.modelo.UserDao.FacturaDAO --> src.modelo.vo.FacturaVO
+src.modelo.UserDao.MecanicoDAO --> src.modelo.vo.MecanicoVO
+src.modelo.UserDao.OrdenServicioDAO --> src.modelo.vo.OrdenServicioVO
+src.modelo.UserDao.ProveedorDAO --> src.modelo.vo.ProveedorVO
+src.modelo.UserDao.RecepcionistaDAO --> src.modelo.vo.RecepcionistaVO
+src.modelo.UserDao.RepuestoDAO --> src.modelo.vo.RepuestoVO
+src.modelo.UserDao.UserDAOJDBC --> src.modelo.vo.UserVO
+src.modelo.UserDao.VehiculoDAO --> src.modelo.vo.VehiculoVO
+src.vista.ActualizarEstado --> src.controlador.ControladorActualizarEstado
+src.vista.AdministradorPanel --> src.vista.GestionProveedores
+src.vista.AdministradorPanel --> src.vista.GestionRepuestos
+src.vista.AdministradorPanel --> src.vista.GestionarPedidos
+src.vista.AdministradorPanel --> src.vista.PedidoRecibido
+src.vista.AnadirProveedor --> src.controlador.ControladorOperacionesProveedores
+src.vista.AnadirRepuestos --> src.controlador.ControladorOperacionesProveedores
+src.vista.AnadirRepuestos --> src.controlador.ControladorOperacionesRepuestos
+src.vista.AsignarOrden --> src.controlador.ControladorAsignarOrden
+src.vista.ClientePanel --> src.vista.EstadoActual
+src.vista.ClientePanel --> src.vista.HistorialServicios
+src.vista.ConsultarEstado --> src.controlador.ControladorConsultarEstado
+src.vista.ConsultarEstado --> src.vista.ActualizarEstado
+src.vista.DarDeBajaVehiculos --> src.controlador.ControladorDarDeBajaVehiculos
+src.vista.EliminarProveedor --> src.controlador.ControladorOperacionesProveedores
+src.vista.EliminarRepuesto --> src.controlador.ControladorOperacionesRepuestos
+src.vista.EstadoActual --> src.controlador.ControladorEstadoActual
+src.vista.Factura --> src.controlador.ControladorFactura
+src.vista.GestionProveedores --> src.controlador.ControladorGestionProveedores
+src.vista.GestionProveedores --> src.vista.AnadirProveedor
+src.vista.GestionProveedores --> src.vista.EliminarProveedor
+src.vista.GestionProveedores --> src.vista.ModificarProveedor
+src.vista.GestionRepuestos --> src.controlador.ControladorGestionRepuestos
+src.vista.GestionRepuestos --> src.vista.AnadirRepuestos
+src.vista.GestionRepuestos --> src.vista.EliminarRepuesto
+src.vista.GestionRepuestos --> src.vista.ModificarRepuesto
+src.vista.GestionarPedidos --> src.controlador.ControladorGestionPedidos
+src.vista.HistorialServicios --> src.controlador.ControladorHistorialServicios
+src.vista.Login --> src.controlador.ControladorLogin
+src.vista.Login --> src.modelo.UserDao.ClienteDAO
+src.vista.Login --> src.modelo.UserDao.MecanicoDAO
+src.vista.Login --> src.modelo.UserDao.RecepcionistaDAO
+src.vista.Login --> src.vista.ClientePanel
+src.vista.Login --> src.vista.MecanicoPanel
+src.vista.Login --> src.vista.RecepcionistaPanel
+src.vista.MecanicoPanel --> src.vista.ConsultarEstado
+src.vista.ModificarProveedor --> src.controlador.ControladorOperacionesProveedores
+src.vista.ModificarRepuesto --> src.controlador.ControladorOperacionesRepuestos
+src.vista.OrdenesServicio --> src.controlador.ControladorRegistrarOrdenServicio
+src.vista.OrdenesServicio --> src.vista.AsignarOrden
+src.vista.PedidoRecibido --> src.controlador.ControladorPedidosRecibidos
+src.vista.Principal --> src.vista.Login
+src.vista.Principal --> src.vista.Registro
+src.vista.RecepcionistaPanel --> src.vista.DarDeBajaVehiculos
+src.vista.RecepcionistaPanel --> src.vista.Factura
+src.vista.RecepcionistaPanel --> src.vista.OrdenesServicio
+src.vista.RecepcionistaPanel --> src.vista.RegistroCliente
+src.vista.RecepcionistaPanel --> src.vista.RegistroVehículo
+src.vista.Registro --> src.controlador.ControladorRegistro
+src.vista.Registro --> src.vista.VentanaCliente
+src.vista.Registro --> src.vista.VentanaMecanico
+src.vista.Registro --> src.vista.VentanaRecepcionista
+src.vista.RegistroCliente --> src.controlador.ControladorRegistroCliente
+src.vista.RegistroVehículo --> src.controlador.ControladorRegistrarVehiculo
+src.vista.VentanaCliente --> src.modelo.UserDao.ClienteDAO
+src.vista.VentanaCliente --> src.modelo.vo.ClienteVO
+src.vista.VentanaCliente --> src.modelo.vo.UserVO
+src.vista.VentanaMecanico --> src.modelo.UserDao.MecanicoDAO
+src.vista.VentanaMecanico --> src.modelo.vo.MecanicoVO
+src.vista.VentanaMecanico --> src.modelo.vo.UserVO
+src.vista.VentanaRecepcionista --> src.modelo.UserDao.RecepcionistaDAO
+src.vista.VentanaRecepcionista --> src.modelo.vo.RecepcionistaVO
+src.vista.VentanaRecepcionista --> src.modelo.vo.UserVO
+@enduml

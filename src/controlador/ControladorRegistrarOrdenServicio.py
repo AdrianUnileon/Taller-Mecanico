@@ -23,7 +23,8 @@ class ControladorRegistrarOrdenServicio:
             IDMecanico=None
         )
 
-        if self.dao_orden.insertar(orden) > 0:
+        id_orden = self.dao_orden.insertar(orden)
+        if id_orden > 0:
             return {"Exito", "Orden registrada correctamente."}
         else:
             return {"Error", "Error al registrar la orden."}

@@ -1,5 +1,5 @@
 import os
-from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem, QMessageBox
+from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem
 from PyQt5 import uic
 from src.controlador.ControladorEstadoActual import ControladorEstadoActual
 
