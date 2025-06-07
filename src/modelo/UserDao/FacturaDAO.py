@@ -60,3 +60,28 @@ class FacturaDAO:
             return []
         finally:
             cursor.close()
+
+    def generar_factura_por_orden(self, id_orden: int, precio_sin_iva_y_beneficio: float, id_recepcionista: int) -> bool:
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute("SELECT MAX(IDFactura) FROM facturas")
+            result = cursor.fetchone()
+            next_id = (result[0] or 0) + 1
+
+            from datetime import datetime
+            fecha_actual = datetime.now().strftime('%Y-%m-%d')
+
+            query = """
+                INSERT INTO facturas (IDFactura, Fecha, Total, IDOrden, IDRecepcionista)
+                VALUES (%s, %s, %s, %s, %s)
+            """
+            cursor.execute(query, (next_id, fecha_actual, precio_sin_iva_y_beneficio, id_orden, id_recepcionista))
+            self.conn.commit()
+            cursor.close()
+            return True
+        except mysql.connector.Error as err:
+            print(f"Error MySQL al generar factura: {err}")
+            self.conn.rollback()
+            if cursor:
+                cursor.close()
+            return False
