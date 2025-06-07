@@ -2,9 +2,15 @@ from src.modelo.UserDao.UserDAOJDBC import UserDaoJDBC
 import bcrypt
 
 class ControladorPrincipal:
-    def __init__(self, admin=False):
+    def __init__(self, admin = None):
         self.user_dao = UserDaoJDBC()
         self.admin = admin
+        self.view = None
+
+    def iniciar(self):
+        from src.vista.Principal import PrincipalWindow  
+        self.view = PrincipalWindow(self)
+        self.view.show()
 
     def login(self, correo, contraseña):
         usuario = self.user_dao.buscar_por_email(correo)

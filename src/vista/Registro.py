@@ -19,6 +19,10 @@ class RegistroWindow(QMainWindow):
         uic.loadUi(ruta_ui, self)
         self.setWindowTitle("Registro de Usuario")
 
+        ruta_css = os.path.join(os.path.dirname(__file__),"qss", "estilos.qss")
+        with open(ruta_css, "r") as f:
+            self.setStyleSheet(f.read())
+
     def setup_events(self):
         self.btnRegistrar.clicked.connect(self.registrar_usuario)
         self.btnCancelar.clicked.connect(self.close)
@@ -34,14 +38,14 @@ class RegistroWindow(QMainWindow):
             "tipo": self.cmbRol.currentText()
         }
 
-        valido, mensaje = self.controlador.validar_campos(datos)
+        valido, = self.controlador.validar_campos(datos)
         if not valido:
-            QMessageBox.warning(self, "Error", mensaje)
+            QMessageBox.warning(self, "Error", "Se ha producido un error al validar los campos.")
             return
 
         exito, resultado = self.controlador.registrar_usuario(datos)
         if not exito:
-            QMessageBox.warning(self, "Error", resultado)
+            QMessageBox.warning(self, "Error", "Se ha producido un error al registrar el usuario")
             return
 
         usuario = resultado

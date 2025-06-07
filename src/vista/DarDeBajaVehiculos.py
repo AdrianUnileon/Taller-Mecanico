@@ -7,15 +7,23 @@ from src.controlador.ControladorDarDeBajaVehiculos import ControladorDarDeBajaVe
 class DarDeBajaVehiculos(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.controlador = ControladorDarDeBajaVehiculos()
+
+        self.setup_ui()
+        self.configurar_tabla()
+        self.cargar_vehiculos()
+        self.setup_events()
+
+    def setup_ui(self):
         ruta_ui = os.path.join(os.path.dirname(__file__), "Ui", "VistaDarDeBajaVehiculos.ui")
         uic.loadUi(ruta_ui, self)
         self.setWindowTitle("Dar de baja vehículos")
 
-        self.controlador = ControladorDarDeBajaVehiculos()
+        ruta_css = os.path.join(os.path.dirname(__file__),"qss", "estilos.qss")
+        with open(ruta_css, "r") as f:
+            self.setStyleSheet(f.read())
 
-        self.configurar_tabla()
-        self.cargar_vehiculos()
-
+    def setup_events(self):
         self.btnDardeBaja.clicked.connect(self.dar_de_baja)
         self.btnVolver.clicked.connect(self.volver)
 

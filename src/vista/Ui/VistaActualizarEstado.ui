@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>2124</width>
+    <height>889</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,16 +17,16 @@
    <widget class="QLabel" name="lblTitulo">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>10</y>
-      <width>301</width>
+      <x>620</x>
+      <y>40</y>
+      <width>371</width>
       <height>121</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>Segoe UI</family>
-      <pointsize>18</pointsize>
+      <pointsize>24</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -38,9 +38,9 @@
    <widget class="QPushButton" name="btnActualizar">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>360</y>
-      <width>161</width>
+      <x>380</x>
+      <y>470</y>
+      <width>341</width>
       <height>61</height>
      </rect>
     </property>
@@ -57,9 +57,9 @@
    <widget class="QPushButton" name="btnVolver">
     <property name="geometry">
      <rect>
-      <x>480</x>
-      <y>360</y>
-      <width>161</width>
+      <x>870</x>
+      <y>470</y>
+      <width>321</width>
       <height>61</height>
      </rect>
     </property>
@@ -76,9 +76,9 @@
    <widget class="QComboBox" name="combo_estado">
     <property name="geometry">
      <rect>
-      <x>310</x>
-      <y>150</y>
-      <width>161</width>
+      <x>620</x>
+      <y>220</y>
+      <width>321</width>
       <height>61</height>
      </rect>
     </property>
@@ -92,9 +92,9 @@
    <widget class="QLineEdit" name="CosteReparacion">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>260</y>
-      <width>351</width>
+      <x>550</x>
+      <y>340</y>
+      <width>451</width>
       <height>51</height>
      </rect>
     </property>
@@ -108,13 +108,23 @@
      <string>Introduce el coste de la reparación</string>
     </property>
    </widget>
+   <widget class="QWidget" name="imagen" native="true">
+    <property name="geometry">
+     <rect>
+      <x>1500</x>
+      <y>70</y>
+      <width>411</width>
+      <height>651</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>2124</width>
      <height>26</height>
     </rect>
    </property>

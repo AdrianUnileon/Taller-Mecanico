@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>974</width>
-    <height>600</height>
+    <width>2120</width>
+    <height>807</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,16 +17,16 @@
    <widget class="QLabel" name="lblTitulo">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>0</y>
-      <width>301</width>
+      <x>570</x>
+      <y>20</y>
+      <width>481</width>
       <height>161</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>Segoe UI</family>
-      <pointsize>18</pointsize>
+      <pointsize>24</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -38,10 +38,10 @@
    <widget class="QPushButton" name="btnVolver">
     <property name="geometry">
      <rect>
-      <x>510</x>
-      <y>410</y>
-      <width>151</width>
-      <height>51</height>
+      <x>790</x>
+      <y>480</y>
+      <width>381</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
@@ -57,10 +57,10 @@
    <widget class="QPushButton" name="btnActualizarEstado">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>410</y>
-      <width>161</width>
-      <height>51</height>
+      <x>280</x>
+      <y>480</y>
+      <width>371</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
@@ -76,21 +76,30 @@
    <widget class="QTableWidget" name="tableWidget">
     <property name="geometry">
      <rect>
-      <x>80</x>
-      <y>140</y>
-      <width>781</width>
+      <x>410</x>
+      <y>200</y>
+      <width>641</width>
       <height>192</height>
      </rect>
     </property>
     <property name="columnCount">
-     <number>6</number>
+     <number>5</number>
     </property>
     <column/>
     <column/>
     <column/>
     <column/>
     <column/>
-    <column/>
+   </widget>
+   <widget class="QWidget" name="imagen" native="true">
+    <property name="geometry">
+     <rect>
+      <x>1480</x>
+      <y>50</y>
+      <width>411</width>
+      <height>651</height>
+     </rect>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -98,7 +107,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>974</width>
+     <width>2120</width>
      <height>26</height>
     </rect>
    </property>

@@ -16,15 +16,15 @@ class RegistrarCliente(QMainWindow):
         uic.loadUi(ruta_ui, self)
         self.setWindowTitle("Registro del Cliente")
 
-        if self.usuario:
-            self.lblTitulo.setText(f"Bienvenido/a {self.usuario.Nombre}")
+        ruta_css = os.path.join(os.path.dirname(__file__),"qss", "estilos.qss")
+        with open(ruta_css, "r") as f:
+            self.setStyleSheet(f.read())
 
     def setup_events(self):
         self.btnRegistrar.clicked.connect(self.registrar_cliente)
         self.btnVolver.clicked.connect(self.volver)
 
     def registrar_cliente(self):
-        # Obtener datos del formulario
         nombre = self.Nombre.text().strip()
         apellido1 = self.Apellido1.text().strip()
         apellido2 = self.Apellido2.text().strip()
@@ -33,12 +33,10 @@ class RegistrarCliente(QMainWindow):
         correo = self.Correo.text().strip()
         direccion = self.Direccion.text().strip()
 
-        # Llamar al controlador
         exito = self.controlador.registrar_cliente(
             nombre, apellido1, apellido2, dni, correo, direccion, contacto
         )
 
-        # Mostrar mensaje
         if exito:
             QMessageBox.information(self, "Éxito", "Cliente registrado correctamente.")
         else:

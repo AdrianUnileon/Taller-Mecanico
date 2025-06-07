@@ -19,7 +19,10 @@ class RecepcionistaPanel(QMainWindow):
         uic.loadUi(ruta_ui, self)
         self.setWindowTitle("Panel del Recepcionista")
 
-        
+        ruta_css = os.path.join(os.path.dirname(__file__),"qss", "estilos.qss")
+        with open(ruta_css, "r") as f:
+            self.setStyleSheet(f.read())
+
     def setup_events(self):
         self.btnRegistrarCliente.clicked.connect(self.registrar_cliente)
         self.btnCrearOrdenServicio.clicked.connect(self.crear_orden_servicio)
@@ -29,17 +32,17 @@ class RecepcionistaPanel(QMainWindow):
         self.btnCerrarSesion.clicked.connect(self.cerrar_sesion)
 
     def registrar_cliente(self):
-        self.ordenes_window = RegistrarCliente(parent=self, usuario = self.usuario)
+        self.ordenes_window = RegistrarCliente(parent=self, usuario = self.id_recepcionista)
         self.ordenes_window.show()
         self.hide()
     
     def crear_orden_servicio(self):
-        self.ordenes_window = RegistrarOrdenServicio(parent=self, usuario=self.usuario)
+        self.ordenes_window = RegistrarOrdenServicio(parent=self, usuario=self.id_recepcionista)
         self.ordenes_window.show()
         self.hide()
     
     def registrar_vehiculo(self):
-        self.ordenes_window = RegistrarVehiculo(parent=self, usuario = self.usuario)
+        self.ordenes_window = RegistrarVehiculo(parent=self, usuario = self.id_recepcionista)
         self.ordenes_window.show()
         self.hide()
     

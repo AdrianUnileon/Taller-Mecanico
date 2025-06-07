@@ -18,8 +18,9 @@ class RegistrarOrdenServicio(QMainWindow):
         uic.loadUi(ruta_ui, self)
         self.setWindowTitle("Registrar Orden de Servicio")
 
-        if self.usuario:
-            self.lblTitulo.setText(f"Bienvenido/a {self.usuario.Nombre}")
+        ruta_css = os.path.join(os.path.dirname(__file__),"qss", "estilos.qss")
+        with open(ruta_css, "r") as f:
+            self.setStyleSheet(f.read())
 
     def setup_events(self):
         self.btnRegistrar.clicked.connect(self.registrar_orden_servicio)

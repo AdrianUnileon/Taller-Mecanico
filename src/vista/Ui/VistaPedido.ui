@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1072</width>
+    <width>2121</width>
     <height>787</height>
    </rect>
   </property>
@@ -17,16 +17,16 @@
    <widget class="QLabel" name="lblTitulo">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>0</y>
-      <width>241</width>
+      <x>640</x>
+      <y>30</y>
+      <width>351</width>
       <height>141</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>Segoe UI</family>
-      <pointsize>18</pointsize>
+      <pointsize>24</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -38,20 +38,20 @@
    <widget class="QComboBox" name="combo_proveedores">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>150</y>
-      <width>181</width>
-      <height>61</height>
+      <x>340</x>
+      <y>200</y>
+      <width>331</width>
+      <height>71</height>
      </rect>
     </property>
    </widget>
    <widget class="QLineEdit" name="Nombre">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>270</y>
-      <width>291</width>
-      <height>51</height>
+      <x>340</x>
+      <y>300</y>
+      <width>391</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
@@ -67,9 +67,9 @@
    <widget class="QLineEdit" name="Cantidad">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>340</y>
-      <width>291</width>
+      <x>340</x>
+      <y>380</y>
+      <width>391</width>
       <height>51</height>
      </rect>
     </property>
@@ -86,10 +86,10 @@
    <widget class="QPushButton" name="btnRealizarPedido">
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>590</y>
-      <width>171</width>
-      <height>61</height>
+      <x>340</x>
+      <y>650</y>
+      <width>331</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="font">
@@ -105,10 +105,10 @@
    <widget class="QPushButton" name="btnVolver">
     <property name="geometry">
      <rect>
-      <x>430</x>
-      <y>590</y>
-      <width>171</width>
-      <height>61</height>
+      <x>900</x>
+      <y>650</y>
+      <width>341</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="font">
@@ -124,10 +124,10 @@
    <widget class="QPushButton" name="btnAnadirAlPedido">
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>480</y>
-      <width>171</width>
-      <height>61</height>
+      <x>340</x>
+      <y>540</y>
+      <width>321</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="font">
@@ -143,8 +143,8 @@
    <widget class="QTableWidget" name="tablaRepuestosPedidos">
     <property name="geometry">
      <rect>
-      <x>660</x>
-      <y>230</y>
+      <x>920</x>
+      <y>200</y>
       <width>391</width>
       <height>192</height>
      </rect>
@@ -159,10 +159,10 @@
    <widget class="QPushButton" name="btnEliminarDelPedido">
     <property name="geometry">
      <rect>
-      <x>430</x>
-      <y>480</y>
-      <width>171</width>
-      <height>61</height>
+      <x>900</x>
+      <y>540</y>
+      <width>341</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="font">
@@ -178,10 +178,10 @@
    <widget class="QLineEdit" name="PrecioUnitario">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>410</y>
-      <width>291</width>
-      <height>51</height>
+      <x>340</x>
+      <y>460</y>
+      <width>391</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
@@ -194,13 +194,23 @@
      <string>Introduce el precio por unidad</string>
     </property>
    </widget>
+   <widget class="QWidget" name="imagen" native="true">
+    <property name="geometry">
+     <rect>
+      <x>1490</x>
+      <y>50</y>
+      <width>411</width>
+      <height>651</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1072</width>
+     <width>2121</width>
      <height>26</height>
     </rect>
    </property>

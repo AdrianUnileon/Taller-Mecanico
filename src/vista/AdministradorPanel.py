@@ -7,8 +7,9 @@ from src.vista.GestionarPedidos import GestionPedidos
 from src.vista.PedidoRecibido import ActualizarEstadoPedido
 
 class AdministradorPanel(QMainWindow):
-    def __init__(self, parent=None):
+    def __init__(self, controlador, parent=None):
         super().__init__(parent)
+        self.controlador = controlador
         self.setup_ui()
         self.setup_events()
     
@@ -16,6 +17,10 @@ class AdministradorPanel(QMainWindow):
         ruta_ui = os.path.join(os.path.dirname(__file__), "Ui", "VistaAdministrador.ui")
         uic.loadUi(ruta_ui, self)
         self.setWindowTitle("Panel del Administrador")
+
+        ruta_css = os.path.join(os.path.dirname(__file__),"qss", "estilos.qss")
+        with open(ruta_css, "r") as f:
+            self.setStyleSheet(f.read())
         
     def setup_events(self):
         self.btnGestionarProveedores.clicked.connect(self.gestionar_proveedores)

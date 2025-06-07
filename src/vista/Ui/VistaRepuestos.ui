@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>2120</width>
+    <height>864</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <widget class="QLabel" name="lblTitulo">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>-10</y>
+      <x>620</x>
+      <y>30</y>
       <width>211</width>
       <height>101</height>
      </rect>
@@ -26,7 +26,7 @@
     <property name="font">
      <font>
       <family>Segoe UI</family>
-      <pointsize>18</pointsize>
+      <pointsize>24</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -38,10 +38,10 @@
    <widget class="QPushButton" name="btnAnadirRepuestos">
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>360</y>
-      <width>151</width>
-      <height>51</height>
+      <x>170</x>
+      <y>430</y>
+      <width>331</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
@@ -57,10 +57,10 @@
    <widget class="QPushButton" name="btnModificarRepuestos">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>360</y>
-      <width>151</width>
-      <height>51</height>
+      <x>550</x>
+      <y>430</y>
+      <width>341</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
@@ -76,10 +76,10 @@
    <widget class="QPushButton" name="btnEliminarRepuestos">
     <property name="geometry">
      <rect>
-      <x>550</x>
-      <y>360</y>
-      <width>151</width>
-      <height>51</height>
+      <x>930</x>
+      <y>430</y>
+      <width>341</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
@@ -95,10 +95,10 @@
    <widget class="QPushButton" name="btnVolver">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>460</y>
-      <width>151</width>
-      <height>51</height>
+      <x>550</x>
+      <y>550</y>
+      <width>341</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
@@ -114,8 +114,8 @@
    <widget class="QTableWidget" name="tablaRepuestos">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>120</y>
+      <x>470</x>
+      <y>170</y>
       <width>511</width>
       <height>192</height>
      </rect>
@@ -128,13 +128,23 @@
     <column/>
     <column/>
    </widget>
+   <widget class="QWidget" name="imagen" native="true">
+    <property name="geometry">
+     <rect>
+      <x>1490</x>
+      <y>50</y>
+      <width>411</width>
+      <height>651</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>2120</width>
      <height>26</height>
     </rect>
    </property>

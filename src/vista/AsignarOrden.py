@@ -19,6 +19,10 @@ class AsignarOrden(QMainWindow):
         self.cargar_ordenes_pendientes()
         self.cargar_mecanicos()
 
+        ruta_css = os.path.join(os.path.dirname(__file__),"qss", "estilos.qss")
+        with open(ruta_css, "r") as f:
+            self.setStyleSheet(f.read())
+
     def setup_events(self):
         self.btnAsignar.clicked.connect(self.asignar)
         self.btnVolver.clicked.connect(self.volver)

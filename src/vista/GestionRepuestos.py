@@ -20,6 +20,10 @@ class GestionRepuestos(QMainWindow):
         uic.loadUi(ruta_ui, self)
         self.setWindowTitle("Panel de Repuestos")
 
+        ruta_css = os.path.join(os.path.dirname(__file__),"qss", "estilos.qss")
+        with open(ruta_css, "r") as f:
+            self.setStyleSheet(f.read())
+
     def setup_events(self):
         self.btnAnadirRepuestos.clicked.connect(self.AnadirRepuestos)
         self.btnModificarRepuestos.clicked.connect(self.ModificarRepuestos)
@@ -40,6 +44,7 @@ class GestionRepuestos(QMainWindow):
             self.tablaRepuestos.setItem(fila, 1, QTableWidgetItem(str(repuesto.Cantidad)))
             self.tablaRepuestos.setItem(fila, 2, QTableWidgetItem(repuesto.Ubicacion))
             self.tablaRepuestos.setItem(fila, 3, QTableWidgetItem(f"{repuesto.PrecioUnitario:.2f} €"))
+        
         
 
     def AnadirRepuestos(self):

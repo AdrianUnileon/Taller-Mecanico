@@ -19,6 +19,10 @@ class AnadirRepuesto(QMainWindow):
         uic.loadUi(ruta_ui, self)
         self.setWindowTitle("Añadir Repuesto")
 
+        ruta_css = os.path.join(os.path.dirname(__file__),"qss", "estilos.qss")
+        with open(ruta_css, "r") as f:
+            self.setStyleSheet(f.read())
+
     def setup_events(self):
         self.btnConfirmar.clicked.connect(self.anadir_repuesto)
         self.btnVolver.clicked.connect(self.volver)

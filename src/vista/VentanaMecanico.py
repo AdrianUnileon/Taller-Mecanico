@@ -18,6 +18,10 @@ class VentanaMecanico(QMainWindow):
         uic.loadUi(ruta_ui, self)
         self.setWindowTitle("Registro Mecanico")
 
+        ruta_css = os.path.join(os.path.dirname(__file__),"qss", "estilos.qss")
+        with open(ruta_css, "r") as f:
+            self.setStyleSheet(f.read())
+
     def setup_events(self):
         self.btnRegistrar.clicked.connect(self.registrar_cliente)
         self.btnVolver.clicked.connect(self.volver)

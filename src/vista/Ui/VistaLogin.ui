@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1487</width>
+    <height>842</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,8 +23,8 @@
      <rect>
       <x>290</x>
       <y>180</y>
-      <width>201</width>
-      <height>51</height>
+      <width>661</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="minimumSize">
@@ -41,9 +41,9 @@
     <property name="geometry">
      <rect>
       <x>290</x>
-      <y>320</y>
-      <width>271</width>
-      <height>61</height>
+      <y>400</y>
+      <width>661</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="font">
@@ -56,19 +56,19 @@
      <string>Iniciar sesion</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="lblTitulo">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>50</y>
-      <width>211</width>
-      <height>91</height>
+      <x>460</x>
+      <y>30</y>
+      <width>371</width>
+      <height>101</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>Segoe UI</family>
-      <pointsize>18</pointsize>
+      <pointsize>24</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
@@ -85,8 +85,8 @@
      <rect>
       <x>290</x>
       <y>250</y>
-      <width>241</width>
-      <height>51</height>
+      <width>661</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="echoMode">
@@ -100,8 +100,8 @@
     <property name="geometry">
      <rect>
       <x>290</x>
-      <y>410</y>
-      <width>271</width>
+      <y>530</y>
+      <width>661</width>
       <height>61</height>
      </rect>
     </property>
@@ -115,13 +115,23 @@
      <string>Volver</string>
     </property>
    </widget>
+   <widget class="QWidget" name="imagen" native="true">
+    <property name="geometry">
+     <rect>
+      <x>1070</x>
+      <y>90</y>
+      <width>411</width>
+      <height>651</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1487</width>
      <height>26</height>
     </rect>
    </property>

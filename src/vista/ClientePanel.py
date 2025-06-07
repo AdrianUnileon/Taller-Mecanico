@@ -16,6 +16,10 @@ class ClientePanel(QMainWindow):
         uic.loadUi(ruta_ui, self)
         self.setWindowTitle("Panel del Cliente")
 
+        ruta_css = os.path.join(os.path.dirname(__file__),"qss", "estilos.qss")
+        with open(ruta_css, "r") as f:
+            self.setStyleSheet(f.read())
+
 
     def setup_events(self):
         self.btnEstadoVehiculo.clicked.connect(self.consultar_estado_vehiculo)

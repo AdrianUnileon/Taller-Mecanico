@@ -18,6 +18,10 @@ class VentanaConsultarEstado(QMainWindow):
         uic.loadUi(ruta_ui, self)
         self.setWindowTitle("Órdenes Asignadas")
 
+        ruta_css = os.path.join(os.path.dirname(__file__),"qss", "estilos.qss")
+        with open(ruta_css, "r") as f:
+            self.setStyleSheet(f.read())
+
     def setup_events(self):
         self.btnVolver.clicked.connect(self.volver)
         self.btnActualizarEstado.clicked.connect(self.actualizar_estado)

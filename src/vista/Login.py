@@ -19,6 +19,10 @@ class LoginWindow(QMainWindow):
         uic.loadUi(ruta_ui, self)
         self.setWindowTitle("Inicio de Sesión")
 
+        ruta_css = os.path.join(os.path.dirname(__file__),"qss", "estilos.qss")
+        with open(ruta_css, "r") as f:
+            self.setStyleSheet(f.read())
+
     def setup_events(self):
         self.btnLogin.clicked.connect(self.iniciar_sesion)
         self.btnVolver.clicked.connect(self.volver)

@@ -3,12 +3,11 @@ from PyQt5.QtWidgets import QMainWindow
 from PyQt5 import uic
 from src.vista.Registro import RegistroWindow
 from src.vista.Login import LoginWindow
-from src.controlador.ControladorPrincipal import ControladorPrincipal
 
 class PrincipalWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.controller = ControladorPrincipal()
+    def __init__(self, controlador, parent = None):
+        super().__init__(parent)
+        self.controlador = controlador
         self.setup_ui()
         self.setup_events()
 
@@ -16,6 +15,10 @@ class PrincipalWindow(QMainWindow):
         ruta_ui = os.path.join(os.path.dirname(__file__), "Ui", "VistaPrincipal.ui")
         uic.loadUi(ruta_ui, self)
         self.setWindowTitle("Panel Principal")
+
+        ruta_css = os.path.join(os.path.dirname(__file__),"qss", "estilos.qss")
+        with open(ruta_css, "r") as f:
+            self.setStyleSheet(f.read())
 
     def setup_events(self):
         self.btnLogin.clicked.connect(self.abrir_login)

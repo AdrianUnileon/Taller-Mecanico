@@ -20,6 +20,10 @@ class GestionPedidos(QMainWindow):
         uic.loadUi(ruta_ui, self)
         self.setWindowTitle("Panel de Pedidos")
 
+        ruta_css = os.path.join(os.path.dirname(__file__),"qss", "estilos.qss")
+        with open(ruta_css, "r") as f:
+            self.setStyleSheet(f.read())
+
     def setup_events(self):
         self.btnAnadirAlPedido.clicked.connect(self.anadir_al_pedido)
         self.btnRealizarPedido.clicked.connect(self.realizar_pedido)
@@ -93,3 +97,4 @@ class GestionPedidos(QMainWindow):
         if self.parent:
             self.parent.show()
         self.close()
+

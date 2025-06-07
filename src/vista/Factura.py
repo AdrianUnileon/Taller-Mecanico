@@ -19,6 +19,10 @@ class Facturas(QMainWindow):
         uic.loadUi(ruta_ui, self)
         self.setWindowTitle("Facturación")
 
+        ruta_css = os.path.join(os.path.dirname(__file__),"qss", "estilos.qss")
+        with open(ruta_css, "r") as f:
+            self.setStyleSheet(f.read())
+
     def setup_events(self):
         self.btnGenerarfactura.clicked.connect(self.generar_factura)
         self.btnVolver.clicked.connect(self.volver)

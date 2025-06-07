@@ -58,6 +58,7 @@ class RepuestoDAO:
 
     def eliminar(self, id_repuesto: int):
         cursor = self.conn.cursor()
+        cursor.execute("DELETE FROM detallepedidos WHERE IDRepuesto = %s", (id_repuesto,))
         cursor.execute("DELETE FROM Repuestos WHERE IDRepuesto = %s", (id_repuesto,))
         self.conn.commit()
         cursor.close()

@@ -17,6 +17,10 @@ class EliminarProveedor(QMainWindow):
         uic.loadUi(ruta_ui, self)
         self.setWindowTitle("Eliminar Proveedores")
 
+        ruta_css = os.path.join(os.path.dirname(__file__),"qss", "estilos.qss")
+        with open(ruta_css, "r") as f:
+            self.setStyleSheet(f.read())
+
     def setup_events(self):
         self.btnEliminar.clicked.connect(self.eliminar_proveedor)
         self.btnVolver.clicked.connect(self.volver)

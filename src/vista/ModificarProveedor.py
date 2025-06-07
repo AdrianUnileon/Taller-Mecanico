@@ -17,6 +17,10 @@ class ModificarProveedor(QMainWindow):
         uic.loadUi(ruta_ui, self)
         self.setWindowTitle("Modificar Proveedor")
 
+        ruta_css = os.path.join(os.path.dirname(__file__),"qss", "estilos.qss")
+        with open(ruta_css, "r") as f:
+            self.setStyleSheet(f.read())
+
     def setup_events(self):
         self.tablaProveedores.itemSelectionChanged.connect(self.cargar_datos_en_campos)
         self.btnConfirmar.clicked.connect(self.modificar_proveedor)
