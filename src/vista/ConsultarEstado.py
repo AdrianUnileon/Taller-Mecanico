@@ -53,6 +53,7 @@ class VentanaConsultarEstado(QMainWindow):
 
         self.actualizar_estado_window = VentanaActualizarEstado(id_orden=id_orden, parent=self)
         self.actualizar_estado_window.show()
+        self.cargar_ordenes()
         self.hide()
 
     def volver(self):
