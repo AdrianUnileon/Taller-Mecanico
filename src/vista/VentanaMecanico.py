@@ -49,6 +49,12 @@ class VentanaMecanico(QMainWindow):
         except Exception as e:
             QMessageBox.critical(self, "Error", str(e))
 
+        self.limpiar()
+
+    def limpiar(self):
+        self.Especialidad.clear()
+        self.FechaContratacion.clear()
+
     def volver(self):
         if self.parent:
             self.parent.show()

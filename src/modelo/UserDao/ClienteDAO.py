@@ -19,7 +19,7 @@ class ClienteDao:
         except Exception as e:
             print("Error general al obtener el siguiente ID de cliente:", e)
             return 1
-
+        
     def insertar(self, cliente: ClienteVO) -> int:
         cursor = None
         try:

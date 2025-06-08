@@ -4,8 +4,8 @@ import mysql.connector
 
 class MecanicoDAO:
     def __init__(self):
-        self.conexion_singleton = Conexion()  
-        self.conn = self.conexion_singleton.createConnection()
+          
+        self.conn = Conexion().createConnection()
 
     def _obtener_siguiente_id_mecanico(self) -> int:
         try:

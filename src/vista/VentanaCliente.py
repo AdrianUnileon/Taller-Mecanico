@@ -46,6 +46,12 @@ class VentanaCliente(QMainWindow):
                 self.close()
         except Exception as e:
             QMessageBox.critical(self, "Error", str(e))
+        
+        self.limpiar()
+
+    def limpiar(self):
+        self.Direccion.clear()
+        self.Contacto.clear()
 
     def volver(self):
         if self.parent:

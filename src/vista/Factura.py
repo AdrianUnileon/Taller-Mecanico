@@ -56,9 +56,10 @@ class Facturas(QMainWindow):
             QMessageBox.critical(self, "Error", "No se pudo encontrar la orden seleccionada.")
             return
 
-        precio_sin_iva_y_beneficio = float(orden_seleccionada["CostoManoObra"])
+        costo_mano_obra = Decimal(orden_seleccionada["CostoManoObra"])
+        total_factura = round(costo_mano_obra * Decimal("1.36"), 2) 
 
-        exito = self.controlador.generar_factura(id_orden, precio_sin_iva_y_beneficio, self.id_recepcionista)
+        exito = self.controlador.generar_factura(id_orden, float(total_factura), self.id_recepcionista)
 
         if exito:
             QMessageBox.information(self, "Factura creada", "La factura fue generada correctamente.")

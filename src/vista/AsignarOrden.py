@@ -52,6 +52,7 @@ class AsignarOrden(QMainWindow):
         if resultado:
             QMessageBox.information(self, "Éxito", "Orden asignada correctamente.")
             self.cargar_ordenes_pendientes()
+            self.cargar_mecanicos()
         else:
             QMessageBox.critical(self, "Error", "No se pudo asignar la orden.")
 

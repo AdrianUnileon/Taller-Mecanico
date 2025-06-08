@@ -8,9 +8,5 @@ class ControladorEstadoActual:
         """
         Retorna una lista de órdenes de servicio actuales (estado 'Asignada')
         del cliente con el ID proporcionado.
-        """
-        try:
-            return self.dao.obtener_ordenesActuales_por_cliente(id_cliente)
-        except Exception as e:
-            print(f"Error en ControladorEstadoActual.obtener_ordenes_actuales: {e}")
-            return []
+        """    
+        return self.dao.obtener_ordenesActuales_por_cliente(id_cliente)

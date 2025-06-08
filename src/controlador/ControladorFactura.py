@@ -9,3 +9,4 @@ class ControladorFacturas:
 
     def generar_factura(self, id_orden, precio_sin_iva_y_beneficio, id_recepcionista):
         return self.factura_dao.generar_factura_por_orden(id_orden, precio_sin_iva_y_beneficio, id_recepcionista)
+

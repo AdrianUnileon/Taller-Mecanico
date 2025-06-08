@@ -1,4 +1,5 @@
 import os
+import re
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
 from PyQt5 import uic
 from src.controlador.ControladorRegistro import ControladorRegistro
@@ -7,7 +8,7 @@ from src.vista.VentanaMecanico import VentanaMecanico
 from src.vista.VentanaRecepcionista import VentanaRecepcionista
 
 class RegistroWindow(QMainWindow):
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super().__init__(parent)
         self.parent = parent
         self.controlador = ControladorRegistro()
@@ -19,13 +20,26 @@ class RegistroWindow(QMainWindow):
         uic.loadUi(ruta_ui, self)
         self.setWindowTitle("Registro de Usuario")
 
-        ruta_css = os.path.join(os.path.dirname(__file__),"qss", "estilos.qss")
+        ruta_css = os.path.join(os.path.dirname(__file__), "qss", "estilos.qss")
         with open(ruta_css, "r") as f:
             self.setStyleSheet(f.read())
 
     def setup_events(self):
         self.btnRegistrar.clicked.connect(self.registrar_usuario)
         self.btnCancelar.clicked.connect(self.close)
+
+    def validar_campos(self, datos):
+        if not re.match(r'^\d{8}[A-Za-z]$', datos['dni']):
+            return False, "DNI inválido. Debe tener 8 dígitos seguidos de una letra."
+        if not re.match(r'^[\w\.-]+@[\w\.-]+\.\w+$', datos['correo']):
+            return False, "Correo electrónico inválido."
+        if len(datos['password']) < 6:
+            return False, "La contraseña debe tener al menos 6 caracteres."
+        if not re.search(r'[A-Za-z]', datos['password']):
+            return False, "La contraseña debe contener letras."
+        if datos['password'] != datos['confirm_password']:
+            return False, "Las contraseñas no coinciden."
+        return True, ""
 
     def registrar_usuario(self):
         datos = {
@@ -38,10 +52,14 @@ class RegistroWindow(QMainWindow):
             "tipo": self.cmbRol.currentText()
         }
 
+        valido, mensaje = self.validar_campos(datos)
+        if not valido:
+            QMessageBox.warning(self, "Validación", mensaje)
+            return
 
         exito, resultado = self.controlador.registrar_usuario(datos)
         if not exito:
-            QMessageBox.warning(self, "Error", "Se ha producido un error al registrar el usuario")
+            QMessageBox.warning(self, "Error", resultado)
             return
 
         usuario = resultado
@@ -60,7 +78,7 @@ class RegistroWindow(QMainWindow):
         self.ventana.show()
         self.limpiar_campos()
         self.hide()
-    
+
     def limpiar_campos(self):
         self.txtDNI.clear()
         self.txtNombre.clear()
@@ -70,7 +88,6 @@ class RegistroWindow(QMainWindow):
         self.txtPassword.clear()
         self.txtConfirmPassword.clear()
         self.cmbRol.clear()
-
 
     def closeEvent(self, event):
         if self.parent:

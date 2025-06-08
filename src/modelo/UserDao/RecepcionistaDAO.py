@@ -3,8 +3,7 @@ import mysql.connector
 from src.modelo.vo.RecepcionistaVO import RecepcionistaVO
 class RecepcionistaDAO:
     def __init__(self):
-        self.conexion = Conexion()
-        self.conn = self.conexion.createConnection()
+        self.conn = Conexion().createConnection()
 
     def _obtener_siguiente_id_recepcionista(self) -> int:
         try:

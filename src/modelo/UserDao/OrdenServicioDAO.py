@@ -4,8 +4,8 @@ import mysql.connector
 
 class OrdenServicioDAO:
     def __init__(self):
-        self.conexion_singleton = Conexion()  
-        self.conn = self.conexion_singleton.createConnection()
+
+        self.conn = Conexion().createConnection()
 
     def insertar(self, orden: OrdenServicioVO) -> int:
         cursor = None

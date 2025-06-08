@@ -7,18 +7,10 @@ from datetime import datetime
 
 class RegistrarOrdenServicio(QMainWindow):
     def __init__(self, parent=None, usuario=None):
-        print(f"[DEBUG] Entrando en __init__ de RegistrarOrdenServicio")
-        print(f"[DEBUG] parent: {parent}, usuario: {usuario}")
-
-        super().__init__(parent)  # o super().__init__() si no usas herencia con parent
-
-        self.usuario = usuario
-
-        print("[DEBUG] Llamando a setup_ui()")
-        self.setup_ui()  # <-- Asegúrate de NO pasarle argumentos aquí
-        print("[DEBUG] setup_ui() llamado correctamente")
-        
+        super().__init__(parent)  
+        self.usuario = usuario        
         self.controller = ControladorRegistrarOrdenServicio(usuario)
+        self.setup_ui()
         self.setup_events()
         self.cargar_vehiculos()
 
@@ -55,6 +47,12 @@ class RegistrarOrdenServicio(QMainWindow):
             QMessageBox.information(self, "Éxito", "Orden registrada con exito")
         else:
             QMessageBox.warning(self, "Error", "Se ha producido un error al registrar la orden")
+
+        self.limpiar()
+
+    def limpiar(self):
+        self.Descripcion.clear()
+        self.Observaciones.clear()
         
     def asignar_orden(self):
         self.ordenes_window = AsignarOrden(parent=self, usuario=self.usuario)

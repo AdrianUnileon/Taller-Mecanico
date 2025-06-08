@@ -48,6 +48,14 @@ class RegistrarVehiculo(QMainWindow):
         else:
             QMessageBox.warning(self, "Error", "Se ha producido un fallo al registrar el vehículo.")
 
+        self.limpiar()
+    
+    def limpiar(self):
+        self.Matricula.clear()
+        self.Marca.clear()
+        self.Modelo.clear()
+        self.Anio.clear()
+
     def volver(self):
         if self.parent():
             self.parent().show()

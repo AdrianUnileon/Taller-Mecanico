@@ -4,8 +4,7 @@ import mysql.connector
 
 class RepuestoDAO:
     def __init__(self):
-        self.conexion_singleton = Conexion()  
-        self.conn = self.conexion_singleton.createConnection()
+        self.conn = Conexion().createConnection()
 
     def insertar(self, repuesto: RepuestoVO) -> int:
         cursor = None

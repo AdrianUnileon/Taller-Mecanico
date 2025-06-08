@@ -13,7 +13,6 @@ class ControladorAcceso:
             controlador = ControladorAdministrador()
         else:
             controlador = ControladorPrincipal()
-
         controlador.iniciar()
 
     def _verificar_acceso_administrador(self) -> bool:

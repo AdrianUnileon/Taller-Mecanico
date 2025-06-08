@@ -5,9 +5,8 @@ from datetime import datetime
 
 class PedidoDAO:
     def __init__(self):
-        self.conexion_singleton = Conexion()
-        self.conn = self.conexion_singleton.createConnection()
-
+        self.conn = Conexion().createConnection()
+        
     def obtener_id_proveedor(self, nombre_proveedor: str):
         cursor = None
         try:

@@ -25,7 +25,7 @@ class RegistrarNuevoCliente(QMainWindow):
         self.btnVolver.clicked.connect(self.volver)
 
     def registrar_cliente(self):
-        nombre = self.Nombre.text.text().strip()
+        nombre = self.Nombre.text().strip()
         apellido1 = self.Apellido1.text().strip()
         apellido2 = self.Apellido2.text().strip()
         dni = self.DNI.text().strip()

@@ -4,8 +4,7 @@ import mysql.connector
 
 class ProveedorDAO:
     def __init__(self):
-        self.conexion_singleton = Conexion()
-        self.conn = self.conexion_singleton.createConnection()
+        self.conn = Conexion().createConnection()
 
     def insertar(self, proveedor: ProveedorVO) -> int:
         cursor = None
