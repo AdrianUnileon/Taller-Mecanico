@@ -11,10 +11,10 @@ class ControladorRegistroCliente:
     def registrar_cliente(self, nombre, apellido1, apellido2, dni, correo, direccion, contacto) -> dict:
 
         if not all([nombre, apellido1, apellido2, dni, correo, direccion, contacto]):
-            return {"Error", "Por favor, completa todos los campos."}
+            return {"Error": "Por favor, completa todos los campos."}
 
         if self.dao_usuario.buscar_por_email(correo):
-            return {"Error", "Ya existe un usuario con este correo."}
+            return {"Error": "Ya existe un usuario con este correo."}
 
         contraseña_temporal = "1234"
 
@@ -29,7 +29,7 @@ class ControladorRegistroCliente:
 
         id_usuario = self.dao_usuario.insert(usuario)
         if not id_usuario or id_usuario == 0:
-            return {"Error", "No se pudo registrar el usuario."}
+            return {"Error": "No se pudo registrar el usuario."}
 
         cliente = ClienteVO(
             IDUsuario=id_usuario,
@@ -39,6 +39,6 @@ class ControladorRegistroCliente:
 
         id_cliente = self.dao_cliente.insertar(cliente)
         if id_cliente > 0:
-            return {"Exito", "Cliente registrado correctamente."}
+            return {"Exito": "Cliente registrado correctamente."}
         else:
-            return {"Error", "No se pudo registrar el cliente."}
+            return {"Error": "No se pudo registrar el cliente."}

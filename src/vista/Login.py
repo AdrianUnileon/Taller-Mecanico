@@ -58,7 +58,12 @@ class LoginWindow(QMainWindow):
             return
 
         self.panel_usuario.show()
+        self.limpiar_campos()
         self.hide()
+
+    def limpiar_campos(self):
+        self.txtEmail.clear()
+        self.txtPassword.clear()
 
     def volver(self):
         self.close()

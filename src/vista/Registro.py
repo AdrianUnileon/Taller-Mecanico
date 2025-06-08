@@ -38,10 +38,6 @@ class RegistroWindow(QMainWindow):
             "tipo": self.cmbRol.currentText()
         }
 
-        valido, = self.controlador.validar_campos(datos)
-        if not valido:
-            QMessageBox.warning(self, "Error", "Se ha producido un error al validar los campos.")
-            return
 
         exito, resultado = self.controlador.registrar_usuario(datos)
         if not exito:
@@ -62,7 +58,19 @@ class RegistroWindow(QMainWindow):
             return
 
         self.ventana.show()
+        self.limpiar_campos()
         self.hide()
+    
+    def limpiar_campos(self):
+        self.txtDNI.clear()
+        self.txtNombre.clear()
+        self.txtApellido1.clear()
+        self.txtApellido2.clear()
+        self.txtEmail.clear()
+        self.txtPassword.clear()
+        self.txtConfirmPassword.clear()
+        self.cmbRol.clear()
+
 
     def closeEvent(self, event):
         if self.parent:

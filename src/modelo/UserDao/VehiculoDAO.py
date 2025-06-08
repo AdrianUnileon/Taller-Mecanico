@@ -95,11 +95,42 @@ class VehiculoDAO:
         finally:
             if cursor: cursor.close()
 
+    def obtener_vehiculos_sin_ordenes(self) -> list[dict]:
+        cursor = None
+        try:
+            cursor = self.conn.cursor(dictionary=True)
+            query = """
+                SELECT v.IDVehiculo, v.Matricula, v.Marca, v.Modelo, u.Nombre AS NombreCliente
+                FROM Vehiculos v
+                JOIN Clientes c ON v.IDCliente = c.IDCliente
+                JOIN Usuarios u ON c.IDUsuario = u.IDUsuario
+                WHERE NOT EXISTS (
+                    SELECT 1 FROM ordenesservicio o
+                    WHERE o.IDVehiculo = v.IDVehiculo
+                )
+                ORDER BY v.IDVehiculo
+            """
+            cursor.execute(query)
+            return cursor.fetchall()
+        except Exception as e:
+            print(f"Error en obtener_vehiculos_sin_ordenes: {e}")
+            return []
+        finally:
+            if cursor:
+                cursor.close()
+
     def eliminar_vehiculo(self, id_vehiculo: int) -> bool:
         cursor = None
         try:
             cursor = self.conn.cursor()
-            query = "DELETE FROM Vehiculos WHERE IDVehiculo = %s"
+            query = """
+                DELETE FROM vehiculos
+                WHERE IDVehiculo = %s
+                AND NOT EXISTS (
+                    SELECT 1 FROM ordenesservicio
+                    WHERE ordenesservicio.IDVehiculo = vehiculos.IDVehiculo
+                )
+            """
             cursor.execute(query, (id_vehiculo,))
             self.conn.commit()
             return cursor.rowcount > 0
@@ -109,4 +140,5 @@ class VehiculoDAO:
                 self.conn.rollback()
             return False
         finally:
-            if cursor: cursor.close()
+            if cursor:
+                cursor.close()

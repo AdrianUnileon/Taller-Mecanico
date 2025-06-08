@@ -4,9 +4,9 @@ class ControladorDarDeBajaVehiculos:
     def __init__(self):
         self.vehiculo_dao = VehiculoDAO()
 
-    def obtener_vehiculos_con_clientes(self):
+    def obtener_vehiculos_sin_ordenes(self):
         
-        return self.vehiculo_dao.obtener_vehiculos_con_clientes()
+        return self.vehiculo_dao.obtener_vehiculos_sin_ordenes()
 
     def dar_de_baja_vehiculo(self, id_vehiculo: int) -> (bool, str):
         try:

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>2122</width>
+    <width>1900</width>
     <height>823</height>
    </rect>
   </property>
@@ -127,22 +127,6 @@
      <string>Introduce una observacion</string>
     </property>
    </widget>
-   <widget class="QDateEdit" name="FechaIngreso">
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>380</y>
-      <width>311</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Segoe UI</family>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-   </widget>
    <widget class="QPushButton" name="btnAsignar">
     <property name="geometry">
      <rect>
@@ -178,7 +162,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>2122</width>
+     <width>1900</width>
      <height>26</height>
     </rect>
    </property>

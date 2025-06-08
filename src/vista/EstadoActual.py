@@ -1,5 +1,5 @@
 import os
-from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem
+from PyQt5.QtWidgets import QMainWindow
 from PyQt5 import uic
 from src.controlador.ControladorEstadoActual import ControladorEstadoActual
 
@@ -18,7 +18,7 @@ class EstadoActual(QMainWindow):
         uic.loadUi(ruta_ui, self)
         self.setWindowTitle("Estado Actual del Vehículo")
 
-        ruta_css = os.path.join(os.path.dirname(__file__),"qss", "estilos.qss")
+        ruta_css = os.path.join(os.path.dirname(__file__), "qss", "estilos.qss")
         with open(ruta_css, "r") as f:
             self.setStyleSheet(f.read())
 
@@ -27,20 +27,21 @@ class EstadoActual(QMainWindow):
 
     def cargar_servicios(self):
         servicios = self.controlador.obtener_ordenes_actuales(self.id_cliente)
+        self.comboEstadoActual.clear()
 
-        self.tablaEstadoActual.setRowCount(len(servicios))
-        self.tablaEstadoActual.setHorizontalHeaderLabels([
-            "IDOrden", "FechaIngreso", "Descripción", "Estado", "Vehículo"
-        ])
-
-        for i, orden in enumerate(servicios):
-            self.tablaEstadoActual.setItem(i, 0, QTableWidgetItem(str(orden["IDOrden"])))
-            self.tablaEstadoActual.setItem(i, 1, QTableWidgetItem(str(orden["FechaIngreso"])))
-            self.tablaEstadoActual.setItem(i, 2, QTableWidgetItem(orden["Descripcion"]))
-            self.tablaEstadoActual.setItem(i, 3, QTableWidgetItem(orden["Estado"]))
-
+        for orden in servicios:
             vehiculo = f"{orden['Marca']} {orden['Modelo']} ({orden['Matricula']})"
-            self.tablaEstadoActual.setItem(i, 4, QTableWidgetItem(vehiculo))
+            descripcion = (
+                f"Fecha: {orden['FechaIngreso']} - "
+                f"{orden['Descripcion']} - Estado: {orden['Estado']} - Vehículo: {vehiculo}"
+            )
+            self.comboEstadoActual.addItem(descripcion, orden["IDOrden"])
+
+        if self.comboEstadoActual.count() == 0:
+            self.comboEstadoActual.addItem("No hay órdenes actuales", -1)
+            self.comboEstadoActual.setEnabled(False)
+        else:
+            self.comboEstadoActual.setEnabled(True)
 
     def volver(self):
         if self.parent:

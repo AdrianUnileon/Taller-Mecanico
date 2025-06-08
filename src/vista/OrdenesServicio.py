@@ -3,13 +3,22 @@ from PyQt5 import uic
 import os
 from src.controlador.ControladorRegistrarOrdenServicio import ControladorRegistrarOrdenServicio
 from src.vista.AsignarOrden import AsignarOrden
+from datetime import datetime
 
 class RegistrarOrdenServicio(QMainWindow):
     def __init__(self, parent=None, usuario=None):
-        super().__init__(parent)
+        print(f"[DEBUG] Entrando en __init__ de RegistrarOrdenServicio")
+        print(f"[DEBUG] parent: {parent}, usuario: {usuario}")
+
+        super().__init__(parent)  # o super().__init__() si no usas herencia con parent
+
         self.usuario = usuario
+
+        print("[DEBUG] Llamando a setup_ui()")
+        self.setup_ui()  # <-- Asegúrate de NO pasarle argumentos aquí
+        print("[DEBUG] setup_ui() llamado correctamente")
+        
         self.controller = ControladorRegistrarOrdenServicio(usuario)
-        self.setup_ui()
         self.setup_events()
         self.cargar_vehiculos()
 
@@ -37,7 +46,7 @@ class RegistrarOrdenServicio(QMainWindow):
     def registrar_orden_servicio(self):
         id_vehiculo = self.combo_vehiculos.currentData()
         descripcion = self.Descripcion.text().strip()
-        fecha_ingreso = self.FechaIngreso.date().toString("yyyy-MM-dd")
+        fecha_ingreso = datetime.now().strftime("%Y-%m-%d")
         observaciones = self.Observaciones.text().strip()
 
         resultado = self.controller.registrar_orden(id_vehiculo, descripcion, fecha_ingreso, observaciones)
@@ -53,5 +62,6 @@ class RegistrarOrdenServicio(QMainWindow):
         self.hide()
 
     def volver(self):
-        self.parent().show()
+        if self.parent():
+            self.parent().show()
         self.close()

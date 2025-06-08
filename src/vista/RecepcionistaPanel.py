@@ -2,7 +2,7 @@ import os
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5 import uic
 from src.vista.OrdenesServicio import RegistrarOrdenServicio
-from src.vista.RegistroCliente import RegistrarCliente
+from src.vista.RegistrarNuevoCliente import RegistrarNuevoCliente
 from src.vista.RegistroVehículo import RegistrarVehiculo
 from src.vista.Factura import Facturas
 from src.vista.DarDeBajaVehiculos import DarDeBajaVehiculos
@@ -32,10 +32,10 @@ class RecepcionistaPanel(QMainWindow):
         self.btnCerrarSesion.clicked.connect(self.cerrar_sesion)
 
     def registrar_cliente(self):
-        self.ordenes_window = RegistrarCliente(parent=self, usuario = self.id_recepcionista)
+        self.ordenes_window = RegistrarNuevoCliente(parent=self)
         self.ordenes_window.show()
         self.hide()
-    
+
     def crear_orden_servicio(self):
         self.ordenes_window = RegistrarOrdenServicio(parent=self, usuario=self.id_recepcionista)
         self.ordenes_window.show()
@@ -52,11 +52,12 @@ class RecepcionistaPanel(QMainWindow):
         self.hide()
 
     def baja_vehiculos(self):
-        self.ordenes_window = DarDeBajaVehiculos(parent=self)
+        self.ordenes_window = DarDeBajaVehiculos(parent = self)
         self.ordenes_window.show()
         self.hide()
+        
     
     def cerrar_sesion(self):
-        self.close()
         if self.parent():
             self.parent().show()
+        self.close()

@@ -1,4 +1,5 @@
-from PyQt5.QtWidgets import QMainWindow, QMessageBox, QTableWidgetItem
+
+from PyQt5.QtWidgets import QMainWindow, QMessageBox
 from PyQt5 import uic
 import os
 from src.controlador.ControladorConsultarEstado import ControladorConsultarEstado
@@ -8,7 +9,7 @@ class VentanaConsultarEstado(QMainWindow):
     def __init__(self, id_mecanico, parent=None):
         super().__init__(parent)
         self.id_mecanico = id_mecanico
-        self.controlador = ControladorConsultarEstado()  
+        self.controlador = ControladorConsultarEstado()
         self.setup_ui()
         self.setup_events()
         self.cargar_ordenes()
@@ -18,7 +19,7 @@ class VentanaConsultarEstado(QMainWindow):
         uic.loadUi(ruta_ui, self)
         self.setWindowTitle("Órdenes Asignadas")
 
-        ruta_css = os.path.join(os.path.dirname(__file__),"qss", "estilos.qss")
+        ruta_css = os.path.join(os.path.dirname(__file__), "qss", "estilos.qss")
         with open(ruta_css, "r") as f:
             self.setStyleSheet(f.read())
 
@@ -27,24 +28,28 @@ class VentanaConsultarEstado(QMainWindow):
         self.btnActualizarEstado.clicked.connect(self.actualizar_estado)
 
     def cargar_ordenes(self):
+        self.comboOrdenes.clear()
         ordenes = self.controlador.obtener_ordenes_asignadas_por_mecanico(self.id_mecanico)
-        self.tableWidget.setRowCount(len(ordenes))
-        self.tableWidget.setHorizontalHeaderLabels(["IDOrden", "FechaIngreso", "Descripcion", "Estado", "Vehiculo"])
 
-        for i, orden in enumerate(ordenes):
-            self.tableWidget.setItem(i, 0, QTableWidgetItem(str(orden["IDOrden"])))
-            self.tableWidget.setItem(i, 1, QTableWidgetItem(str(orden["FechaIngreso"])))
-            self.tableWidget.setItem(i, 2, QTableWidgetItem(orden["Descripcion"]))
-            self.tableWidget.setItem(i, 3, QTableWidgetItem(orden["Estado"]))
+        for orden in ordenes:
             vehiculo = f"{orden['Marca']} {orden['Modelo']} ({orden['Matricula']})"
-            self.tableWidget.setItem(i, 4, QTableWidgetItem(vehiculo))
+            descripcion = (
+                f"Fecha: {orden['FechaIngreso']} - "
+                f"{orden['Descripcion']} - Vehículo: {vehiculo}"
+            )
+            self.comboOrdenes.addItem(descripcion, orden["IDOrden"])
+
+        if self.comboOrdenes.count() == 0:
+            self.comboOrdenes.addItem("No hay órdenes asignadas", -1)
+            self.comboOrdenes.setEnabled(False)
+        else:
+            self.comboOrdenes.setEnabled(True)
 
     def actualizar_estado(self):
-        fila_seleccionada = self.tableWidget.currentRow()
-        if fila_seleccionada == -1:
+        id_orden = self.comboOrdenes.currentData()
+        if id_orden == -1 or id_orden is None:
             QMessageBox.warning(self, "Selecciona una orden", "Por favor selecciona una orden para actualizar.")
             return
-        id_orden = int(self.tableWidget.item(fila_seleccionada, 0).text())
 
         self.actualizar_estado_window = VentanaActualizarEstado(id_orden=id_orden, parent=self)
         self.actualizar_estado_window.show()

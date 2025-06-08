@@ -38,7 +38,7 @@
    <widget class="QPushButton" name="btnVolver">
     <property name="geometry">
      <rect>
-      <x>790</x>
+      <x>820</x>
       <y>480</y>
       <width>381</width>
       <height>61</height>
@@ -57,7 +57,7 @@
    <widget class="QPushButton" name="btnActualizarEstado">
     <property name="geometry">
      <rect>
-      <x>280</x>
+      <x>350</x>
       <y>480</y>
       <width>371</width>
       <height>61</height>
@@ -73,24 +73,6 @@
      <string>Actualizar Estado</string>
     </property>
    </widget>
-   <widget class="QTableWidget" name="tableWidget">
-    <property name="geometry">
-     <rect>
-      <x>410</x>
-      <y>200</y>
-      <width>641</width>
-      <height>192</height>
-     </rect>
-    </property>
-    <property name="columnCount">
-     <number>5</number>
-    </property>
-    <column/>
-    <column/>
-    <column/>
-    <column/>
-    <column/>
-   </widget>
    <widget class="QWidget" name="imagen" native="true">
     <property name="geometry">
      <rect>
@@ -99,6 +81,22 @@
       <width>411</width>
       <height>651</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboOrdenes">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>250</y>
+      <width>881</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+      <pointsize>12</pointsize>
+     </font>
     </property>
    </widget>
   </widget>

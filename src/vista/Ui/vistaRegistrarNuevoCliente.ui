@@ -1,25 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>RegistroCliente</class>
- <widget class="QMainWindow" name="RegistroCliente">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>2136</width>
-    <height>860</height>
+    <width>2121</width>
+    <height>949</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Registro del cliente</string>
+   <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="imagen" native="true">
+    <property name="geometry">
+     <rect>
+      <x>1480</x>
+      <y>40</y>
+      <width>411</width>
+      <height>651</height>
+     </rect>
+    </property>
+   </widget>
    <widget class="QLineEdit" name="Nombre">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>170</y>
-      <width>461</width>
+      <x>170</x>
+      <y>250</y>
+      <width>501</width>
       <height>61</height>
      </rect>
     </property>
@@ -35,105 +45,16 @@
     <property name="text">
      <string/>
     </property>
-    <property name="dragEnabled">
-     <bool>false</bool>
-    </property>
     <property name="placeholderText">
-     <string>Introduce nombre</string>
-    </property>
-    <property name="clearButtonEnabled">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="lblTitulo">
-    <property name="geometry">
-     <rect>
-      <x>610</x>
-      <y>30</y>
-      <width>481</width>
-      <height>91</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Segoe UI</family>
-      <pointsize>24</pointsize>
-      <weight>75</weight>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Registro del cliente</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="Apellido1">
-    <property name="geometry">
-     <rect>
-      <x>240</x>
-      <y>310</y>
-      <width>461</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Segoe UI</family>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="inputMask">
-     <string/>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="dragEnabled">
-     <bool>false</bool>
-    </property>
-    <property name="placeholderText">
-     <string>Introduce primer apellido</string>
-    </property>
-    <property name="clearButtonEnabled">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="Apellido2">
-    <property name="geometry">
-     <rect>
-      <x>970</x>
-      <y>300</y>
-      <width>461</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Segoe UI</family>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="inputMask">
-     <string/>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="dragEnabled">
-     <bool>false</bool>
-    </property>
-    <property name="placeholderText">
-     <string>Introduce segundo apellido</string>
-    </property>
-    <property name="clearButtonEnabled">
-     <bool>false</bool>
+     <string>Introduce el nombre</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="DNI">
     <property name="geometry">
      <rect>
-      <x>970</x>
-      <y>170</y>
-      <width>461</width>
+      <x>830</x>
+      <y>250</y>
+      <width>501</width>
       <height>61</height>
      </rect>
     </property>
@@ -149,23 +70,17 @@
     <property name="text">
      <string/>
     </property>
-    <property name="dragEnabled">
-     <bool>false</bool>
-    </property>
     <property name="placeholderText">
-     <string>Introduce DNI</string>
-    </property>
-    <property name="clearButtonEnabled">
-     <bool>false</bool>
+     <string>Introduce el DNI</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="Telefono">
+   <widget class="QLineEdit" name="Apellido1">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>440</y>
-      <width>461</width>
-      <height>51</height>
+      <x>170</x>
+      <y>400</y>
+      <width>501</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
@@ -180,53 +95,41 @@
     <property name="text">
      <string/>
     </property>
-    <property name="dragEnabled">
-     <bool>false</bool>
+    <property name="placeholderText">
+     <string>Introduce el primer apellido</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="Apellido2">
+    <property name="geometry">
+     <rect>
+      <x>830</x>
+      <y>400</y>
+      <width>501</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="inputMask">
+     <string/>
+    </property>
+    <property name="text">
+     <string/>
     </property>
     <property name="placeholderText">
-     <string>Introduce telefono</string>
-    </property>
-    <property name="clearButtonEnabled">
-     <bool>false</bool>
+     <string>Introduce el segundo apellido</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="Correo">
     <property name="geometry">
      <rect>
-      <x>970</x>
-      <y>440</y>
-      <width>461</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Segoe UI</family>
-      <pointsize>10</pointsize>
-     </font>
-    </property>
-    <property name="inputMask">
-     <string/>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="dragEnabled">
-     <bool>false</bool>
-    </property>
-    <property name="placeholderText">
-     <string>Introduce email</string>
-    </property>
-    <property name="clearButtonEnabled">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="Direccion">
-    <property name="geometry">
-     <rect>
-      <x>610</x>
-      <y>560</y>
-      <width>411</width>
+      <x>170</x>
+      <y>550</y>
+      <width>501</width>
       <height>61</height>
      </rect>
     </property>
@@ -242,23 +145,67 @@
     <property name="text">
      <string/>
     </property>
-    <property name="dragEnabled">
-     <bool>false</bool>
+    <property name="placeholderText">
+     <string>Introduce el correo electrónico</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="Telefono">
+    <property name="geometry">
+     <rect>
+      <x>830</x>
+      <y>550</y>
+      <width>501</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="inputMask">
+     <string/>
+    </property>
+    <property name="text">
+     <string/>
     </property>
     <property name="placeholderText">
-     <string>Introduce direccion</string>
+     <string>Introduce el telefono</string>
     </property>
-    <property name="clearButtonEnabled">
-     <bool>false</bool>
+   </widget>
+   <widget class="QLineEdit" name="Direccion">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>680</y>
+      <width>501</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="inputMask">
+     <string/>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="placeholderText">
+     <string>Introduce la dirección</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btnRegistrar">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>680</y>
-      <width>371</width>
-      <height>71</height>
+      <x>330</x>
+      <y>780</y>
+      <width>311</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
@@ -268,16 +215,16 @@
      </font>
     </property>
     <property name="text">
-     <string>Registrar</string>
+     <string>Registrar cliente</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btnVolver">
     <property name="geometry">
      <rect>
-      <x>930</x>
-      <y>680</y>
-      <width>371</width>
-      <height>71</height>
+      <x>840</x>
+      <y>780</y>
+      <width>311</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="font">
@@ -290,23 +237,13 @@
      <string>Volver</string>
     </property>
    </widget>
-   <widget class="QWidget" name="imagen" native="true">
-    <property name="geometry">
-     <rect>
-      <x>1500</x>
-      <y>60</y>
-      <width>411</width>
-      <height>651</height>
-     </rect>
-    </property>
-   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>2136</width>
+     <width>2121</width>
      <height>26</height>
     </rect>
    </property>

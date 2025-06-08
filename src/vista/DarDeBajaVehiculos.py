@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QMessageBox, QTableWidgetItem
+from PyQt5.QtWidgets import QMainWindow, QMessageBox, QComboBox
 from PyQt5 import uic
 import os
 
@@ -10,16 +10,15 @@ class DarDeBajaVehiculos(QMainWindow):
         self.controlador = ControladorDarDeBajaVehiculos()
 
         self.setup_ui()
-        self.configurar_tabla()
-        self.cargar_vehiculos()
         self.setup_events()
+        self.cargar_vehiculos()
 
     def setup_ui(self):
         ruta_ui = os.path.join(os.path.dirname(__file__), "Ui", "VistaDarDeBajaVehiculos.ui")
         uic.loadUi(ruta_ui, self)
         self.setWindowTitle("Dar de baja vehículos")
 
-        ruta_css = os.path.join(os.path.dirname(__file__),"qss", "estilos.qss")
+        ruta_css = os.path.join(os.path.dirname(__file__), "qss", "estilos.qss")
         with open(ruta_css, "r") as f:
             self.setStyleSheet(f.read())
 
@@ -27,29 +26,27 @@ class DarDeBajaVehiculos(QMainWindow):
         self.btnDardeBaja.clicked.connect(self.dar_de_baja)
         self.btnVolver.clicked.connect(self.volver)
 
-    def configurar_tabla(self):
-        self.tablVehiculos.setColumnCount(3)
-        self.tablVehiculos.setHorizontalHeaderLabels(["ID Vehículo", "Vehículo", "Cliente"])
-        self.tablVehiculos.setColumnHidden(0, False)  
-        self.tablVehiculos.setEditTriggers(self.tablVehiculos.NoEditTriggers)
-
     def cargar_vehiculos(self):
-        self.tablVehiculos.setRowCount(0)
-        vehiculos = self.controlador.obtener_vehiculos_con_clientes()
-        for fila, vehiculo in enumerate(vehiculos):
-            self.tablVehiculos.insertRow(fila)
-            self.tablVehiculos.setItem(fila, 0, QTableWidgetItem(str(vehiculo["IDVehiculo"])))
-            descripcion = f"{vehiculo['Marca']} {vehiculo['Modelo']} ({vehiculo['Matricula']})"
-            self.tablVehiculos.setItem(fila, 1, QTableWidgetItem(descripcion))
-            self.tablVehiculos.setItem(fila, 2, QTableWidgetItem(vehiculo["NombreCliente"]))
+        self.comboVehiculos.clear()
+        self.vehiculos_list = self.controlador.obtener_vehiculos_sin_ordenes()
+        for vehiculo in self.vehiculos_list:
+            descripcion = (f"ID: {vehiculo['IDVehiculo']} - "
+                           f"{vehiculo['Marca']} {vehiculo['Modelo']} "
+                           f"({vehiculo['Matricula']}) - Cliente: {vehiculo['NombreCliente']}")
+            self.comboVehiculos.addItem(descripcion, vehiculo['IDVehiculo'])
+
+        if self.comboVehiculos.count() == 0:
+            self.comboVehiculos.addItem("No hay vehículos disponibles", -1)
+            self.comboVehiculos.setEnabled(False)
+        else:
+            self.comboVehiculos.setEnabled(True)
 
     def dar_de_baja(self):
-        fila = self.tablVehiculos.currentRow()
-        if fila == -1:
-            QMessageBox.warning(self, "Atención", "Seleccione un vehículo para dar de baja.")
+        id_vehiculo = self.comboVehiculos.currentData()
+        if id_vehiculo == -1 or id_vehiculo is None:
+            QMessageBox.warning(self, "Atención", "Seleccione un vehículo válido para dar de baja.")
             return
 
-        id_vehiculo = int(self.tablVehiculos.item(fila, 0).text())
         respuesta = QMessageBox.question(
             self,
             "Confirmar baja",
@@ -65,6 +62,6 @@ class DarDeBajaVehiculos(QMainWindow):
                 QMessageBox.critical(self, "Error", mensaje)
 
     def volver(self):
-        self.close()
         if self.parent():
             self.parent().show()
+        self.close()
