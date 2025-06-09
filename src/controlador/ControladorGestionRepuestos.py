@@ -1,10 +1,10 @@
-from src.modelo.UserDao.RepuestoDAO import RepuestoDAO
+from src.modelo.Servicios.ServicioGestionRepuestos import ServicioGestionRepuestos
 
 class ControladorGestionRepuestos:
     def __init__(self):
-        self.dao = RepuestoDAO()
+        self.servicios = ServicioGestionRepuestos()
       
     def obtener_repuestos(self):
-        return self.dao.obtener_todos()
+        return self.servicios.obtener_repuestos()
 
    

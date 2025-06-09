@@ -1,36 +1,22 @@
-from datetime import datetime
-from src.modelo.UserDao.ProveedorDAO import ProveedorDAO
-from src.modelo.UserDao.PedidoDAO import PedidoDAO
-from src.modelo.UserDao.RepuestoDAO import RepuestoDAO
+from src.modelo.Servicios.ServicioGestionPedidos import ServicioGestionPedidos
 
 class ControladorPedido:
     def __init__(self):
-        self.dao_proveedor = ProveedorDAO()
-        self.dao_pedido = PedidoDAO()
-        self.dao_repuesto = RepuestoDAO()
+        self.servicio = ServicioGestionPedidos()
 
-    def obtener_proveedores(self):
-        return self.dao_proveedor.obtener_nombres_proveedores()
+    def obtener_proveedores(self) -> list:
+        """
+        Obtiene la lista de proveedores disponibles
+        :return: Lista de nombres de proveedores
+        """
+        return self.servicio.obtener_proveedores()
 
-    def crear_pedido(self, nombre_proveedor, repuestos):
-        proveedor_id = self.dao_proveedor.obtener_id_por_nombre(nombre_proveedor)
-
-        fecha = datetime.now().date()
-        pedido_id = self.dao_pedido.insertar_pedido(proveedor_id, fecha, "en transito")
-
-        for nombre, cantidad, precio_unitario in repuestos:
-            repuesto_id = self.dao_repuesto.obtener_id_por_nombre(nombre)
-
-            if not repuesto_id:
-                repuesto_id = self.dao_repuesto.insertar_repuesto(
-                    nombre=nombre,
-                    cantidad=0,
-                    ubicacion='Pendiente',
-                    precio_unitario=precio_unitario,
-                    id_proveedor=proveedor_id
-                )
-            
-            self.dao_pedido.insertar_detalle_pedido(pedido_id, repuesto_id, cantidad, precio_unitario)
-        return True
-
+    def crear_pedido(self, nombre_proveedor: str, repuestos: list) -> bool:
+        """
+        Crea un nuevo pedido con los repuestos especificados
+        :param nombre_proveedor: Nombre del proveedor seleccionado
+        :param repuestos: Lista de repuestos con formato (nombre, cantidad, precio)
+        :return: True si el pedido se creó correctamente
+        """
+        return self.servicio.crear_pedido(nombre_proveedor, repuestos)
 
