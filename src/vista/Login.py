@@ -5,7 +5,7 @@ from src.controlador.ControladorLogin import ControladorLogin
 from src.vista.ClientePanel import ClientePanel
 from src.vista.MecanicoPanel import PanelMecanico
 from src.vista.RecepcionistaPanel import RecepcionistaPanel
-from src.vista.AdministradorPanel import AdministradorPanel  # Importamos el panel admin
+
 
 class LoginWindow(QMainWindow):
     def __init__(self, parent=None):
@@ -53,8 +53,6 @@ class LoginWindow(QMainWindow):
             self.panel_usuario = PanelMecanico(self, id_rol)
         elif tipo_usuario == "recepcionista":
             self.panel_usuario = RecepcionistaPanel(self, id_rol)
-        elif tipo_usuario == "administrador":   # Nuevo caso administrador
-            self.panel_usuario = AdministradorPanel(self, id_rol)
         else:
             QMessageBox.warning(self, "Error", "Tipo de usuario no reconocido.")
             return
