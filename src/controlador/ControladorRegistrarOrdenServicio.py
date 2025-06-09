@@ -1,30 +1,12 @@
-from src.modelo.UserDao.OrdenServicioDAO import OrdenServicioDAO
-from src.modelo.UserDao.VehiculoDAO import VehiculoDAO
-from src.modelo.vo.OrdenServicioVO import OrdenServicioVO
+from src.modelo.Servicios.ServicioRegistrarOrdenServicio import ServicioRegistrarOrdenServicio
 
 class ControladorRegistrarOrdenServicio:
     def __init__(self, usuario):
         self.usuario = usuario
-        self.dao_orden = OrdenServicioDAO()
-        self.dao_vehiculo = VehiculoDAO()
+        self.servicio = ServicioRegistrarOrdenServicio()
 
     def obtener_vehiculos(self):
-        return self.dao_vehiculo.select()
+        return self.servicio.obtener_vehiculos()
 
     def registrar_orden(self, id_vehiculo: int, descripcion: str, fecha_ingreso: str, observaciones: str) -> dict:
-        if not all([id_vehiculo, descripcion, fecha_ingreso, observaciones]):
-            return {"Error", "Todos los campos son obligatorios."}
-
-        orden = OrdenServicioVO(
-            FechaIngreso=fecha_ingreso,
-            Descripcion=descripcion,
-            Estado="Pendiente de asignación",
-            IDVehiculo=id_vehiculo,
-            IDMecanico=None
-        )
-
-        id_orden = self.dao_orden.insertar(orden)
-        if id_orden > 0:
-            return {"Exito", "Orden registrada correctamente."}
-        else:
-            return {"Error", "Error al registrar la orden."}
+        return self.servicio.registrar_orden(id_vehiculo, descripcion, fecha_ingreso, observaciones)

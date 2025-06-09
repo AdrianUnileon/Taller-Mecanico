@@ -1,11 +1,11 @@
-from src.modelo.UserDao.PedidoDAO import PedidoDAO
+from src.modelo.Servicios.ServiciosPedidosRecibidos import ServicioActualizarPedido
 
 class ControladorActualizarPedido:
     def __init__(self):
-        self.dao_pedido = PedidoDAO()
+        self.servicios = ServicioActualizarPedido()
 
     def obtener_pedidos_en_transito(self):
-        return self.dao_pedido.obtener_pedidos_por_estado("en transito")
+        return self.servicios.obtener_pedidos_en_transito()
 
     def marcar_pedido_como_recibido(self, id_pedido):
-        return self.dao_pedido.actualizar_estado_pedido(id_pedido, "recibido")
+        return self.servicios.marcar_pedido_como_recibido(id_pedido)

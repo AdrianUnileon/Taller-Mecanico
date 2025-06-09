@@ -1,19 +1,17 @@
-from src.modelo.UserDao.ProveedorDAO import ProveedorDAO
-from src.modelo.vo.ProveedorVO import ProveedorVO
+from src.modelo.Servicios.ServicioOperacionesProveedores import ServicioOperacionesProveedores
 
 class ControladorOperacionesProveedores:
     def __init__(self):
-        self.dao = ProveedorDAO()
+        self.servicio = ServicioOperacionesProveedores()
 
-    def obtener_proveedores(self):
-        return self.dao.obtener_todos()
+    def obtener_proveedores(self) -> list:
+        return self.servicio.obtener_proveedores()
 
-    def anadir_proveedor(self, nombre, contacto, direccion):
-        nuevo = ProveedorVO(Nombre=nombre, Contacto=contacto, Direccion=direccion)
-        return self.dao.insertar(nuevo)
+    def anadir_proveedor(self, nombre: str, contacto: str, direccion: str) -> bool:
+        return self.servicio.anadir_proveedor(nombre, contacto, direccion)
 
-    def eliminar_proveedor(self, id_proveedor):
-        self.dao.eliminar(id_proveedor)
+    def eliminar_proveedor(self, id_proveedor: int) -> bool:
+        return self.servicio.eliminar_proveedor(id_proveedor)
 
-    def modificar_proveedor(self, id_proveedor, nombre, contacto, direccion):
-        self.dao.modificar_proveedor(id_proveedor, nombre, contacto, direccion)
+    def modificar_proveedor(self, id_proveedor: int, nombre: str, contacto: str, direccion: str) -> bool:
+        return self.servicio.modificar_proveedor(id_proveedor, nombre, contacto, direccion)

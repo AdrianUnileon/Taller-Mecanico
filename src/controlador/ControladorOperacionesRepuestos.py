@@ -1,25 +1,17 @@
-from src.modelo.UserDao.RepuestoDAO import RepuestoDAO
-from src.modelo.vo.RepuestoVO import RepuestoVO
+from src.modelo.Servicios.ServiciosOperacionesRepuestos import ServicioOperacionesRepuestos
 
 class ControladorOperacionesRepuestos:
     def __init__(self):
-        self.dao = RepuestoDAO()
+        self.servicio = ServicioOperacionesRepuestos()
 
     def obtener_repuestos(self):
-        return self.dao.obtener_todos()  
+        return self.servicio.obtener_repuestos()
 
     def insertar_repuesto(self, nombre, cantidad, ubicacion, precio_unitario, id_proveedor):
-        repuesto = RepuestoVO(
-            Nombre=nombre,
-            Cantidad=cantidad,
-            Ubicacion=ubicacion,
-            PrecioUnitario=precio_unitario,
-            IDProveedor=id_proveedor
-        )
-        return self.dao.insertar(repuesto)  
+        return self.servicio.insertar_repuesto(nombre, cantidad, ubicacion, precio_unitario, id_proveedor)
 
-    def modificar_repuesto(self, id_repuesto, nombre, nueva_cantidad, nueva_ubicacion, nuevo_precio_unitario):
-        self.dao.modificar_repuesto(id_repuesto, nombre, nueva_cantidad, nueva_ubicacion, nuevo_precio_unitario)
+    def modificar_repuesto(self, id_repuesto, nombre, cantidad, ubicacion, precio_unitario):
+        return self.servicio.modificar_repuesto(id_repuesto, nombre, cantidad, ubicacion, precio_unitario)
 
     def eliminar_repuesto(self, id_repuesto):
-        self.dao.eliminar(id_repuesto)
+        return self.servicio.eliminar_repuesto(id_repuesto)
