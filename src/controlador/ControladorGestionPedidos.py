@@ -31,7 +31,6 @@ class ControladorPedido:
                 )
             
             self.dao_pedido.insertar_detalle_pedido(pedido_id, repuesto_id, cantidad, precio_unitario)
-
         return True
 
 

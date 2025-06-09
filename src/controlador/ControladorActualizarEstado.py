@@ -1,8 +1,9 @@
-from src.modelo.UserDao.OrdenServicioDAO import OrdenServicioDAO
+from src.modelo.Servicios.ServicioOrden import ServicioOrden
 
 class ControladorActualizarEstado:
     def __init__(self):
-        self.orden_dao = OrdenServicioDAO()
+        self.servicio = ServicioOrden()
 
     def actualizar_estado_orden(self, id_orden, nuevo_estado, costo_mano_obra=None):
-        return self.orden_dao.actualizar_estado(id_orden, nuevo_estado, costo_mano_obra)
+        return self.servicio.actualizar_estado(id_orden, nuevo_estado, costo_mano_obra)
+
