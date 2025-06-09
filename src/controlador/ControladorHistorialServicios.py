@@ -5,10 +5,6 @@ class ControladorHistorialServicios:
         self.servicios = ServicioHistorial(id_cliente)
 
     def obtener_historial(self):
-        """
-        Obtiene el historial completo de órdenes para el cliente.
-        Retorna una lista de diccionarios con los datos de las órdenes.
-        """
         return self.servicios.obtener_historial()
     
 

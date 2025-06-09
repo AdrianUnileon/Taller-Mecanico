@@ -6,6 +6,7 @@ from src.controlador.ControladorRegistro import ControladorRegistro
 from src.vista.VentanaCliente import VentanaCliente
 from src.vista.VentanaMecanico import VentanaMecanico
 from src.vista.VentanaRecepcionista import VentanaRecepcionista
+from src.vista.AdministradorPanel import AdministradorPanel
 
 class RegistroWindow(QMainWindow):
     def __init__(self, parent=None):
@@ -65,12 +66,15 @@ class RegistroWindow(QMainWindow):
         usuario = resultado
         QMessageBox.information(self, "Registro Exitoso", f"{usuario.Nombre}, tu cuenta fue creada.")
 
-        if usuario.TipoUsuario.lower() == "cliente":
+        tipo_usuario = usuario.TipoUsuario.lower()
+        if tipo_usuario == "cliente":
             self.ventana = VentanaCliente(usuario, parent=self)
-        elif usuario.TipoUsuario.lower() == "mecánico":
+        elif tipo_usuario == "mecánico":
             self.ventana = VentanaMecanico(usuario, parent=self)
-        elif usuario.TipoUsuario.lower() == "recepcionista":
+        elif tipo_usuario == "recepcionista":
             self.ventana = VentanaRecepcionista(usuario, parent=self)
+        elif tipo_usuario == "administrador": 
+            self.ventana = AdministradorPanel(usuario, parent=self)
         else:
             QMessageBox.warning(self, "Error", "Tipo de usuario desconocido.")
             return
