@@ -54,8 +54,7 @@ class RecepcionistaPanel(QMainWindow):
     def baja_vehiculos(self):
         self.ordenes_window = DarDeBajaVehiculos(parent = self)
         self.ordenes_window.show()
-        self.hide()
-        
+        self.hide()     
     
     def cerrar_sesion(self):
         if self.parent():

@@ -1,24 +1,20 @@
 from src.modelo.conexion.Conexion import Conexion
 from src.modelo.vo.OrdenServicioVO import OrdenServicioVO
-import mysql.connector
+from typing import Optional, Union
 
-class OrdenServicioDAO:
-    def __init__(self):
-
-        self.conn = Conexion().createConnection()
+class OrdenServicioDAO(Conexion):
 
     def insertar(self, orden: OrdenServicioVO) -> int:
         cursor = None
         try:
-            cursor = self.conn.cursor()
-    
+            cursor = self.getCursor()
             cursor.execute("SELECT MAX(IDOrden) FROM ordenesservicio")
             result = cursor.fetchone()
             next_id = (result[0] or 0) + 1
 
             query = """
                 INSERT INTO ordenesservicio (IDOrden, FechaIngreso, Descripcion, Estado, IDVehiculo, IDMecanico)
-                VALUES (%s, %s, %s, %s, %s, %s)
+                VALUES (?, ?, ?, ?, ?, ?)
             """
             cursor.execute(query, (
                 next_id,
@@ -28,34 +24,28 @@ class OrdenServicioDAO:
                 orden.IDVehiculo,
                 orden.IDMecanico
             ))
-            self.conn.commit()
+            self.conexion.jconn.commit()
             return next_id
-
-        except mysql.connector.Error as err:
-            print(f"Error MySQL en insertar orden de servicio: {err}")
-            if self.conn:
-                self.conn.rollback()
-            return 0
         except Exception as e:
-            print(f"Error general en insertar orden de servicio: {e}")
-            if self.conn:
-                self.conn.rollback()
+            print(f"Error al insertar orden de servicio: {e}")
+            if self.conexion:
+                self.conexion.jconn.rollback()
             return 0
         finally:
             if cursor:
                 cursor.close()
 
-    def buscar_por_id(self, id_orden: int) -> OrdenServicioVO | None:
+    def buscar_por_id(self, id_orden: int) -> Optional[OrdenServicioVO]:
         cursor = None
         try:
-            cursor = self.conn.cursor(dictionary=True)
-            query = "SELECT * FROM ordenesservicio WHERE IDOrden = %s"
+            cursor = self.getCursor()
+            query = "SELECT * FROM ordenesservicio WHERE IDOrden = ?"
             cursor.execute(query, (id_orden,))
             row = cursor.fetchone()
             if row:
-                return OrdenServicioVO(**row)
+                keys = ["IDOrden", "FechaIngreso", "Descripcion", "Estado", "IDVehiculo", "IDMecanico", "CostoManoObra"]
+                return OrdenServicioVO(**dict(zip(keys, row)))
             return None
-
         except Exception as e:
             print(f"Error en buscar_por_id: {e}")
             return None
@@ -63,14 +53,15 @@ class OrdenServicioDAO:
             if cursor:
                 cursor.close()
 
-    def select_pendientes(self):
+    def select_pendientes(self) -> list[OrdenServicioVO]:
         cursor = None
         try:
-            cursor = self.conn.cursor(dictionary=True)
+            cursor = self.getCursor()
             query = "SELECT * FROM ordenesservicio WHERE Estado = 'Pendiente de asignación'"
             cursor.execute(query)
             rows = cursor.fetchall()
-            return [OrdenServicioVO(**row) for row in rows]
+            keys = ["IDOrden", "FechaIngreso", "Descripcion", "Estado", "IDVehiculo", "IDMecanico", "CostoManoObra"]
+            return [OrdenServicioVO(**dict(zip(keys, row))) for row in rows]
         except Exception as e:
             print(f"Error en select_pendientes: {e}")
             return []
@@ -78,97 +69,106 @@ class OrdenServicioDAO:
             if cursor:
                 cursor.close()
 
-    def asignar_orden(self, id_orden, id_mecanico):
+    def asignar_orden(self, id_orden, id_mecanico) -> bool:
         cursor = None
         try:
-            cursor = self.conn.cursor()
-            cursor.execute("SELECT 1 FROM Mecanicos WHERE IDMecanico = %s", (id_mecanico,))
+            cursor = self.getCursor()
+            cursor.execute("SELECT 1 FROM Mecanicos WHERE IDMecanico = ?", (id_mecanico,))
             if cursor.fetchone() is None:
                 print(f"Mecánico con ID {id_mecanico} no existe.")
-                return 0  
+                return False
+
             query = """
                 UPDATE ordenesservicio
-                SET IDMecanico = %s, Estado = 'Asignada'
-                WHERE IDOrden = %s
+                SET IDMecanico = ?, Estado = 'Asignada'
+                WHERE IDOrden = ?
             """
             cursor.execute(query, (id_mecanico, id_orden))
-            self.conn.commit()
+            self.conexion.jconn.commit()
             return cursor.rowcount > 0
-
-        except mysql.connector.Error as err:
-            print(f"Error MySQL en asignar orden: {err}")
-            if self.conn:
-                self.conn.rollback()
+        except Exception as e:
+            print(f"Error al asignar orden: {e}")
+            if self.conexion:
+                self.conexion.jconn.rollback()
             return False
         finally:
             if cursor:
                 cursor.close()
-    def obtener_ordenes_por_mecanico(self, id_mecanico):
-        cursor = self.conn.cursor(dictionary=True)
+
+    def obtener_ordenes_por_mecanico(self, id_mecanico) -> list[dict]:
+        cursor = self.getCursor()
         query = '''
             SELECT o.IDOrden, o.FechaIngreso, o.Descripcion, o.Estado,
                    v.Marca, v.Modelo, v.Matricula
             FROM OrdenesServicio o
             JOIN Vehiculos v ON o.IDVehiculo = v.IDVehiculo
-            WHERE o.IDMecanico = %s AND o.Estado = 'Asignada'
+            WHERE o.IDMecanico = ? AND o.Estado = 'Asignada'
         '''
         cursor.execute(query, (id_mecanico,))
-        resultados = cursor.fetchall()
+        results = cursor.fetchall()
         cursor.close()
-        return resultados
-    
-    def obtener_ordenes_por_cliente(self, id_cliente):
-        cursor = self.conn.cursor(dictionary=True)
+        return [
+            {
+                "IDOrden": row[0], "FechaIngreso": row[1], "Descripcion": row[2],
+                "Estado": row[3], "Marca": row[4], "Modelo": row[5], "Matricula": row[6]
+            } for row in results
+        ]
+
+    def obtener_ordenes_por_cliente(self, id_cliente) -> list[dict]:
+        cursor = self.getCursor()
         query = '''
             SELECT o.IDOrden, o.FechaIngreso, o.Descripcion, o.Estado,
-                    v.Marca, v.Modelo, v.Matricula
+                   v.Marca, v.Modelo, v.Matricula
             FROM OrdenesServicio o
             JOIN Vehiculos v ON o.IDVehiculo = v.IDVehiculo
-            WHERE v.IDCliente = %s
+            WHERE v.IDCliente = ?
         '''
         cursor.execute(query, (id_cliente,))
-        resultados = cursor.fetchall()
+        results = cursor.fetchall()
         cursor.close()
-        return resultados
-    
-    def obtener_ordenesActuales_por_cliente(self, id_cliente):
-        cursor = self.conn.cursor(dictionary=True)
+        return [
+            {
+                "IDOrden": row[0], "FechaIngreso": row[1], "Descripcion": row[2],
+                "Estado": row[3], "Marca": row[4], "Modelo": row[5], "Matricula": row[6]
+            } for row in results
+        ]
+
+    def obtener_ordenesActuales_por_cliente(self, id_cliente) -> list[dict]:
+        cursor = self.getCursor()
         query = '''
             SELECT o.IDOrden, o.FechaIngreso, o.Descripcion, o.Estado,
-                    v.Marca, v.Modelo, v.Matricula
+                   v.Marca, v.Modelo, v.Matricula
             FROM OrdenesServicio o
             JOIN Vehiculos v ON o.IDVehiculo = v.IDVehiculo
-            WHERE v.IDCliente = %s AND o.Estado = 'Asignada'
-
+            WHERE v.IDCliente = ? AND o.Estado = 'Asignada'
         '''
         cursor.execute(query, (id_cliente,))
-        resultados = cursor.fetchall()
+        results = cursor.fetchall()
         cursor.close()
-        return resultados
+        return [
+            {
+                "IDOrden": row[0], "FechaIngreso": row[1], "Descripcion": row[2],
+                "Estado": row[3], "Marca": row[4], "Modelo": row[5], "Matricula": row[6]
+            } for row in results
+        ]
 
-    def actualizar_estado(self, id_orden: int, nuevo_estado: str, costo_mano_obra: float | None = None) -> bool:
+    def actualizar_estado(self, id_orden: int, nuevo_estado: str, costo_mano_obra: Union[float, None] = None) -> bool:
         cursor = None
         try:
-            cursor = self.conn.cursor()
-
+            cursor = self.getCursor()
             if nuevo_estado == "Reparada" and costo_mano_obra is not None:
-                query = "UPDATE ordenesservicio SET Estado = %s, CostoManoObra = %s WHERE IDOrden = %s"
+                query = "UPDATE ordenesservicio SET Estado = ?, CostoManoObra = ? WHERE IDOrden = ?"
                 cursor.execute(query, (nuevo_estado, costo_mano_obra, id_orden))
             else:
-                query = "UPDATE ordenesservicio SET Estado = %s WHERE IDOrden = %s"
+                query = "UPDATE ordenesservicio SET Estado = ? WHERE IDOrden = ?"
                 cursor.execute(query, (nuevo_estado, id_orden))
-
-            self.conn.commit()
+            self.conexion.jconn.commit()
             return cursor.rowcount > 0
         except Exception as e:
             print(f"Error al actualizar estado: {e}")
-            if self.conn:
-                self.conn.rollback()
+            if self.conexion:
+                self.conexion.jconn.rollback()
             return False
         finally:
             if cursor:
                 cursor.close()
-
-
-
-

@@ -30,9 +30,10 @@ class DarDeBajaVehiculos(QMainWindow):
         self.comboVehiculos.clear()
         self.vehiculos_list = self.controlador.obtener_vehiculos_sin_ordenes()
         for vehiculo in self.vehiculos_list:
+            nombre_cliente = vehiculo.get('NombreCliente', 'Desconocido') 
             descripcion = (f"ID: {vehiculo['IDVehiculo']} - "
-                           f"{vehiculo['Marca']} {vehiculo['Modelo']} "
-                           f"({vehiculo['Matricula']}) - Cliente: {vehiculo['NombreCliente']}")
+                        f"{vehiculo['Marca']} {vehiculo['Modelo']} "
+                        f"({vehiculo['Matricula']}) - Cliente: {nombre_cliente}")
             self.comboVehiculos.addItem(descripcion, vehiculo['IDVehiculo'])
 
         if self.comboVehiculos.count() == 0:
@@ -65,3 +66,4 @@ class DarDeBajaVehiculos(QMainWindow):
         if self.parent():
             self.parent().show()
         self.close()
+        

@@ -1,64 +1,65 @@
 from src.modelo.conexion.Conexion import Conexion
 from src.modelo.vo.MecanicoVO import MecanicoVO
-import mysql.connector
+from datetime import date
+import jpype
+import jpype.imports
+from java.sql import Date as JavaSqlDate
 
-class MecanicoDAO:
-    def __init__(self):
-          
-        self.conn = Conexion().createConnection()
+
+class MecanicoDAO(Conexion):
 
     def _obtener_siguiente_id_mecanico(self) -> int:
         try:
-            cursor = self.conn.cursor()
+            cursor = self.getCursor()
             cursor.execute("SELECT MAX(IDMecanico) FROM Mecanicos")
             resultado = cursor.fetchone()
-            cursor.close()
             return (resultado[0] or 0) + 1
-        except mysql.connector.Error as e:
-            print("Error al obtener el siguiente ID del mecanico:", e)
-            return 1  
         except Exception as e:
-            print("Error general al obtener el siguiente ID de mecanico:", e)
+            print("Error al obtener el siguiente ID del mecánico:", e)
             return 1
+        finally:
+            if cursor:
+                cursor.close()
 
     def insertar(self, mecanico: MecanicoVO) -> int:
         cursor = None
         try:
             nuevo_id_mecanico = self._obtener_siguiente_id_mecanico()
+            cursor = self.getCursor()
 
-            cursor = self.conn.cursor()
+            if isinstance(mecanico.FechaContratacion, date):
+                java_fecha = JavaSqlDate.valueOf(str(mecanico.FechaContratacion))
+            else:
+                raise ValueError("FechaContratacion debe ser datetime.date")
+
             query = """
                 INSERT INTO Mecanicos (IDMecanico, IDUsuario, Especialidad, FechaContratacion)
-                VALUES (%s, %s, %s, %s)
+                VALUES (?, ?, ?, ?)
             """
             cursor.execute(query, (
                 nuevo_id_mecanico,
                 mecanico.IDUsuario,
                 mecanico.Especialidad,
-                mecanico.FechaContratacion
+                java_fecha
             ))
-            self.conn.commit()
+
+            self.conexion.jconn.commit()
             return nuevo_id_mecanico
 
-        except mysql.connector.Error as e:
-            print("Error MySQL al insertar mecanico:", e)
-            if self.conn: self.conn.rollback()
-            return 0
         except Exception as e:
-            print("Error general al insertar mecanico:", e)
-            if self.conn: self.conn.rollback()
+            print("Error al insertar mecánico:", e)
+            try:
+                self.conexion.jconn.rollback()
+            except Exception as rollback_error:
+                print(f"Error al hacer rollback: {rollback_error}")
             return 0
         finally:
-            if cursor: cursor.close()
+            if cursor:
+                cursor.close()
 
     def obtener_mecanicos_disponibles(self) -> list[dict]:
-        """
-        Devuelve mecánicos que no tienen una orden 'Asignada' activa
-        """
-        cursor = None
         try:
-            cursor = self.conn.cursor(dictionary=True)
-            
+            cursor = self.getCursor()
             query = """
                 SELECT m.IDMecanico, u.Nombre, u.Apellidos
                 FROM Mecanicos m
@@ -70,20 +71,25 @@ class MecanicoDAO:
                 )
             """
             cursor.execute(query)
-            return cursor.fetchall()
-
+            resultados = cursor.fetchall()
+            return [
+                {
+                    'IDMecanico': row[0],
+                    'Nombre': row[1],
+                    'Apellidos': row[2]
+                } for row in resultados
+            ]
         except Exception as e:
             print("Error al obtener mecánicos disponibles:", e)
             return []
         finally:
-            if cursor: cursor.close()
+            if cursor:
+                cursor.close()
 
-
-    def obtener_id_por_usuario(self, id_usuario: int) -> int:
-        cursor = None
+    def obtener_id_por_usuario(self, id_usuario: int) -> int | None:
         try:
-            cursor = self.conn.cursor()
-            query = "SELECT IDMecanico FROM Mecanicos WHERE IDUsuario = %s"
+            cursor = self.getCursor()
+            query = "SELECT IDMecanico FROM Mecanicos WHERE IDUsuario = ?"
             cursor.execute(query, (id_usuario,))
             result = cursor.fetchone()
             return result[0] if result else None
@@ -91,16 +97,19 @@ class MecanicoDAO:
             print(f"Error al obtener ID de mecánico: {e}")
             return None
         finally:
-            if cursor: cursor.close()
-    
-    def obtener_mecanico_por_usuario(self, id_usuario):
-        cursor = self.conn.cursor(dictionary=True)
-        query = "SELECT * FROM Mecanicos WHERE IDUsuario = %s"
-        cursor.execute(query, (id_usuario,))
-        row = cursor.fetchone()
-        cursor.close()
-        if row:
-            return row['IDMecanico']
-        return None
+            if cursor:
+                cursor.close()
 
-            
+    def obtener_mecanico_por_usuario(self, id_usuario: int) -> int | None:
+        try:
+            cursor = self.getCursor()
+            query = "SELECT IDMecanico FROM Mecanicos WHERE IDUsuario = ?"
+            cursor.execute(query, (id_usuario,))
+            row = cursor.fetchone()
+            return row[0] if row else None
+        except Exception as e:
+            print("Error en obtener_mecanico_por_usuario:", e)
+            return None
+        finally:
+            if cursor:
+                cursor.close()

@@ -9,4 +9,3 @@ class ControladorPedido:
 
     def crear_pedido(self, nombre_proveedor: str, repuestos: list) -> bool:
         return self.servicio.crear_pedido(nombre_proveedor, repuestos)
-
